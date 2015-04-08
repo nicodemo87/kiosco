@@ -11,7 +11,7 @@
         <!-- Drop and re-create the database schema on startup -->
     <property name="hibernate.hbm2ddl.auto">create</property>
     
-    <mapping class="nico.Employee"/>
+    <mapping class="com.nicodemo.model.Item"/>
     
   </session-factory>
 </hibernate-configuration>

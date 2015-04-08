@@ -30,6 +30,12 @@ public class SoldItem {
     @Column
     private float sellingPrice;
 
+    SoldItem(Item item, int cant) {
+        this.item = item;
+        this.quantity = cant;
+        this.sellingPrice = item.getPrice();
+    }
+
     /**
      * @return the id
      */
@@ -84,5 +90,9 @@ public class SoldItem {
      */
     public void setSellingPrice(float sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+
+    float subTotal() {
+        return sellingPrice * quantity;
     }
 }

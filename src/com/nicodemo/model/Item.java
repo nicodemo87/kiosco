@@ -30,8 +30,18 @@ public class Item {
     @Column
     private float price;
     @Column
+    private float cost;
+    @Column
     private int stock;
 
+    public Item(String code, String description, float cost, float price,int stock){
+        this.code = code;
+        this.description = description;
+        this.price = price;
+        this.cost = cost;
+        this.stock = stock;
+    }
+    
     /**
      * @return the id
      */
@@ -100,5 +110,19 @@ public class Item {
      */
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    /**
+     * @return the cost
+     */
+    public float getCost() {
+        return cost;
+    }
+
+    /**
+     * @param cost the cost to set
+     */
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 }

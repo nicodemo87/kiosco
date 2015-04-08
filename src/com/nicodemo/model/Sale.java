@@ -33,6 +33,11 @@ public class Sale {
     private Date date;
     @Column
     private User user;
+    
+    public Sale(){
+        soldItems = new ArrayList<SoldItem>();
+        date = new Date();
+    }
 
     /**
      * @return the id
@@ -103,5 +108,16 @@ public class Sale {
     public void setUser(User user) {
         this.user = user;
     }
+    
+    public void addItem(Item item, int cant) {
+        this.soldItems.add(new SoldItem(item,cant));
+    }
 
+    public float total() {
+        float total = 0;
+        for(SoldItem s :soldItems){
+            total = total + s.subTotal();
+        }
+        return total;
+    }   
 }

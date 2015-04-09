@@ -31,9 +31,9 @@ public class SaleTest extends TestCase {
         System.out.println("getId");
         Sale sale = new Sale();
         
-        sale.addItem(new Item("","",100,0), 1);
-        sale.addItem(new Item("","",200,0), 2);
-        sale.addItem(new Item("","",300,0), 1);
+        sale.addItem(new Item("","",100,200,0), 1);
+        sale.addItem(new Item("","",200,200,0), 2);
+        sale.addItem(new Item("","",300,200,0), 1);
         
         float total = sale.total();
                

@@ -6,6 +6,7 @@
 package com.nicodemo.view;
 
 import com.nicodemo.controller.ItemsController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,7 +15,7 @@ import com.nicodemo.controller.ItemsController;
 public class AddItemDialog extends javax.swing.JDialog {
 
     private ItemsController itemsController;
-    
+
     /**
      * Creates new form AddItemDialog
      */
@@ -23,6 +24,7 @@ public class AddItemDialog extends javax.swing.JDialog {
         this.itemsController = itemsController;
         initComponents();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,11 +121,21 @@ public class AddItemDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveActionPerformed
-        itemsController.saveItem(jTextField_code.getText(), jTextField_description.getText(), Float.parseFloat(jTextField_cost.getText()), Float.parseFloat(jTextField_price.getText()));
-        jTextField_code.setText("");
-        jTextField_description.setText("");
-        jTextField_cost.setText("");
-        jTextField_price.setText("");
+        try {
+            itemsController.saveItem(jTextField_code.getText(), jTextField_description.getText(), Float.parseFloat(jTextField_cost.getText()), Float.parseFloat(jTextField_price.getText()));
+            jTextField_code.setText("");
+            jTextField_description.setText("");
+            jTextField_cost.setText("");
+            jTextField_price.setText("");
+        } catch (Exception ex) {
+            String msg = "";
+            Throwable throwable = ex;
+            while (throwable != null) {
+                msg = msg + throwable.getMessage() + "\n";
+                throwable = throwable.getCause();
+            }
+            JOptionPane.showMessageDialog(null, msg);
+        }
     }//GEN-LAST:event_jButton_saveActionPerformed
 
 //    /**

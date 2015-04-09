@@ -25,8 +25,7 @@ public class ItemsController {
     
     public void saveItem(String code, String descrption, float cost, float price){
         Item item = new Item(code, descrption, cost, price, 0);
-        
-        itemsDAO.save(item);        
+        itemsDAO.save(item); 
     }
 
     public List<Item> getItems() {

@@ -23,7 +23,7 @@ public class Item {
     @GeneratedValue
     @Column
     private int id;
-    @Column
+    @Column(unique = true)
     private String code;
     @Column
     private String description;
@@ -34,16 +34,17 @@ public class Item {
     @Column
     private int stock;
 
-    public Item(){}
-    
-    public Item(String code, String description, float cost, float price,int stock){
+    public Item() {
+    }
+
+    public Item(String code, String description, float cost, float price, int stock) {
         this.code = code;
         this.description = description;
         this.price = price;
         this.cost = cost;
         this.stock = stock;
     }
-    
+
     /**
      * @return the id
      */

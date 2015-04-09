@@ -7,10 +7,15 @@ package com.nicodemo.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -25,17 +30,17 @@ public class Sale {
     @GeneratedValue
     @Column
     private int id;
-    @Column
-    private ArrayList<SoldItem> soldItems;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<SoldItem> soldItems;
     @Column
     private float discount;
     @Column
-    private Date date;
-    @Column
-    private User user;
+    private Date date;    
+    //@ManyToOne
+    //private User user;
     
     public Sale(){
-        soldItems = new ArrayList<SoldItem>();
+        soldItems = new HashSet<>();
         date = new Date();
     }
 
@@ -56,14 +61,14 @@ public class Sale {
     /**
      * @return the soldItems
      */
-    public ArrayList<SoldItem> getSoldItems() {
+    public Set<SoldItem> getSoldItems() {
         return soldItems;
     }
 
     /**
      * @param soldItems the soldItems to set
      */
-    public void setSoldItems(ArrayList<SoldItem> soldItems) {
+    public void setSoldItems(Set<SoldItem> soldItems) {
         this.soldItems = soldItems;
     }
 
@@ -95,19 +100,19 @@ public class Sale {
         this.date = date;
     }
 
-    /**
-     * @return the user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * @param user the user to set
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    /**
+//     * @return the user
+//     */
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    /**
+//     * @param user the user to set
+//     */
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
     
     public void addItem(Item item, int cant) {
         this.soldItems.add(new SoldItem(item,cant));
@@ -119,5 +124,5 @@ public class Sale {
             total = total + s.subTotal();
         }
         return total;
-    }   
+    }
 }

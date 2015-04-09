@@ -12,6 +12,8 @@
     <property name="hibernate.hbm2ddl.auto">create</property>
     
     <mapping class="com.nicodemo.model.Item"/>
+    <mapping class="com.nicodemo.model.SoldItem"/>
+    <mapping class="com.nicodemo.model.Sale"/>
     
   </session-factory>
 </hibernate-configuration>

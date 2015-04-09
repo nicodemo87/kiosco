@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -28,7 +29,7 @@ class User {
     private String name;
     @Column
     private String password;
-    @Column
+    @OneToMany
     private ArrayList<Rol> roles;
 
     /**

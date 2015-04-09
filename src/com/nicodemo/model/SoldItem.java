@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,16 +25,21 @@ public class SoldItem {
     @GeneratedValue
     @Column
     private int id;
-    @Column
+    @ManyToOne
     private Item item;
     @Column
     private int quantity;
     @Column
+    private float cost;
+    @Column
     private float sellingPrice;
 
-    SoldItem(Item item, int cant) {
+    public SoldItem(){}
+    
+    public SoldItem(Item item, int cant) {
         this.item = item;
         this.quantity = cant;
+        this.cost = item.getCost();
         this.sellingPrice = item.getPrice();
     }
 
@@ -94,5 +101,19 @@ public class SoldItem {
 
     float subTotal() {
         return sellingPrice * quantity;
+    }
+
+    /**
+     * @return the cost
+     */
+    public float getCost() {
+        return cost;
+    }
+
+    /**
+     * @param cost the cost to set
+     */
+    public void setCost(float cost) {
+        this.cost = cost;
     }
 }

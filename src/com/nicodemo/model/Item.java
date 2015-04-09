@@ -34,6 +34,8 @@ public class Item {
     @Column
     private int stock;
 
+    public Item(){}
+    
     public Item(String code, String description, float cost, float price,int stock){
         this.code = code;
         this.description = description;

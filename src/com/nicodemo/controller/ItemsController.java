@@ -7,6 +7,7 @@ package com.nicodemo.controller;
 
 import com.nicodemo.model.Item;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,5 +27,9 @@ public class ItemsController {
         Item item = new Item(code, descrption, cost, price, 0);
         
         itemsDAO.save(item);        
+    }
+
+    public List<Item> getItems() {
+        return itemsDAO.getAll();
     }
 }

@@ -27,9 +27,8 @@ public class MainForm extends javax.swing.JFrame {
         ItemsPanel itemsPanel = new ItemsPanel(this,context.getBean(ItemsController.class));
         itemsPanel.setVisible(true);
         initComponents();
-        this.myPanelCOntainer.setLayout(new BorderLayout());
-        this.myPanelCOntainer.add(itemsPanel, BorderLayout.CENTER);
-        
+        this.jPanel_tabItems.setLayout(new BorderLayout());
+        this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);        
     }
 
     /**
@@ -41,35 +40,49 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        myPanelCOntainer = new javax.swing.JPanel();
+        jTabbedPane_main = new javax.swing.JTabbedPane();
+        jPanel_tabCurrentSale = new javax.swing.JPanel();
+        jPanel_tabItems = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout myPanelCOntainerLayout = new javax.swing.GroupLayout(myPanelCOntainer);
-        myPanelCOntainer.setLayout(myPanelCOntainerLayout);
-        myPanelCOntainerLayout.setHorizontalGroup(
-            myPanelCOntainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 380, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel_tabCurrentSaleLayout = new javax.swing.GroupLayout(jPanel_tabCurrentSale);
+        jPanel_tabCurrentSale.setLayout(jPanel_tabCurrentSaleLayout);
+        jPanel_tabCurrentSaleLayout.setHorizontalGroup(
+            jPanel_tabCurrentSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
         );
-        myPanelCOntainerLayout.setVerticalGroup(
-            myPanelCOntainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 249, Short.MAX_VALUE)
+        jPanel_tabCurrentSaleLayout.setVerticalGroup(
+            jPanel_tabCurrentSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
         );
+
+        jTabbedPane_main.addTab("Venta Actual", jPanel_tabCurrentSale);
+
+        javax.swing.GroupLayout jPanel_tabItemsLayout = new javax.swing.GroupLayout(jPanel_tabItems);
+        jPanel_tabItems.setLayout(jPanel_tabItemsLayout);
+        jPanel_tabItemsLayout.setHorizontalGroup(
+            jPanel_tabItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
+        );
+        jPanel_tabItemsLayout.setVerticalGroup(
+            jPanel_tabItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 250, Short.MAX_VALUE)
+        );
+
+        jTabbedPane_main.addTab("Articulos", jPanel_tabItems);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(myPanelCOntainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jTabbedPane_main)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(myPanelCOntainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jTabbedPane_main)
                 .addContainerGap())
         );
 
@@ -117,6 +130,8 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel myPanelCOntainer;
+    private javax.swing.JPanel jPanel_tabCurrentSale;
+    private javax.swing.JPanel jPanel_tabItems;
+    private javax.swing.JTabbedPane jTabbedPane_main;
     // End of variables declaration//GEN-END:variables
 }

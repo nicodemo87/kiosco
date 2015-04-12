@@ -24,11 +24,18 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm(ApplicationContext context) {
         this.context = context;
-        ItemsPanel itemsPanel = new ItemsPanel(this,context.getBean(ItemsController.class));
-        itemsPanel.setVisible(true);
+
         initComponents();
+        
+                ItemsPanel itemsPanel = new ItemsPanel(this,context.getBean(ItemsController.class));
+        itemsPanel.setVisible(true);
         this.jPanel_tabItems.setLayout(new BorderLayout());
-        this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);        
+        this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);    
+        
+                        CurrentSalePanel currentSalePanel = new CurrentSalePanel();
+        currentSalePanel.setVisible(true);
+        this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
+        this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);      
     }
 
     /**

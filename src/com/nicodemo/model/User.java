@@ -6,6 +6,7 @@
 package com.nicodemo.model;
 
 import java.util.ArrayList;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,9 +29,9 @@ class User {
     @Column
     private String name;
     @Column
-    private String password;
+    private String password;    
     @OneToMany
-    private ArrayList<Rol> roles;
+    private Set<Rol> roles;
 
     /**
      * @return the id
@@ -77,14 +78,14 @@ class User {
     /**
      * @return the roles
      */
-    public ArrayList<Rol> getRoles() {
+    public Set<Rol> getRoles() {
         return roles;
     }
 
     /**
      * @param roles the roles to set
      */
-    public void setRoles(ArrayList<Rol> roles) {
+    public void setRoles(Set<Rol> roles) {
         this.roles = roles;
     }
 }

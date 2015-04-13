@@ -17,13 +17,12 @@ public class SalesDAO extends DAO<Sale> {
 
     @Override
     public List<Sale> getAll() {
-        List sales = session.createCriteria(Sale.class).list();
+        List sales = entityManager.createQuery("SELECT s Sale s").getResultList();
         return sales;
     }
 
     @Override
     public Sale getById(int id) {
-        return (Sale)session.get(Sale.class, id);
+        return (Sale) entityManager.find(Sale.class, id);
     }
-    
 }

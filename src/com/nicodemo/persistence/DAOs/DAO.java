@@ -5,11 +5,11 @@
  */
 package com.nicodemo.persistence.DAOs;
 
-import com.nicodemo.persistence.NewHibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -17,38 +17,46 @@ import org.hibernate.Transaction;
  */
 abstract public class DAO<T> {
 
-    protected Session session;
+    protected EntityManager entityManager;
 
     public DAO() {
-        session = NewHibernateUtil.getSessionFactory().openSession();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("KioscoManagerPU");
+        entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public T save(T model) {
-        Transaction transaction = null;
+    public T save(T model) {        
         try {
-            transaction = session.beginTransaction();
-            model = (T) session.save(model);
-            session.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            entityManager.persist(model);
+            entityManager.getTransaction().commit();
         } catch (Exception ex) {
-            transaction.rollback();
+            entityManager.getTransaction().rollback();
             throw ex;
         }
-
         return model;
     }
 
     public T update(T model) {
-        session.beginTransaction();
-        session.update(model);
-        session.getTransaction().commit();
-
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(model);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            entityManager.getTransaction().rollback();
+            throw ex;
+        }
         return model;
     }
 
     public void delete(T model) {
-        session.beginTransaction();
-        session.delete(model);
-        session.getTransaction().commit();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.detach(model);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            entityManager.getTransaction().rollback();
+            throw ex;
+        }
     }
 
     public abstract List<T> getAll();

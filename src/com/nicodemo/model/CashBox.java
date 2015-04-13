@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,7 +33,7 @@ public class CashBox {
     private Date startTime;
     @Column
     private Date endTime;
-    @Column
+    @ManyToOne
     private User user;
 
     /**

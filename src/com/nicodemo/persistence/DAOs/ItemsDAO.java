@@ -16,12 +16,12 @@ public class ItemsDAO extends DAO<Item> {
 
     @Override
     public List<Item> getAll() {
-        List items = session.createCriteria(Item.class).list();
+        List items = entityManager.createQuery("SELECT i FROM Item  i").getResultList();
         return items;
     }
 
     @Override
     public Item getById(int id) {
-        return (Item)session.get(Item.class, id);
+        return (Item) entityManager.find(Item.class, id);
     }
 }

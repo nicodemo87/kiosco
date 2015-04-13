@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,17 +25,17 @@ public class Debt {
     @GeneratedValue
     @Column
     private int id;
-    @Column
-    private Sale sale;
-    @Column
+    @ManyToOne
+    private Sale sale;    
+    @ManyToOne
     private Client client;
     @Column
     private float paid;
     @Column
     private Date date;
     @Column
-    private Date paidDate;
-    @Column
+    private Date paidDate;    
+    @ManyToOne
     private User user;
 
     /**

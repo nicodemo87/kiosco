@@ -39,6 +39,10 @@ public class SaleController {
     public List<Item> getItems(){
         return itemsDAO.getAll();
     }
+
+    public Item findItem(String keyword) {
+        return itemsDAO.getItemByCode(keyword);
+    }
     
     
 

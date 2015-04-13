@@ -6,6 +6,7 @@
 package com.nicodemo.view;
 
 import com.nicodemo.controller.ItemsController;
+import com.nicodemo.controller.SaleController;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import java.awt.BorderLayout;
 import org.springframework.context.ApplicationContext;
@@ -18,7 +19,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MainForm extends javax.swing.JFrame {
 
     private ApplicationContext context;
-    
+
     /**
      * Creates new form Main
      */
@@ -26,16 +27,16 @@ public class MainForm extends javax.swing.JFrame {
         this.context = context;
 
         initComponents();
-        
-                ItemsPanel itemsPanel = new ItemsPanel(this,context.getBean(ItemsController.class));
+
+        ItemsPanel itemsPanel = new ItemsPanel(this, context.getBean(ItemsController.class));
         itemsPanel.setVisible(true);
         this.jPanel_tabItems.setLayout(new BorderLayout());
-        this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);    
-        
-                        CurrentSalePanel currentSalePanel = new CurrentSalePanel();
+        this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);
+
+        CurrentSalePanel currentSalePanel = new CurrentSalePanel(context.getBean(SaleController.class));
         currentSalePanel.setVisible(true);
         this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
-        this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);      
+        this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);
     }
 
     /**
@@ -127,7 +128,7 @@ public class MainForm extends javax.swing.JFrame {
         ApplicationContext context = new ClassPathXmlApplicationContext("main/resources/beans.xml");
         TestBean1 bean = context.getBean(TestBean1.class);
         System.out.println(bean.showBeanName());
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -12,6 +12,7 @@
     <bean class="com.nicodemo.view.TestBean2"/>    
     
     <bean class="com.nicodemo.controller.ItemsController"/>
+    <bean class="com.nicodemo.controller.SaleController"/>
         
     <bean class="com.nicodemo.persistence.DAOs.ItemsDAO"/>
 </beans>

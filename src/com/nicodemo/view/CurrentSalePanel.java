@@ -5,16 +5,22 @@
  */
 package com.nicodemo.view;
 
+import com.nicodemo.controller.SaleController;
+import com.nicodemo.model.Item;
+import java.awt.event.KeyEvent;
+
 /**
  *
  * @author Nico
  */
 public class CurrentSalePanel extends javax.swing.JPanel {
 
+    private SaleController saleController;
     /**
      * Creates new form CurrentSalePanel
      */
-    public CurrentSalePanel() {
+    public CurrentSalePanel(SaleController saleController) {
+        this.saleController = saleController;
         initComponents();
     }
 
@@ -63,6 +69,12 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jLabel4.setText("1000.00");
 
         jLabel5.setText("Paga con:");
+
+        jTextField_itemCode.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_itemCodeKeyPressed(evt);
+            }
+        });
 
         jLabel6.setText("Vuelto:");
 
@@ -137,6 +149,13 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTextField_itemCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_itemCodeKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            Item item = saleController.findItem(jTextField_itemCode.getText());
+            System.out.println("item found:" + item.getCode());
+        }
+    }//GEN-LAST:event_jTextField_itemCodeKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

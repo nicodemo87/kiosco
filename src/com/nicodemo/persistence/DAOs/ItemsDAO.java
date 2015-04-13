@@ -8,6 +8,7 @@ package com.nicodemo.persistence.DAOs;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.Sale;
 import java.util.List;
+import org.jinq.jpa.JPQL;
 
 /**
  *
@@ -27,4 +28,19 @@ public class ItemsDAO extends DAO<Item> {
     public Item getById(int id) {
         return (Item) entityManager.find(Item.class, id);
     }
+    
+    public Item getItemByCode(String code) {
+        List<Item> items = streams.streamAll(entityManager, Item.class)
+                .where(i->i.getCode().equals(code))
+                .toList();
+        return !items.isEmpty()? items.get(0) : null;
+    }
+    
+        public List<Item> getItemsByDescription(String description) {
+        List<Item> items = streams.streamAll(entityManager, Item.class)
+                .where(i->JPQL.like(i.getDescription(), description))
+                .toList();
+        return items;
+    }
+
 }

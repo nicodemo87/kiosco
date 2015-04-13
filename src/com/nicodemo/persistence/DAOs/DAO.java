@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import org.jinq.jpa.JinqJPAStreamProvider;
 
 /**
  *
@@ -18,10 +19,12 @@ import javax.persistence.Persistence;
 abstract public class DAO<T> {
 
     protected EntityManager entityManager;
+    protected JinqJPAStreamProvider streams;
 
     public DAO() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("KioscoManagerPU");
         entityManager = entityManagerFactory.createEntityManager();
+        streams = new JinqJPAStreamProvider(entityManager.getMetamodel());
     }
 
     public T save(T model) {        

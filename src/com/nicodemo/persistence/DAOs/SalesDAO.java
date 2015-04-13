@@ -8,6 +8,8 @@ package com.nicodemo.persistence.DAOs;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.Sale;
 import java.util.List;
+import org.jinq.jpa.JinqJPAStreamProvider;
+import org.jinq.orm.stream.JinqStream;
 
 /**
  *
@@ -16,8 +18,10 @@ import java.util.List;
 public class SalesDAO extends DAO<Sale> {
 
     @Override
-    public List<Sale> getAll() {
-        List sales = entityManager.createQuery("SELECT s Sale s").getResultList();
+    public List<Sale> getAll() {        
+        List<Sale> sales = streams.streamAll(entityManager, Sale.class)
+                .toList();
+        //List sales = entityManager.createQuery("SELECT s Sale s").getResultList();
         return sales;
     }
 

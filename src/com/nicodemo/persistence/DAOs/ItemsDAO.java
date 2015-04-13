@@ -6,6 +6,7 @@
 package com.nicodemo.persistence.DAOs;
 
 import com.nicodemo.model.Item;
+import com.nicodemo.model.Sale;
 import java.util.List;
 
 /**
@@ -16,7 +17,9 @@ public class ItemsDAO extends DAO<Item> {
 
     @Override
     public List<Item> getAll() {
-        List items = entityManager.createQuery("SELECT i FROM Item  i").getResultList();
+        List<Item> items = streams.streamAll(entityManager, Item.class)
+                .toList();
+        //List items = entityManager.createQuery("SELECT i FROM Item  i").getResultList();
         return items;
     }
 

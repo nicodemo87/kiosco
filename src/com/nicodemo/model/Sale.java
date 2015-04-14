@@ -35,11 +35,11 @@ public class Sale {
     @Column
     private float discount;
     @Column
-    private Date date;    
+    private Date date;
     //@ManyToOne
     //private User user;
-    
-    public Sale(){
+
+    public Sale() {
         soldItems = new HashSet<>();
         date = new Date();
     }
@@ -113,14 +113,20 @@ public class Sale {
 //    public void setUser(User user) {
 //        this.user = user;
 //    }
-    
     public void addItem(Item item, int cant) {
-        this.soldItems.add(new SoldItem(item,cant));
+        if (soldItems.stream().anyMatch(si -> si.getItem().getId() == item.getId())) {
+            soldItems.stream().filter(si -> si.getItem().getId() == item.getId())
+                    .findFirst()
+                    .get()
+                    .increaseQuantity(cant);
+        } else {
+            this.soldItems.add(new SoldItem(item, cant));
+        }
     }
 
     public float total() {
         float total = 0;
-        for(SoldItem s :soldItems){
+        for (SoldItem s : soldItems) {
             total = total + s.subTotal();
         }
         return total;

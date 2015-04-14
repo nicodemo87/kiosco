@@ -7,7 +7,11 @@ package com.nicodemo.view;
 
 import com.nicodemo.controller.SaleController;
 import com.nicodemo.model.Item;
+import com.nicodemo.model.SoldItem;
 import java.awt.event.KeyEvent;
+import java.util.List;
+import java.util.Set;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,12 +20,41 @@ import java.awt.event.KeyEvent;
 public class CurrentSalePanel extends javax.swing.JPanel {
 
     private SaleController saleController;
+    private DefaultTableModel tableModel;
+
     /**
      * Creates new form CurrentSalePanel
      */
     public CurrentSalePanel(SaleController saleController) {
         this.saleController = saleController;
         initComponents();
+
+        refreshSoldItemsTable();
+    }
+
+    private void refreshSoldItemsTable() {
+        tableModel = new DefaultTableModel(0, 0);
+        String header[] = new String[]{"Codigo", "Descripcion", "Precio", "Cantidad"};
+        tableModel.setColumnIdentifiers(header);
+        jTable1.setModel(tableModel);
+
+        Set<SoldItem> soldItems = saleController.getSoldItems();
+        soldItems.stream()
+                .forEach(si -> tableModel.addRow(
+                                new Object[]{
+                                    si.getItem().getCode(),
+                                    si.getItem().getDescription(),
+                                    si.getItem().getPrice(),
+                                    si.getQuantity()
+                                })
+                );
+        refreshTotal();
+    }
+
+    private void refreshTotal() {
+        jLabel_total.setText(String.valueOf(saleController.getTotal()));
+        jTextField_payWith.setText(jLabel_total.getText());
+        jLabel_moneyBack.setText("0");
     }
 
     /**
@@ -38,11 +71,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jLabel_total = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jTextField_itemCode = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel_moneyBack = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextField_payWith = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -66,7 +99,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
 
         jLabel3.setText("$");
 
-        jLabel4.setText("1000.00");
+        jLabel_total.setText("1000.00");
 
         jLabel5.setText("Paga con:");
 
@@ -78,7 +111,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
 
         jLabel6.setText("Vuelto:");
 
-        jLabel7.setText("0.00");
+        jLabel_moneyBack.setText("0.00");
 
         jLabel8.setText("$");
 
@@ -106,7 +139,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel_total))
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jLabel5))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -115,7 +148,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
+                        .addComponent(jLabel_moneyBack))
                     .addComponent(jTextField_payWith, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -134,7 +167,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel_total))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -143,7 +176,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
+                            .addComponent(jLabel_moneyBack)
                             .addComponent(jLabel8)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -151,9 +184,9 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField_itemCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_itemCodeKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            Item item = saleController.findItem(jTextField_itemCode.getText());
-            System.out.println("item found:" + item.getCode());
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            saleController.addItem(jTextField_itemCode.getText());
+            refreshSoldItemsTable();
         }
     }//GEN-LAST:event_jTextField_itemCodeKeyPressed
 
@@ -163,11 +196,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel_moneyBack;
+    private javax.swing.JLabel jLabel_total;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField_itemCode;

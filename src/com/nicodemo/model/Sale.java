@@ -114,8 +114,8 @@ public class Sale {
 //        this.user = user;
 //    }
     public void addItem(Item item, int cant) {
-        if (soldItems.stream().anyMatch(si -> si.getItem().getId() == item.getId())) {
-            soldItems.stream().filter(si -> si.getItem().getId() == item.getId())
+        if (soldItems.stream().anyMatch(si -> si.getItem().getCode().equals(item.getCode()))) {
+            soldItems.stream().filter(si -> si.getItem().getCode().equals(item.getCode()))
                     .findFirst()
                     .get()
                     .increaseQuantity(cant);

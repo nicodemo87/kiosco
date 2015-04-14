@@ -118,6 +118,6 @@ public class SoldItem {
     }
 
     void increaseQuantity(int cant) {
-        quantity =+ cant;
+        quantity = quantity + cant;
     }
 }

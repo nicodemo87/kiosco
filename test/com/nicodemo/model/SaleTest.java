@@ -27,16 +27,31 @@ public class SaleTest extends TestCase {
         super.tearDown();
     }
 
-    public void testGetTotal() {
+    public void testAddItemsAndGetTotal() {
         System.out.println("getId");
         Sale sale = new Sale();
         
-        sale.addItem(new Item("","",100,200,0), 1);
-        sale.addItem(new Item("","",200,200,0), 2);
-        sale.addItem(new Item("","",300,200,0), 1);
+        sale.addItem(new Item("item1","",100,200,0), 1);
+        sale.addItem(new Item("item2","",200,200,0), 2);
+        sale.addItem(new Item("item3","",300,200,0), 1);
         
         float total = sale.total();
                
         assertEquals(total, 800f);
-    }      
+    }
+    
+    public void testAddTwoTimesTheSameItem(){
+        Item item1 = new Item("item1","item1",100,250,0);
+        
+        Sale sale = new Sale();
+        
+        sale.addItem(item1, 1);
+        sale.addItem(item1, 1);
+        
+        float total = sale.total();
+        int intem1Quantity = sale.getSoldItems().stream().findFirst().get().getQuantity();
+        
+        assertEquals(intem1Quantity, 2);
+        assertEquals(total, item1.getPrice() * 2);
+    }
 }

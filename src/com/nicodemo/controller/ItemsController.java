@@ -23,8 +23,8 @@ public class ItemsController {
         this.itemsDAO = itemsDAO;
     }
     
-    public void saveItem(String code, String descrption, float cost, float price){
-        Item item = new Item(code, descrption, cost, price, 0);
+    public void saveItem(String code, String descrption, float cost, float price, int stock){
+        Item item = new Item(code, descrption, cost, price, stock);
         itemsDAO.save(item); 
     }
 

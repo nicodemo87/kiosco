@@ -7,6 +7,7 @@ package com.nicodemo.persistence.DAOs;
 
 import com.nicodemo.model.Item;
 import com.nicodemo.model.Sale;
+import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
 import org.jinq.jpa.JPQL;
 
@@ -29,10 +30,12 @@ public class ItemsDAO extends DAO<Item> {
         return (Item) entityManager.find(Item.class, id);
     }
     
-    public Item getItemByCode(String code) {
+    public Item getItemByCode(String code) throws ElementNotFoundException {
         List<Item> items = streams.streamAll(entityManager, Item.class)
                 .where(i->i.getCode().equals(code))
                 .toList();
+        if (items.isEmpty())
+                throw new ElementNotFoundException("Item with code ["+code+"] not found");
         return !items.isEmpty()? items.get(0) : null;
     }
     

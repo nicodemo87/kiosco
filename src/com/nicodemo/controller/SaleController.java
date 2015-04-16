@@ -9,6 +9,7 @@ import com.nicodemo.model.Item;
 import com.nicodemo.model.Sale;
 import com.nicodemo.model.SoldItem;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
+import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,12 +44,8 @@ public class SaleController {
         return itemsDAO.getAll();
     }
 
-    public Item findItem(String keyword) {
-        return itemsDAO.getItemByCode(keyword);
-    }
-
-    public void addItem(String keyword) {
-        sale.addItem(findItem(keyword), 1);
+    public void addItem(String keyword) throws ElementNotFoundException {
+        sale.addItem(itemsDAO.getItemByCode(keyword), 1);
     }
 
     public Set<SoldItem> getSoldItems() {

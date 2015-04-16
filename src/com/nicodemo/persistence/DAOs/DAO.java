@@ -5,7 +5,6 @@
  */
 package com.nicodemo.persistence.DAOs;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,6 +14,7 @@ import org.jinq.jpa.JinqJPAStreamProvider;
 /**
  *
  * @author Nico
+ * @param <T>
  */
 abstract public class DAO<T> {
 

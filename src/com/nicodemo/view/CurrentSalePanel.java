@@ -82,6 +82,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jTextField_payWith = new javax.swing.JTextField();
         jButton_addItem = new javax.swing.JButton();
+        jButton_Sell = new javax.swing.JButton();
+        jButton_debit = new javax.swing.JButton();
+        jButton_cancel = new javax.swing.JButton();
+        jButton_multiplyItem = new javax.swing.JButton();
+        jButton_removeItem = new javax.swing.JButton();
 
         jLabel1.setText("Artículo:");
 
@@ -98,12 +103,16 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Total:");
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel3.setText("$");
 
-        jLabel_total.setText("1000.00");
+        jLabel_total.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel_total.setText("0.00");
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Paga con:");
 
         jTextField_itemCode.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -112,13 +121,16 @@ public class CurrentSalePanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("Vuelto:");
 
+        jLabel_moneyBack.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_moneyBack.setText("0.00");
 
         jLabel8.setText("$");
 
-        jTextField_payWith.setText("1000.00");
+        jTextField_payWith.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField_payWith.setText("0.00");
 
         jButton_addItem.setText("Agregar");
         jButton_addItem.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +138,18 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                 jButton_addItemActionPerformed(evt);
             }
         });
+
+        jButton_Sell.setText("Vender");
+
+        jButton_debit.setText("Debitar a Cliente");
+
+        jButton_cancel.setText("Cancelar");
+
+        jButton_multiplyItem.setText("*");
+        jButton_multiplyItem.setToolTipText("Cambiar cantidad del artículo");
+
+        jButton_removeItem.setText("Supr");
+        jButton_removeItem.setToolTipText("Remueve el artículo seleccionado");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -135,29 +159,40 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField_itemCode)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton_addItem))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField_itemCode)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_addItem))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel_total))
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel5))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_total))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(16, 16, 16))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_moneyBack))
+                            .addComponent(jTextField_payWith, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(16, 16, 16))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                        .addComponent(jButton_multiplyItem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel_moneyBack))
-                    .addComponent(jTextField_payWith, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton_removeItem)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton_cancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_debit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_Sell)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -185,9 +220,17 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_moneyBack)
-                            .addComponent(jLabel8)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel8))
+                        .addGap(0, 17, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Sell)
+                    .addComponent(jButton_debit)
+                    .addComponent(jButton_cancel)
+                    .addComponent(jButton_multiplyItem)
+                    .addComponent(jButton_removeItem))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -212,7 +255,12 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_Sell;
     private javax.swing.JButton jButton_addItem;
+    private javax.swing.JButton jButton_cancel;
+    private javax.swing.JButton jButton_debit;
+    private javax.swing.JButton jButton_multiplyItem;
+    private javax.swing.JButton jButton_removeItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

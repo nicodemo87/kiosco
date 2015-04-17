@@ -124,11 +124,9 @@ public class Sale {
         }
     }
 
-    public float total() {
-        float total = 0;
-        for (SoldItem s : soldItems) {
-            total = total + s.subTotal();
-        }
-        return total;
+    public double total() {
+        return soldItems.stream()
+                .mapToDouble(s->s.subTotal())
+                .sum();
     }
 }

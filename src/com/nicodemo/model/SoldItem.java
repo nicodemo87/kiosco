@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -99,7 +98,7 @@ public class SoldItem {
         this.sellingPrice = sellingPrice;
     }
 
-    float subTotal() {
+    public double subTotal() {
         return sellingPrice * quantity;
     }
 

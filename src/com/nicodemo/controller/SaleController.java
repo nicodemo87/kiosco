@@ -5,6 +5,7 @@
  */
 package com.nicodemo.controller;
 
+import com.nicodemo.model.CashBox;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.Sale;
 import com.nicodemo.model.SoldItem;
@@ -21,12 +22,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Nico
  */
 public class SaleController {
+    private CashBox cashBox;
     private Sale sale;
     
     private ItemsDAO itemsDAO;
     
     @Autowired
     public SaleController(ItemsDAO itemsDAO){
+        cashBox = new CashBox();
         sale = new Sale();
         
         this.itemsDAO = itemsDAO;
@@ -52,8 +55,12 @@ public class SaleController {
         return sale.getSoldItems();
     }
 
-    public float getTotal() {
+    public double getTotal() {
         return sale.total();
+    }
+    
+    public void sell(){
+        cashBox.addSale(sale);
     }
     
     

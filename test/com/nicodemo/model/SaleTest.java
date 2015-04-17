@@ -35,9 +35,9 @@ public class SaleTest extends TestCase {
         sale.addItem(new Item("item2","",200,200,0), 2);
         sale.addItem(new Item("item3","",300,200,0), 1);
         
-        float total = sale.total();
+        double total = sale.total();
                
-        assertEquals(total, 800f);
+        assertEquals(total, 800d);
     }
     
     public void testAddTwoTimesTheSameItem(){
@@ -48,10 +48,10 @@ public class SaleTest extends TestCase {
         sale.addItem(item1, 1);
         sale.addItem(item1, 1);
         
-        float total = sale.total();
+        double total = sale.total();
         int intem1Quantity = sale.getSoldItems().stream().findFirst().get().getQuantity();
         
         assertEquals(intem1Quantity, 2);
-        assertEquals(total, item1.getPrice() * 2);
+        assertEquals(total, item1.getPrice() * 2d);
     }
 }

@@ -6,11 +6,14 @@
 package com.nicodemo.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,7 +38,12 @@ public class CashBox {
     private Date endTime;
     @ManyToOne
     private User user;
+    @OneToMany
+    private Set<Sale> sales;
 
+    public CashBox(){
+        sales = new HashSet<>();
+    }
     /**
      * @return the id
      */
@@ -118,5 +126,29 @@ public class CashBox {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void addSale(Sale sale) {
+        this.sales.add(sale);
+    }
+
+    /**
+     * @return the sales
+     */
+    public Set<Sale> getSales() {
+        return sales;
+    }
+
+    /**
+     * @param sales the sales to set
+     */
+    public void setSales(Set<Sale> sales) {
+        this.sales = sales;
+    }
+
+    public double total() {        
+        return sales.stream()
+                .mapToDouble(s -> s.total())
+                .sum();
     }
 }

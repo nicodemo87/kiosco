@@ -53,16 +53,18 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabItems = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(500, 500));
+        setPreferredSize(new java.awt.Dimension(600, 400));
 
         javax.swing.GroupLayout jPanel_tabCurrentSaleLayout = new javax.swing.GroupLayout(jPanel_tabCurrentSale);
         jPanel_tabCurrentSale.setLayout(jPanel_tabCurrentSaleLayout);
         jPanel_tabCurrentSaleLayout.setHorizontalGroup(
             jPanel_tabCurrentSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 595, Short.MAX_VALUE)
         );
         jPanel_tabCurrentSaleLayout.setVerticalGroup(
             jPanel_tabCurrentSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 361, Short.MAX_VALUE)
         );
 
         jTabbedPane_main.addTab("Venta Actual", jPanel_tabCurrentSale);
@@ -71,11 +73,11 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabItems.setLayout(jPanel_tabItemsLayout);
         jPanel_tabItemsLayout.setHorizontalGroup(
             jPanel_tabItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGap(0, 595, Short.MAX_VALUE)
         );
         jPanel_tabItemsLayout.setVerticalGroup(
             jPanel_tabItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 250, Short.MAX_VALUE)
+            .addGap(0, 361, Short.MAX_VALUE)
         );
 
         jTabbedPane_main.addTab("Articulos", jPanel_tabItems);
@@ -84,14 +86,13 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane_main)
+            .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane_main)
-                .addContainerGap())
+                .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
         );
 
         pack();

@@ -9,12 +9,11 @@ import com.nicodemo.model.CashBox;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.Sale;
 import com.nicodemo.model.SoldItem;
+import com.nicodemo.persistence.DAOs.CashBoxesDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import javax.swing.JLabel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -26,13 +25,15 @@ public class SaleController {
     private Sale sale;
     
     private ItemsDAO itemsDAO;
+    private CashBoxesDAO cashBoxesDAO;
     
     @Autowired
-    public SaleController(ItemsDAO itemsDAO){
+    public SaleController(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO){
         cashBox = new CashBox();
         sale = new Sale();
         
         this.itemsDAO = itemsDAO;
+        this.cashBoxesDAO = cashBoxesDAO;
     }
     
     public void newSale(){
@@ -61,8 +62,9 @@ public class SaleController {
     
     public void sell(){
         cashBox.addSale(sale);
+        cashBoxesDAO.save(cashBox);
+        sale = new Sale();       
+        
     }
-    
-    
 
 }

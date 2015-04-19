@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +43,9 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jTable1.setModel(tableModel);
 
         Set<SoldItem> soldItems = saleController.getSoldItems();
+        
+        jButton_Sell.setEnabled(!soldItems.isEmpty());
+        
         soldItems.stream()
                 .forEach(si -> tableModel.addRow(
                                 new Object[]{
@@ -51,6 +55,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                                     si.getQuantity()
                                 })
                 );
+        
         refreshTotal();
     }
 
@@ -140,6 +145,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         });
 
         jButton_Sell.setText("Vender");
+        jButton_Sell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_SellActionPerformed(evt);
+            }
+        });
 
         jButton_debit.setText("Debitar a Cliente");
 
@@ -166,7 +176,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                                 .addComponent(jTextField_itemCode)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton_addItem))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -221,7 +231,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel_moneyBack)
                             .addComponent(jLabel8))
-                        .addGap(0, 17, Short.MAX_VALUE))
+                        .addGap(0, 140, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -243,6 +253,13 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     private void jButton_addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addItemActionPerformed
         addItemToSale();
     }//GEN-LAST:event_jButton_addItemActionPerformed
+
+    private void jButton_SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SellActionPerformed
+        if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere confirmar la venta? \n una vez confirmado no se puede deshacer","Confirmar venta",JOptionPane.YES_NO_OPTION)){
+            saleController.sell();
+            refreshSoldItemsTable();
+        }
+    }//GEN-LAST:event_jButton_SellActionPerformed
 
     private void addItemToSale() {
         try {

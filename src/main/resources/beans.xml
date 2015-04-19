@@ -15,4 +15,6 @@
     <bean class="com.nicodemo.controller.SaleController"/>
         
     <bean class="com.nicodemo.persistence.DAOs.ItemsDAO"/>
+    <bean class="com.nicodemo.persistence.DAOs.SalesDAO"/>
+    <bean class="com.nicodemo.persistence.DAOs.CashBoxesDAO"/>
 </beans>

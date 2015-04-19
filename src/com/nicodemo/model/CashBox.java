@@ -8,6 +8,7 @@ package com.nicodemo.model;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,10 +39,11 @@ public class CashBox {
     private Date endTime;
     @ManyToOne
     private User user;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Sale> sales;
 
     public CashBox(){
+        startTime = new Date();
         sales = new HashSet<>();
     }
     /**

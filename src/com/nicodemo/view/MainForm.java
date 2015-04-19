@@ -5,6 +5,7 @@
  */
 package com.nicodemo.view;
 
+import com.nicodemo.controller.ClientsDebtsController;
 import com.nicodemo.controller.DevEntitiesInitializer;
 import com.nicodemo.controller.ItemsController;
 import com.nicodemo.controller.SaleController;
@@ -43,6 +44,11 @@ public class MainForm extends javax.swing.JFrame {
         itemsPanel.setVisible(true);
         this.jPanel_tabItems.setLayout(new BorderLayout());
         this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);
+
+        ClientsPanel clientsPanel = new ClientsPanel(context.getBean(ClientsDebtsController.class));
+        clientsPanel.setVisible(true);
+        this.jPanel_tabClients.setLayout(new BorderLayout());
+        this.jPanel_tabClients.add(clientsPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -58,10 +64,10 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabCurrentSale = new javax.swing.JPanel();
         jPanel_tabItems = new javax.swing.JPanel();
         jPanel_tabCurrentCashBox = new javax.swing.JPanel();
+        jPanel_tabClients = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
-        setPreferredSize(new java.awt.Dimension(600, 400));
 
         javax.swing.GroupLayout jPanel_tabCurrentSaleLayout = new javax.swing.GroupLayout(jPanel_tabCurrentSale);
         jPanel_tabCurrentSale.setLayout(jPanel_tabCurrentSaleLayout);
@@ -101,6 +107,19 @@ public class MainForm extends javax.swing.JFrame {
         );
 
         jTabbedPane_main.addTab("Caja", jPanel_tabCurrentCashBox);
+
+        javax.swing.GroupLayout jPanel_tabClientsLayout = new javax.swing.GroupLayout(jPanel_tabClients);
+        jPanel_tabClients.setLayout(jPanel_tabClientsLayout);
+        jPanel_tabClientsLayout.setHorizontalGroup(
+            jPanel_tabClientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 595, Short.MAX_VALUE)
+        );
+        jPanel_tabClientsLayout.setVerticalGroup(
+            jPanel_tabClientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 361, Short.MAX_VALUE)
+        );
+
+        jTabbedPane_main.addTab("Clientes", jPanel_tabClients);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,6 +178,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel_tabClients;
     private javax.swing.JPanel jPanel_tabCurrentCashBox;
     private javax.swing.JPanel jPanel_tabCurrentSale;
     private javax.swing.JPanel jPanel_tabItems;

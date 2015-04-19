@@ -5,10 +5,14 @@
  */
 package com.nicodemo.model;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -31,6 +35,16 @@ public class Client {
     private String phone;
     @Column
     private String address;
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Debt> debts;
+
+    public Client(String firstName, String lastName, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.debts = new HashSet<>();
+    }
 
     /**
      * @return the id
@@ -100,5 +114,11 @@ public class Client {
      */
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public double debt() {
+        return debts.stream()
+                .mapToDouble(d->d.total())
+                .sum();
     }
 }

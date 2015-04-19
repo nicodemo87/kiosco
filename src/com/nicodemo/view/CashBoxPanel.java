@@ -25,7 +25,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
     }
 
     public void refresh(CashBox cashBox) {
-        jLabel_openDate.setText(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(cashBox.getStartTime()));
+        jLabel_openDate.setText(new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss").format(cashBox.getStartDateTime()));
         jLabel_User.setText(cashBox.getUser().getName());
         jLabel_initial.setText(String.valueOf(cashBox.getStartAmount()));
         jLabel_sold.setText(String.valueOf(cashBox.sold()));

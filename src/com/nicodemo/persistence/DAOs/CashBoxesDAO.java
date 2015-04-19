@@ -28,8 +28,8 @@ public class CashBoxesDAO extends DAO<CashBox> {
     
     public CashBox getOpenCashBox() {
         List<CashBox> openCashBoxes = streams.streamAll(entityManager, CashBox.class)
-                .where(cb-> cb.getEndTime() != null)
-                .sortedDescendingBy(cb-> cb.getStartTime())
+                .where(cb-> cb.getEndDateTime() != null)
+                .sortedDescendingBy(cb-> cb.getStartDateTime())
                 .toList();
         
         return openCashBoxes.isEmpty()? null : openCashBoxes.get(openCashBoxes.size() - 1);

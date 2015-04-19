@@ -34,10 +34,10 @@ public class CashBox {
     @Column
     private float endAmount;
     @Column
-    private Date startTime;
+    private Date startDateTime;
     @Column
-    private Date endTime;
-    @ManyToOne
+    private Date endDateTime;
+    @ManyToOne(optional = false)
     private User user;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Sale> sales;    
@@ -45,7 +45,7 @@ public class CashBox {
     private Set<Debt> debits;
 
     public CashBox(){
-        startTime = new Date();
+        startDateTime = new Date();
         sales = new HashSet<>();
         debits = new HashSet<>();
         user = User.getCurrentUser();
@@ -95,29 +95,29 @@ public class CashBox {
     /**
      * @return the startTime
      */
-    public Date getStartTime() {
-        return startTime;
+    public Date getStartDateTime() {
+        return startDateTime;
     }
 
     /**
-     * @param startTime the startTime to set
+     * @param startDateTime the startTime to set
      */
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartDateTime(Date startDateTime) {
+        this.startDateTime = startDateTime;
     }
 
     /**
      * @return the endTime
      */
-    public Date getEndTime() {
-        return endTime;
+    public Date getEndDateTime() {
+        return endDateTime;
     }
 
     /**
-     * @param endTime the endTime to set
+     * @param endDateTime the endTime to set
      */
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEndDateTime(Date endDateTime) {
+        this.endDateTime = endDateTime;
     }
 
     /**

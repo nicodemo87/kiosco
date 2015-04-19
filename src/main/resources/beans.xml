@@ -15,4 +15,5 @@
     <bean class="com.nicodemo.persistence.DAOs.ItemsDAO"/>
     <bean class="com.nicodemo.persistence.DAOs.SalesDAO"/>
     <bean class="com.nicodemo.persistence.DAOs.CashBoxesDAO"/>
+    <bean class="com.nicodemo.persistence.DAOs.UsersDAO"/>
 </beans>

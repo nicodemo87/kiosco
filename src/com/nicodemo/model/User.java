@@ -20,7 +20,23 @@ import javax.persistence.Table;
  */
 @Entity
 @Table
-class User {
+public class User {
+
+    private static User currentUser;
+    
+    /**
+     * @return the curretnUser
+     */
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    /**
+     * @param aCurretnUser the curretnUser to set
+     */
+    public static void setCurrentUser(User aCurrentUser) {
+        currentUser = aCurrentUser;
+    }
 
     @Id
     @GeneratedValue
@@ -33,6 +49,10 @@ class User {
     @OneToMany
     private Set<Rol> roles;
 
+    public User(String name) {
+        this.name = name;
+    }
+    
     /**
      * @return the id
      */

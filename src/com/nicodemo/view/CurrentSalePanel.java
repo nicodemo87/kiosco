@@ -25,12 +25,15 @@ public class CurrentSalePanel extends javax.swing.JPanel {
 
     private SaleController saleController;
     private DefaultTableModel tableModel;
+    private CashBoxPanel currentCashBoxPanel;
 
     /**
      * Creates new form CurrentSalePanel
      */
-    public CurrentSalePanel(SaleController saleController) {
+    public CurrentSalePanel(SaleController saleController, CashBoxPanel currentCashBoxPanel) {
         this.saleController = saleController;
+        this.saleController.initCashBox();
+        this.currentCashBoxPanel = currentCashBoxPanel;
         initComponents();
 
         refreshSoldItemsTable();
@@ -57,6 +60,8 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                 );
         
         refreshTotal();
+        
+        currentCashBoxPanel.refresh(saleController.getCurrentCashBox());
     }
 
     private void refreshTotal() {

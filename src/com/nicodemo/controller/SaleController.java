@@ -29,9 +29,6 @@ public class SaleController {
     
     @Autowired
     public SaleController(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO){
-        cashBox = new CashBox();
-        sale = new Sale();
-        
         this.itemsDAO = itemsDAO;
         this.cashBoxesDAO = cashBoxesDAO;
     }
@@ -65,6 +62,15 @@ public class SaleController {
         cashBoxesDAO.save(cashBox);
         sale = new Sale();       
         
+    }
+
+    public CashBox getCurrentCashBox() {
+        return this.cashBox;
+    }
+
+    public void initCashBox() {
+        cashBox = new CashBox();
+        sale = new Sale();
     }
 
 }

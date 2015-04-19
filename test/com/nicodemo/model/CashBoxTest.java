@@ -45,7 +45,7 @@ public class CashBoxTest extends TestCase {
         cashBox700.addSale(sale200);
         cashBox700.addSale(sale500);
         
-        double total = cashBox700.total();
+        double total = cashBox700.sold();
         double expectedTotal = item100.getPrice()*2 + item200.getPrice() + item300.getPrice();
         assertEquals(total, expectedTotal);
         

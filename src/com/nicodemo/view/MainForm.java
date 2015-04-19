@@ -29,15 +29,20 @@ public class MainForm extends javax.swing.JFrame {
 
         initComponents();
 
+        CashBoxPanel currentCashBoxPanel = new CashBoxPanel();
+        currentCashBoxPanel.setVisible(true);
+        this.jPanel_tabCurrentCashBox.setLayout(new BorderLayout());
+        this.jPanel_tabCurrentCashBox.add(currentCashBoxPanel, BorderLayout.CENTER);
+
+        CurrentSalePanel currentSalePanel = new CurrentSalePanel(context.getBean(SaleController.class), currentCashBoxPanel);
+        currentSalePanel.setVisible(true);
+        this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
+        this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);
+
         ItemsPanel itemsPanel = new ItemsPanel(this, context.getBean(ItemsController.class));
         itemsPanel.setVisible(true);
         this.jPanel_tabItems.setLayout(new BorderLayout());
         this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);
-
-        CurrentSalePanel currentSalePanel = new CurrentSalePanel(context.getBean(SaleController.class));
-        currentSalePanel.setVisible(true);
-        this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
-        this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);
     }
 
     /**
@@ -52,6 +57,7 @@ public class MainForm extends javax.swing.JFrame {
         jTabbedPane_main = new javax.swing.JTabbedPane();
         jPanel_tabCurrentSale = new javax.swing.JPanel();
         jPanel_tabItems = new javax.swing.JPanel();
+        jPanel_tabCurrentCashBox = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
@@ -83,17 +89,30 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane_main.addTab("Articulos", jPanel_tabItems);
 
+        javax.swing.GroupLayout jPanel_tabCurrentCashBoxLayout = new javax.swing.GroupLayout(jPanel_tabCurrentCashBox);
+        jPanel_tabCurrentCashBox.setLayout(jPanel_tabCurrentCashBoxLayout);
+        jPanel_tabCurrentCashBoxLayout.setHorizontalGroup(
+            jPanel_tabCurrentCashBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 595, Short.MAX_VALUE)
+        );
+        jPanel_tabCurrentCashBoxLayout.setVerticalGroup(
+            jPanel_tabCurrentCashBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 361, Short.MAX_VALUE)
+        );
+
+        jTabbedPane_main.addTab("Caja", jPanel_tabCurrentCashBox);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+            .addComponent(jTabbedPane_main)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
+                .addComponent(jTabbedPane_main))
         );
 
         pack();
@@ -128,7 +147,7 @@ public class MainForm extends javax.swing.JFrame {
         //</editor-fold>
 
         ApplicationContext context = new ClassPathXmlApplicationContext("main/resources/beans.xml");
-        
+
         context.getBean(DevEntitiesInitializer.class).Initialize();
 
         /* Create and display the form */
@@ -140,6 +159,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel_tabCurrentCashBox;
     private javax.swing.JPanel jPanel_tabCurrentSale;
     private javax.swing.JPanel jPanel_tabItems;
     private javax.swing.JTabbedPane jTabbedPane_main;

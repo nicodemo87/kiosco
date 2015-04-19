@@ -6,8 +6,10 @@
 package com.nicodemo.controller;
 
 import com.nicodemo.model.Item;
+import com.nicodemo.model.User;
 import com.nicodemo.persistence.DAOs.CashBoxesDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
+import com.nicodemo.persistence.DAOs.UsersDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -17,11 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DevEntitiesInitializer {
     private ItemsDAO itemsDAO;
     private CashBoxesDAO cashBoxesDAO;
+    private UsersDAO usersDAO;
 
     @Autowired
-    public DevEntitiesInitializer(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO) {
+    public DevEntitiesInitializer(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO, UsersDAO usersDAO) {
         this.itemsDAO = itemsDAO;
         this.cashBoxesDAO = cashBoxesDAO;
+        this.usersDAO = usersDAO;
     }
 
     public void Initialize() {
@@ -32,5 +36,10 @@ public class DevEntitiesInitializer {
         itemsDAO.save(item1);
         itemsDAO.save(item2);
         itemsDAO.save(item3);
+        
+        User user = new User("nicodemo");
+        usersDAO.save(user);
+        User.setCurrentUser(user);
+        
     }
 }

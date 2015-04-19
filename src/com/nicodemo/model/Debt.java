@@ -6,6 +6,7 @@
 package com.nicodemo.model;
 
 import java.util.Date;
+import java.util.stream.DoubleStream;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -134,5 +135,9 @@ public class Debt {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public double total() {
+        return sale.total();
     }
 }

@@ -40,11 +40,15 @@ public class CashBox {
     @ManyToOne
     private User user;
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Sale> sales;
+    private Set<Sale> sales;    
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Debt> debits;
 
     public CashBox(){
         startTime = new Date();
         sales = new HashSet<>();
+        debits = new HashSet<>();
+        user = User.getCurrentUser();
     }
     /**
      * @return the id
@@ -148,9 +152,19 @@ public class CashBox {
         this.sales = sales;
     }
 
-    public double total() {        
+    public double sold() {        
         return sales.stream()
                 .mapToDouble(s -> s.total())
                 .sum();
+    }
+
+    public double debited() {
+        return debits.stream()
+                .mapToDouble(d -> d.total())
+                .sum();
+    }
+
+    public double totalCash() {
+        return sold() - debited();
     }
 }

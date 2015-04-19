@@ -8,11 +8,9 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
     <context:annotation-config/>
     
-    <bean class="com.nicodemo.view.TestBean1"/>
-    <bean class="com.nicodemo.view.TestBean2"/>    
-    
     <bean class="com.nicodemo.controller.ItemsController"/>
     <bean class="com.nicodemo.controller.SaleController"/>
+    <bean class="com.nicodemo.controller.DevEntitiesInitializer"/>
         
     <bean class="com.nicodemo.persistence.DAOs.ItemsDAO"/>
     <bean class="com.nicodemo.persistence.DAOs.SalesDAO"/>

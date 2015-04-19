@@ -5,6 +5,7 @@
  */
 package com.nicodemo.view;
 
+import com.nicodemo.controller.DevEntitiesInitializer;
 import com.nicodemo.controller.ItemsController;
 import com.nicodemo.controller.SaleController;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
@@ -127,8 +128,8 @@ public class MainForm extends javax.swing.JFrame {
         //</editor-fold>
 
         ApplicationContext context = new ClassPathXmlApplicationContext("main/resources/beans.xml");
-        TestBean1 bean = context.getBean(TestBean1.class);
-        System.out.println(bean.showBeanName());
+        
+        context.getBean(DevEntitiesInitializer.class).Initialize();
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

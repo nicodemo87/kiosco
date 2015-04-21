@@ -28,8 +28,6 @@ public class Debt {
     private int id;
     @ManyToOne
     private Sale sale;    
-    @ManyToOne
-    private Client client;
     @Column
     private float paid;
     @Column
@@ -38,7 +36,15 @@ public class Debt {
     private Date paidDate;    
     @ManyToOne
     private User user;
+    @ManyToOne
+    private Client client;
 
+    public Debt(Sale sale){
+        this.sale = sale;
+        this.user = User.getCurrentUser();
+        this.date = new Date();
+    }    
+    
     /**
      * @return the id
      */
@@ -65,20 +71,6 @@ public class Debt {
      */
     public void setSale(Sale sale) {
         this.sale = sale;
-    }
-
-    /**
-     * @return the client
-     */
-    public Client getClient() {
-        return client;
-    }
-
-    /**
-     * @param client the client to set
-     */
-    public void setClient(Client client) {
-        this.client = client;
     }
 
     /**
@@ -139,5 +131,19 @@ public class Debt {
 
     public double total() {
         return sale.total();
+    }
+
+    /**
+     * @return the client
+     */
+    public Client getClient() {
+        return client;
+    }
+
+    /**
+     * @param client the client to set
+     */
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

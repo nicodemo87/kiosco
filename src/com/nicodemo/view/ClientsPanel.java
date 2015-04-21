@@ -36,7 +36,7 @@ public class ClientsPanel extends javax.swing.JPanel {
 
         List<Client> items = this.clientsDebtsController.allClients();
 
-        items.stream().forEach(c -> dtm.addRow(new Object[]{c.getFirstName(), c.getLastName(), c.getPhone(), 0}));
+        items.stream().forEach(c -> dtm.addRow(new Object[]{c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
     }
 
     /**

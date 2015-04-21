@@ -6,10 +6,13 @@
 package com.nicodemo.controller;
 
 import com.nicodemo.model.CashBox;
+import com.nicodemo.model.Client;
+import com.nicodemo.model.Debt;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.Sale;
 import com.nicodemo.model.SoldItem;
 import com.nicodemo.persistence.DAOs.CashBoxesDAO;
+import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
@@ -26,11 +29,13 @@ public class SaleController {
     
     private ItemsDAO itemsDAO;
     private CashBoxesDAO cashBoxesDAO;
+    private ClientsDAO clientsDAO;
     
     @Autowired
-    public SaleController(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO){
+    public SaleController(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO, ClientsDAO clientsDAO){
         this.itemsDAO = itemsDAO;
         this.cashBoxesDAO = cashBoxesDAO;
+        this.clientsDAO = clientsDAO;
     }
     
     public void newSale(){
@@ -71,6 +76,15 @@ public class SaleController {
     public void initCashBox() {
         cashBox = new CashBox();
         sale = new Sale();
+    }
+
+    public void debit(Client client) {
+        cashBox.addSale(sale);
+        Debt debt = new Debt(sale);
+        client.addDebt(debt);        
+        cashBox.addDebt(debt);
+        cashBoxesDAO.save(cashBox);
+        sale = new Sale();       
     }
 
 }

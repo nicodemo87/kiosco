@@ -35,7 +35,7 @@ public class MainForm extends javax.swing.JFrame {
         this.jPanel_tabCurrentCashBox.setLayout(new BorderLayout());
         this.jPanel_tabCurrentCashBox.add(currentCashBoxPanel, BorderLayout.CENTER);
 
-        CurrentSalePanel currentSalePanel = new CurrentSalePanel(context.getBean(SaleController.class), currentCashBoxPanel);
+        CurrentSalePanel currentSalePanel = new CurrentSalePanel(context.getBean(SaleController.class), currentCashBoxPanel, context.getBean(ClientsDebtsController.class));
         currentSalePanel.setVisible(true);
         this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
         this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);

@@ -167,4 +167,8 @@ public class CashBox {
     public double totalCash() {
         return sold() - debited();
     }
+
+    public void addDebt(Debt debt) {
+        debits.add(debt);
+    }
 }

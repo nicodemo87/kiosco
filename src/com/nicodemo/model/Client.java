@@ -34,9 +34,8 @@ public class Client {
     @Column
     private String phone;
     @Column
-    private String address;
-    
-    @OneToMany(cascade = CascadeType.ALL)
+    private String address;    
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Debt> debts;
 
     public Client(String firstName, String lastName, String phone) {
@@ -117,8 +116,27 @@ public class Client {
     }
 
     public double debt() {
-        return debts.stream()
+        return getDebts().stream()
                 .mapToDouble(d->d.total())
                 .sum();
+    }
+
+    /**
+     * @return the debts
+     */
+    public Set<Debt> getDebts() {
+        return debts;
+    }
+
+    /**
+     * @param debts the debts to set
+     */
+    public void setDebts(Set<Debt> debts) {
+        this.debts = debts;
+    }
+    
+    public void addDebt(Debt debt){
+        this.debts.add(debt);
+        debt.setClient(this);
     }
 }

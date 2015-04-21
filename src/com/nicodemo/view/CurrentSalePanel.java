@@ -5,6 +5,7 @@
  */
 package com.nicodemo.view;
 
+import com.nicodemo.controller.ClientsDebtsController;
 import com.nicodemo.controller.SaleController;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.SoldItem;
@@ -26,14 +27,16 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     private SaleController saleController;
     private DefaultTableModel tableModel;
     private CashBoxPanel currentCashBoxPanel;
+    private ClientsDebtsController clientsDebtsController;
 
     /**
      * Creates new form CurrentSalePanel
      */
-    public CurrentSalePanel(SaleController saleController, CashBoxPanel currentCashBoxPanel) {
+    public CurrentSalePanel(SaleController saleController, CashBoxPanel currentCashBoxPanel, ClientsDebtsController clientsDebtsController) {
         this.saleController = saleController;
         this.saleController.initCashBox();
         this.currentCashBoxPanel = currentCashBoxPanel;
+        this.clientsDebtsController = clientsDebtsController;
         initComponents();
 
         refreshSoldItemsTable();
@@ -157,6 +160,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         });
 
         jButton_debit.setText("Debitar a Cliente");
+        jButton_debit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_debitActionPerformed(evt);
+            }
+        });
 
         jButton_cancel.setText("Cancelar");
 
@@ -265,6 +273,13 @@ public class CurrentSalePanel extends javax.swing.JPanel {
             refreshSoldItemsTable();
         }
     }//GEN-LAST:event_jButton_SellActionPerformed
+
+    private void jButton_debitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_debitActionPerformed
+        if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta? \n una vez confirmado no se puede deshacer","Confirmar Debito",JOptionPane.YES_NO_OPTION)){
+            saleController.debit(clientsDebtsController.allClients().get(0));
+            refreshSoldItemsTable();
+        }
+    }//GEN-LAST:event_jButton_debitActionPerformed
 
     private void addItemToSale() {
         try {

@@ -27,6 +27,8 @@ public class Client {
     @GeneratedValue
     @Column
     private int id;
+    @Column(unique = true)
+    private int dni;
     @Column
     private String firstName;
     @Column
@@ -38,7 +40,8 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Debt> debts;
 
-    public Client(String firstName, String lastName, String phone) {
+    public Client(int dni, String firstName, String lastName, String phone) {
+        this.dni = dni;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
@@ -138,5 +141,19 @@ public class Client {
     public void addDebt(Debt debt){
         this.debts.add(debt);
         debt.setClient(this);
+    }
+
+    /**
+     * @return the dni
+     */
+    public int getDni() {
+        return dni;
+    }
+
+    /**
+     * @param dni the dni to set
+     */
+    public void setDni(int dni) {
+        this.dni = dni;
     }
 }

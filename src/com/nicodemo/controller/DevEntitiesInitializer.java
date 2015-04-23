@@ -45,9 +45,9 @@ public class DevEntitiesInitializer {
         usersDAO.save(user);
         User.setCurrentUser(user);
         
-        Client client1 = new Client("Juan","Perez","11223344");
-        Client client2 = new Client("Maria","Rodriguez","223344");
-        Client client3 = new Client("Carlos","Sanches","15654123");
+        Client client1 = new Client(11222333,"Juan","Perez","11223344");
+        Client client2 = new Client(22333444,"Maria","Rodriguez","223344");
+        Client client3 = new Client(33444555,"Carlos","Sanches","15654123");
         
         clientsDAO.save(client1);
         clientsDAO.save(client2);

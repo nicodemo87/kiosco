@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,11 +29,13 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     private DefaultTableModel tableModel;
     private CashBoxPanel currentCashBoxPanel;
     private ClientsDebtsController clientsDebtsController;
+    private JFrame parent;
 
     /**
      * Creates new form CurrentSalePanel
      */
-    public CurrentSalePanel(SaleController saleController, CashBoxPanel currentCashBoxPanel, ClientsDebtsController clientsDebtsController) {
+    public CurrentSalePanel(JFrame parent, SaleController saleController, CashBoxPanel currentCashBoxPanel, ClientsDebtsController clientsDebtsController) {
+        this.parent = parent;
         this.saleController = saleController;
         this.saleController.initCashBox();
         this.currentCashBoxPanel = currentCashBoxPanel;
@@ -275,6 +278,16 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton_SellActionPerformed
 
     private void jButton_debitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_debitActionPerformed
+        FindClientDialog findClientDialog = new FindClientDialog(parent, true, clientsDebtsController);
+        findClientDialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                //System.exit(0);
+                findClientDialog.dispose();
+            }
+        });
+        findClientDialog.setVisible(true);
+        
         if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta? \n una vez confirmado no se puede deshacer","Confirmar Debito",JOptionPane.YES_NO_OPTION)){
             saleController.debit(clientsDebtsController.allClients().get(0));
             refreshSoldItemsTable();

@@ -7,6 +7,7 @@ package com.nicodemo.controller;
 
 import com.nicodemo.model.Client;
 import com.nicodemo.persistence.DAOs.ClientsDAO;
+import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,9 @@ public class ClientsDebtsController {
     
     public List<Client> allClients(){      
         return clientsDAO.getAll();
+    }
+
+    public List<Client> findClients(String keyword) throws ElementNotFoundException {
+        return clientsDAO.findClients(keyword);
     }
 }

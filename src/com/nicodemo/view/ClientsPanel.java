@@ -29,14 +29,14 @@ public class ClientsPanel extends javax.swing.JPanel {
 
     private void refresh() {
         DefaultTableModel dtm = new DefaultTableModel(0, 0);
-        String header[] = new String[]{"Nombre", "Apellido", "Telefono",
+        String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
             "Deuda"};
         dtm.setColumnIdentifiers(header);
         jTable_Clients.setModel(dtm);
 
         List<Client> items = this.clientsDebtsController.allClients();
 
-        items.stream().forEach(c -> dtm.addRow(new Object[]{c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
+        items.stream().forEach(c -> dtm.addRow(new Object[]{c.getDni(), c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
     }
 
     /**

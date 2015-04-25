@@ -7,6 +7,7 @@ package com.nicodemo.view;
 
 import com.nicodemo.controller.ClientsDebtsController;
 import com.nicodemo.controller.SaleController;
+import com.nicodemo.model.Client;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.SoldItem;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
@@ -279,17 +280,10 @@ public class CurrentSalePanel extends javax.swing.JPanel {
 
     private void jButton_debitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_debitActionPerformed
         FindClientDialog findClientDialog = new FindClientDialog(parent, true, clientsDebtsController);
-        findClientDialog.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                //System.exit(0);
-                findClientDialog.dispose();
-            }
-        });
-        findClientDialog.setVisible(true);
+        Client client = findClientDialog.showDialog();
         
         if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta? \n una vez confirmado no se puede deshacer","Confirmar Debito",JOptionPane.YES_NO_OPTION)){
-            saleController.debit(clientsDebtsController.allClients().get(0));
+            saleController.debit(client);
             refreshSoldItemsTable();
         }
     }//GEN-LAST:event_jButton_debitActionPerformed

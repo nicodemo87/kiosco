@@ -31,4 +31,8 @@ public class ClientsDebtsController {
     public List<Client> findClients(String keyword) throws ElementNotFoundException {
         return clientsDAO.findClients(keyword);
     }
+
+    public Client getClientByDni(int dni) throws ElementNotFoundException {
+        return clientsDAO.getByDni(dni);
+    }
 }

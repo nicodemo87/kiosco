@@ -52,8 +52,18 @@ public class ClientsDAO extends DAO<Client> {
                     .toList();
         }
         if (clients.isEmpty()) {
-            throw new ElementNotFoundException("No se encontraron clientes con dni, nombre o apellido igual a "+keyword);
+            throw new ElementNotFoundException("No se encontraron clientes con dni, nombre o apellido igual a " + keyword);
         }
-        return clients;       
+        return clients;
+    }
+
+    public Client getByDni(Integer dni) throws ElementNotFoundException {
+        List<Client> clients = streams.streamAll(entityManager, Client.class)
+                .where(c -> c.getDni() == dni)
+                .toList();
+        if (clients.isEmpty()) {
+            throw new ElementNotFoundException("No se encontraron clientes con dni " + dni);
+        }
+        return clients.get(0);
     }
 }

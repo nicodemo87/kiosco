@@ -9,6 +9,8 @@ import com.nicodemo.controller.ClientsDebtsController;
 import com.nicodemo.model.Client;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +21,7 @@ public class FindClientDialog extends java.awt.Dialog {
 
     private ClientsDebtsController clientsDebtsController;
     private DefaultTableModel clientsTableModel;
+    private Client client;
 
     /**
      * Creates new form FindClientDialog
@@ -69,6 +72,11 @@ public class FindClientDialog extends java.awt.Dialog {
         });
 
         jButton_ok.setText("Aceptar");
+        jButton_ok.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_okActionPerformed(evt);
+            }
+        });
 
         jButton_cancel.setText("Cancel");
 
@@ -151,6 +159,24 @@ public class FindClientDialog extends java.awt.Dialog {
         }
     }//GEN-LAST:event_jButton_findActionPerformed
 
+    public Client showDialog() {
+        setVisible(true);
+
+        return client;
+    }
+
+    private void jButton_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_okActionPerformed
+        int rowIndex = jTable1.getSelectedRow();
+        if (rowIndex >= 0) {
+            try {
+                int dni = Integer.parseInt(clientsTableModel.getValueAt(rowIndex, 0).toString());
+                client = clientsDebtsController.getClientByDni(dni);
+            } catch (ElementNotFoundException ex) {
+                //TODO
+            }
+        }
+    }//GEN-LAST:event_jButton_okActionPerformed
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -167,7 +193,6 @@ public class FindClientDialog extends java.awt.Dialog {
 //            }
 //        });
 //    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_cancel;

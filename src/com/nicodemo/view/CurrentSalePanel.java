@@ -53,9 +53,9 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jTable1.setModel(tableModel);
 
         Set<SoldItem> soldItems = saleController.getSoldItems();
-        
+
         jButton_Sell.setEnabled(!soldItems.isEmpty());
-        
+
         soldItems.stream()
                 .forEach(si -> tableModel.addRow(
                                 new Object[]{
@@ -65,9 +65,9 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                                     si.getQuantity()
                                 })
                 );
-        
+
         refreshTotal();
-        
+
         currentCashBoxPanel.refresh(saleController.getCurrentCashBox());
     }
 
@@ -272,7 +272,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton_addItemActionPerformed
 
     private void jButton_SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SellActionPerformed
-        if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere confirmar la venta? \n una vez confirmado no se puede deshacer","Confirmar venta",JOptionPane.YES_NO_OPTION)){
+        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere confirmar la venta? \n una vez confirmado no se puede deshacer", "Confirmar venta", JOptionPane.YES_NO_OPTION)) {
             saleController.sell();
             refreshSoldItemsTable();
         }
@@ -281,10 +281,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     private void jButton_debitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_debitActionPerformed
         FindClientDialog findClientDialog = new FindClientDialog(parent, true, clientsDebtsController);
         Client client = findClientDialog.showDialog();
-        
-        if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta? \n una vez confirmado no se puede deshacer","Confirmar Debito",JOptionPane.YES_NO_OPTION)){
-            saleController.debit(client);
-            refreshSoldItemsTable();
+        if (client != null) {
+            if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta? \n una vez confirmado no se puede deshacer", "Confirmar Debito", JOptionPane.YES_NO_OPTION)) {
+                saleController.debit(client);
+                refreshSoldItemsTable();
+            }
         }
     }//GEN-LAST:event_jButton_debitActionPerformed
 

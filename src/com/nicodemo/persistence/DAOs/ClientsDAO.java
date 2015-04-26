@@ -43,12 +43,12 @@ public class ClientsDAO extends DAO<Client> {
 
         if (clients.isEmpty()) {
             clients = streams.streamAll(entityManager, Client.class)
-                    .where(c -> JPQL.like(keyword, c.getFirstName()))
+                    .where(c -> JPQL.like(c.getFirstName(), "%" + keyword + "%"))
                     .toList();
         }
         if (clients.isEmpty()) {
             clients = streams.streamAll(entityManager, Client.class)
-                    .where(c -> JPQL.like(keyword, c.getLastName()))
+                    .where(c -> JPQL.like(c.getLastName(), "%" + keyword + "%"))
                     .toList();
         }
         if (clients.isEmpty()) {

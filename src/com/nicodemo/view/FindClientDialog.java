@@ -11,6 +11,7 @@ import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,7 +31,10 @@ public class FindClientDialog extends java.awt.Dialog {
         super(parent, modal);
         this.clientsDebtsController = clientsDebtsController;
         initComponents();
-
+        clearTableModel();       
+    }
+    
+    private void clearTableModel(){
         clientsTableModel = new DefaultTableModel(0, 0);
         String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
             "Deuda"};
@@ -79,6 +83,11 @@ public class FindClientDialog extends java.awt.Dialog {
         });
 
         jButton_cancel.setText("Cancel");
+        jButton_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_cancelActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -91,6 +100,7 @@ public class FindClientDialog extends java.awt.Dialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -153,9 +163,11 @@ public class FindClientDialog extends java.awt.Dialog {
         try {
             List<Client> clients = clientsDebtsController.findClients(jTextField_keyword.getText());
             jTextField_keyword.setText("");
+            clearTableModel();
             clients.stream().forEach(c -> clientsTableModel.addRow(new Object[]{c.getDni(), c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
+            jTable1.setRowSelectionInterval(0, 0);
         } catch (ElementNotFoundException ex) {
-            //TODO
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_jButton_findActionPerformed
 
@@ -171,11 +183,19 @@ public class FindClientDialog extends java.awt.Dialog {
             try {
                 int dni = Integer.parseInt(clientsTableModel.getValueAt(rowIndex, 0).toString());
                 client = clientsDebtsController.getClientByDni(dni);
+                this.closeDialog(null);
             } catch (ElementNotFoundException ex) {
-                //TODO
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
+        else{
+            JOptionPane.showMessageDialog(null, "Debe elegir un cliente de la lista");
+        }
     }//GEN-LAST:event_jButton_okActionPerformed
+
+    private void jButton_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelActionPerformed
+        this.closeDialog(null);
+    }//GEN-LAST:event_jButton_cancelActionPerformed
 
 //    /**
 //     * @param args the command line arguments

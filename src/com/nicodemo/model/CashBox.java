@@ -40,16 +40,17 @@ public class CashBox {
     @ManyToOne(optional = false)
     private User user;
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Sale> sales;    
+    private Set<Sale> sales;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Debt> debits;
 
-    public CashBox(){
+    public CashBox() {
         startDateTime = new Date();
         sales = new HashSet<>();
         debits = new HashSet<>();
         user = User.getCurrentUser();
     }
+
     /**
      * @return the id
      */
@@ -152,7 +153,7 @@ public class CashBox {
         this.sales = sales;
     }
 
-    public double sold() {        
+    public double sold() {
         return sales.stream()
                 .mapToDouble(s -> s.total())
                 .sum();
@@ -170,5 +171,14 @@ public class CashBox {
 
     public void addDebt(Debt debt) {
         debits.add(debt);
+    }
+
+    public void removeSale(Sale saleToRemove) throws Exception {
+        if (!debits.stream().anyMatch(d -> d.getSale().equals(saleToRemove))) {
+            sales.remove(saleToRemove);
+        }
+        else{
+            throw new Exception("No se puede remover la venta por que la misma pertenece a una deuda");
+        }
     }
 }

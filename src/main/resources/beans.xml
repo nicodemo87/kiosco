@@ -18,4 +18,6 @@
     <bean class="com.nicodemo.persistence.DAOs.CashBoxesDAO"/>
     <bean class="com.nicodemo.persistence.DAOs.UsersDAO"/>
     <bean class="com.nicodemo.persistence.DAOs.ClientsDAO"/>
+    
+    <bean class="com.nicodemo.view.LatestSalesPanel"/>
 </beans>

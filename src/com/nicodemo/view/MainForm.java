@@ -49,6 +49,11 @@ public class MainForm extends javax.swing.JFrame {
         clientsPanel.setVisible(true);
         this.jPanel_tabClients.setLayout(new BorderLayout());
         this.jPanel_tabClients.add(clientsPanel, BorderLayout.CENTER);
+        
+        LatestSalesPanel latestSalesPanel = context.getBean(LatestSalesPanel.class);
+        latestSalesPanel.setVisible(true);
+        this.jPanel_tabLastestSales.setLayout(new BorderLayout());
+        this.jPanel_tabLastestSales.add(latestSalesPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -65,6 +70,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabItems = new javax.swing.JPanel();
         jPanel_tabCurrentCashBox = new javax.swing.JPanel();
         jPanel_tabClients = new javax.swing.JPanel();
+        jPanel_tabLastestSales = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
@@ -120,6 +126,19 @@ public class MainForm extends javax.swing.JFrame {
         );
 
         jTabbedPane_main.addTab("Clientes", jPanel_tabClients);
+
+        javax.swing.GroupLayout jPanel_tabLastestSalesLayout = new javax.swing.GroupLayout(jPanel_tabLastestSales);
+        jPanel_tabLastestSales.setLayout(jPanel_tabLastestSalesLayout);
+        jPanel_tabLastestSalesLayout.setHorizontalGroup(
+            jPanel_tabLastestSalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 595, Short.MAX_VALUE)
+        );
+        jPanel_tabLastestSalesLayout.setVerticalGroup(
+            jPanel_tabLastestSalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 361, Short.MAX_VALUE)
+        );
+
+        jTabbedPane_main.addTab("Últimas Ventas", jPanel_tabLastestSales);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -182,6 +201,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel_tabCurrentCashBox;
     private javax.swing.JPanel jPanel_tabCurrentSale;
     private javax.swing.JPanel jPanel_tabItems;
+    private javax.swing.JPanel jPanel_tabLastestSales;
     private javax.swing.JTabbedPane jTabbedPane_main;
     // End of variables declaration//GEN-END:variables
 }

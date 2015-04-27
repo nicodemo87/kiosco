@@ -36,6 +36,7 @@ public class SaleController {
         this.itemsDAO = itemsDAO;
         this.cashBoxesDAO = cashBoxesDAO;
         this.clientsDAO = clientsDAO;
+        initCashBox();
     }
     
     public void newSale(){
@@ -73,7 +74,7 @@ public class SaleController {
         return this.cashBox;
     }
 
-    public void initCashBox() {
+    public final void initCashBox() {
         cashBox = new CashBox();
         sale = new Sale();
     }
@@ -85,6 +86,11 @@ public class SaleController {
         cashBox.addDebt(debt);
         cashBoxesDAO.save(cashBox);
         sale = new Sale();       
+    }
+
+    public void removeSale(Sale saleToRemove) throws Exception {        
+        cashBox.removeSale(saleToRemove);
+        cashBoxesDAO.save(cashBox);
     }
 
 }

@@ -7,6 +7,7 @@ package com.nicodemo.model;
 
 import java.util.Date;
 import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,24 +28,27 @@ public class Debt {
     @Column
     private int id;
     @ManyToOne
-    private Sale sale;    
+    private Sale sale;
     @Column
-    private float paid;
+    private double paid;
+    @Column
+    private double debtAmount;
     @Column
     private Date date;
     @Column
-    private Date paidDate;    
+    private Date paidDate;
     @ManyToOne
     private User user;
     @ManyToOne
     private Client client;
 
-    public Debt(Sale sale){
+    public Debt(Sale sale) {
         this.sale = sale;
         this.user = User.getCurrentUser();
         this.date = new Date();
-    }    
-    
+        this.debtAmount = sale.total();
+    }
+
     /**
      * @return the id
      */
@@ -76,14 +80,14 @@ public class Debt {
     /**
      * @return the paid
      */
-    public float getPaid() {
+    public double getPaid() {
         return paid;
     }
 
     /**
      * @param paid the paid to set
      */
-    public void setPaid(float paid) {
+    public void setPaid(double paid) {
         this.paid = paid;
     }
 
@@ -129,8 +133,8 @@ public class Debt {
         this.user = user;
     }
 
-    public double total() {
-        return sale.total();
+    public double totalDebt() {
+        return debtAmount - paid;
     }
 
     /**
@@ -145,5 +149,33 @@ public class Debt {
      */
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public boolean hasDebt() {
+        return paid < debtAmount;
+    }
+
+    public void cancel(double amount) {
+        if (amount > 0) {
+            if (amount > debtAmount - paid) {
+                paid = debtAmount;
+            } else {
+                paid = paid + amount;
+            }
+        }
+    }
+
+    /**
+     * @return the debtAmount
+     */
+    public double getDebtAmount() {
+        return debtAmount;
+    }
+
+    /**
+     * @param debtAmount the debtAmount to set
+     */
+    public void setDebtAmount(double debtAmount) {
+        this.debtAmount = debtAmount;
     }
 }

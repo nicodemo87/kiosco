@@ -5,8 +5,13 @@
  */
 package com.nicodemo.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +41,7 @@ public class Client {
     @Column
     private String phone;
     @Column
-    private String address;    
+    private String address;
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private Set<Debt> debts;
 
@@ -120,7 +125,7 @@ public class Client {
 
     public double debt() {
         return getDebts().stream()
-                .mapToDouble(d->d.total())
+                .mapToDouble(d -> d.totalDebt())
                 .sum();
     }
 
@@ -137,8 +142,8 @@ public class Client {
     public void setDebts(Set<Debt> debts) {
         this.debts = debts;
     }
-    
-    public void addDebt(Debt debt){
+
+    public void addDebt(Debt debt) {
         this.debts.add(debt);
         debt.setClient(this);
     }
@@ -155,5 +160,18 @@ public class Client {
      */
     public void setDni(int dni) {
         this.dni = dni;
+    }
+
+    public void cancelDebt(double amount) {
+        List<Debt> unPaidDebts = debts.stream()
+                .filter(d -> d.hasDebt())
+                .sorted((Debt d1, Debt d2) -> d1.getDate().compareTo(d2.getDate()))
+                .collect(Collectors.toList());
+
+        for (Debt debt : unPaidDebts) {
+            double auxDebt = debt.totalDebt();
+            debt.cancel(amount);
+            amount = amount - auxDebt;
+        }
     }
 }

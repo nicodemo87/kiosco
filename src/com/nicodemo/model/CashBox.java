@@ -161,7 +161,7 @@ public class CashBox {
 
     public double debited() {
         return debits.stream()
-                .mapToDouble(d -> d.total())
+                .mapToDouble(d -> d.totalDebt())
                 .sum();
     }
 
@@ -176,8 +176,7 @@ public class CashBox {
     public void removeSale(Sale saleToRemove) throws Exception {
         if (!debits.stream().anyMatch(d -> d.getSale().equals(saleToRemove))) {
             sales.remove(saleToRemove);
-        }
-        else{
+        } else {
             throw new Exception("No se puede remover la venta por que la misma pertenece a una deuda");
         }
     }

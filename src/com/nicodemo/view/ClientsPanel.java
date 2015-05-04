@@ -106,6 +106,11 @@ public class ClientsPanel extends javax.swing.JPanel {
         jButton_update.setText("Modificar Cliente");
 
         jButton_payDebt.setText("Saldar Deuda");
+        jButton_payDebt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_payDebtActionPerformed(evt);
+            }
+        });
 
         jButton_details.setText("Ver Deudas");
 
@@ -157,12 +162,12 @@ public class ClientsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_addClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addClientActionPerformed
-        
+
     }//GEN-LAST:event_jButton_addClientActionPerformed
 
     private void jButton_findActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_findActionPerformed
         try {
-            List<Client> clients = null;
+            List<Client> clients;
             if (jTextField_keyword.getText().isEmpty()) {
                 clients = clientsDebtsController.allClients();
             } else {
@@ -176,6 +181,21 @@ public class ClientsPanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_jButton_findActionPerformed
+
+    private void jButton_payDebtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_payDebtActionPerformed
+        Client client = getSelectedClient();
+        if (client != null) {
+            try {
+                double amount = Double.parseDouble(JOptionPane
+                        .showInputDialog("Ingrese el monto que el cliente desea pagar", client.debt()));
+                client.cancelDebt(amount);
+                jTextField_keyword.setText(String.valueOf(client.getDni()));
+                jButton_findActionPerformed(evt);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_jButton_payDebtActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

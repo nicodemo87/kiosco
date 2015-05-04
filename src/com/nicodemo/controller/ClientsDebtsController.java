@@ -6,6 +6,7 @@
 package com.nicodemo.controller;
 
 import com.nicodemo.model.Client;
+import com.nicodemo.model.Payment;
 import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.Collections;
@@ -18,10 +19,12 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ClientsDebtsController {
     private ClientsDAO clientsDAO;
+    private SaleController saleController;
     
     @Autowired
-    public ClientsDebtsController(ClientsDAO clientsDAO){
+    public ClientsDebtsController(ClientsDAO clientsDAO, SaleController saleController){
         this.clientsDAO = clientsDAO;
+        this.saleController = saleController;
     }
     
     public List<Client> allClients(){      
@@ -34,5 +37,10 @@ public class ClientsDebtsController {
 
     public Client getClientByDni(int dni) throws ElementNotFoundException {
         return clientsDAO.getByDni(dni);
+    }
+
+    public void addPayments(Client client, double amount) {
+        List<Payment> payments = client.cancelDebt(amount);
+        saleController.addPayments(payments);
     }
 }

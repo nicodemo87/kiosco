@@ -9,6 +9,7 @@ import com.nicodemo.model.CashBox;
 import com.nicodemo.model.Client;
 import com.nicodemo.model.Debt;
 import com.nicodemo.model.Item;
+import com.nicodemo.model.Payment;
 import com.nicodemo.model.Sale;
 import com.nicodemo.model.SoldItem;
 import com.nicodemo.persistence.DAOs.CashBoxesDAO;
@@ -24,30 +25,31 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Nico
  */
 public class SaleController {
+
     private CashBox cashBox;
     private Sale sale;
-    
+
     private ItemsDAO itemsDAO;
     private CashBoxesDAO cashBoxesDAO;
     private ClientsDAO clientsDAO;
-    
+
     @Autowired
-    public SaleController(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO, ClientsDAO clientsDAO){
+    public SaleController(ItemsDAO itemsDAO, CashBoxesDAO cashBoxesDAO, ClientsDAO clientsDAO) {
         this.itemsDAO = itemsDAO;
         this.cashBoxesDAO = cashBoxesDAO;
         this.clientsDAO = clientsDAO;
         initCashBox();
     }
-    
-    public void newSale(){
+
+    public void newSale() {
         sale = new Sale();
     }
-    
-    public Sale getSale(){
+
+    public Sale getSale() {
         return sale;
     }
-    
-    public List<Item> getItems(){
+
+    public List<Item> getItems() {
         return itemsDAO.getAll();
     }
 
@@ -62,12 +64,12 @@ public class SaleController {
     public double getTotal() {
         return sale.total();
     }
-    
-    public void sell(){
+
+    public void sell() {
         cashBox.addSale(sale);
         cashBoxesDAO.save(cashBox);
-        sale = new Sale();       
-        
+        sale = new Sale();
+
     }
 
     public CashBox getCurrentCashBox() {
@@ -82,15 +84,21 @@ public class SaleController {
     public void debit(Client client) {
         cashBox.addSale(sale);
         Debt debt = new Debt(sale);
-        client.addDebt(debt);        
+        client.addDebt(debt);
         cashBox.addDebt(debt);
         cashBoxesDAO.save(cashBox);
-        sale = new Sale();       
+        sale = new Sale();
     }
 
-    public void removeSale(Sale saleToRemove) throws Exception {        
+    public void removeSale(Sale saleToRemove) throws Exception {
         cashBox.removeSale(saleToRemove);
         cashBoxesDAO.save(cashBox);
     }
 
+    public void addPayments(List<Payment> payments) {
+        if (!payments.isEmpty()) {
+            cashBox.addPayments(payments);
+            cashBoxesDAO.save(cashBox);
+        }
+    }
 }

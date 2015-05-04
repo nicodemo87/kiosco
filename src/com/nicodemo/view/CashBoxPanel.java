@@ -8,6 +8,7 @@ package com.nicodemo.view;
 import com.nicodemo.controller.SaleController;
 import com.nicodemo.model.CashBox;
 import com.nicodemo.model.User;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -30,6 +31,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
         jLabel_initial.setText(String.valueOf(cashBox.getStartAmount()));
         jLabel_sold.setText(String.valueOf(cashBox.sold()));
         jLabel_debited.setText(String.valueOf(cashBox.debited()));
+        jLabel_payments.setText(String.valueOf(cashBox.payments()));
         jLabel_totalCash.setText(String.valueOf(cashBox.totalCash()));
     }
 
@@ -59,6 +61,9 @@ public class CashBoxPanel extends javax.swing.JPanel {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel_totalCash = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel_payments = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Caja");
@@ -111,6 +116,15 @@ public class CashBoxPanel extends javax.swing.JPanel {
         jLabel_totalCash.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         jLabel_totalCash.setText("0");
 
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setText("Deudas Cobradas:");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setText("$");
+
+        jLabel_payments.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel_payments.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,9 +141,14 @@ public class CashBoxPanel extends javax.swing.JPanel {
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel10))
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_totalCash))
                             .addComponent(jLabel_openDate)
                             .addComponent(jLabel_User)
                             .addGroup(layout.createSequentialGroup()
@@ -145,10 +164,10 @@ public class CashBoxPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel_debited))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
+                                .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel_totalCash)))))
-                .addContainerGap(226, Short.MAX_VALUE))
+                                .addComponent(jLabel_payments)))))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,10 +199,16 @@ public class CashBoxPanel extends javax.swing.JPanel {
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel_payments)
+                        .addComponent(jLabel13)))
+                .addGap(9, 9, 9)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel_totalCash))
-                .addContainerGap(126, Short.MAX_VALUE))
+                    .addComponent(jLabel_totalCash)
+                    .addComponent(jLabel11))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -192,6 +217,8 @@ public class CashBoxPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -204,6 +231,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel_debited;
     private javax.swing.JLabel jLabel_initial;
     private javax.swing.JLabel jLabel_openDate;
+    private javax.swing.JLabel jLabel_payments;
     private javax.swing.JLabel jLabel_sold;
     private javax.swing.JLabel jLabel_totalCash;
     // End of variables declaration//GEN-END:variables

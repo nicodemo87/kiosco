@@ -5,8 +5,10 @@
  */
 package com.nicodemo.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,12 +45,15 @@ public class CashBox {
     private Set<Sale> sales;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Debt> debits;
+    @OneToMany
+    private List<Payment> payments;
 
     public CashBox() {
         startDateTime = new Date();
         sales = new HashSet<>();
         debits = new HashSet<>();
         user = User.getCurrentUser();
+        payments = new ArrayList<>();
     }
 
     /**
@@ -166,7 +171,7 @@ public class CashBox {
     }
 
     public double totalCash() {
-        return sold() - debited();
+        return sold() + payments() - debited();
     }
 
     public void addDebt(Debt debt) {
@@ -179,5 +184,29 @@ public class CashBox {
         } else {
             throw new Exception("No se puede remover la venta por que la misma pertenece a una deuda");
         }
+    }
+    
+    public void addPayments(List<Payment> payments) {
+        this.getPayments().addAll(payments);
+    }
+
+    /**
+     * @return the payments
+     */
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    /**
+     * @param payments the payments to set
+     */
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public double payments() {
+        return payments.stream()
+                .mapToDouble(p->p.getAmount())
+                .sum();
     }
 }

@@ -113,6 +113,11 @@ public class ClientsPanel extends javax.swing.JPanel {
         });
 
         jButton_details.setText("Ver Deudas");
+        jButton_details.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_detailsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -188,7 +193,7 @@ public class ClientsPanel extends javax.swing.JPanel {
             try {
                 double amount = Double.parseDouble(JOptionPane
                         .showInputDialog("Ingrese el monto que el cliente desea pagar", client.debt()));
-                client.cancelDebt(amount);
+                clientsDebtsController.addPayments(client, amount);
                 jTextField_keyword.setText(String.valueOf(client.getDni()));
                 jButton_findActionPerformed(evt);
             } catch (Exception ex) {
@@ -196,6 +201,14 @@ public class ClientsPanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton_payDebtActionPerformed
+
+    private void jButton_detailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_detailsActionPerformed
+        Client client = this.getSelectedClient();
+        DebtsDetailsDialog dialog = new DebtsDetailsDialog(null, true, client, clientsDebtsController);
+        dialog.setVisible(true);
+        jTextField_keyword.setText(String.valueOf(client.getDni()));
+        jButton_findActionPerformed(evt);
+    }//GEN-LAST:event_jButton_detailsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

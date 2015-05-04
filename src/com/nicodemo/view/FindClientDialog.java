@@ -39,7 +39,7 @@ public class FindClientDialog extends java.awt.Dialog {
         String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
             "Deuda"};
         clientsTableModel.setColumnIdentifiers(header);
-        jTable1.setModel(clientsTableModel);
+        jTable_Clients.setModel(clientsTableModel);
     }
 
     /**
@@ -57,7 +57,7 @@ public class FindClientDialog extends java.awt.Dialog {
         jButton_ok = new javax.swing.JButton();
         jButton_cancel = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_Clients = new javax.swing.JTable();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -89,7 +89,7 @@ public class FindClientDialog extends java.awt.Dialog {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Clients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -100,8 +100,8 @@ public class FindClientDialog extends java.awt.Dialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane2.setViewportView(jTable1);
+        jTable_Clients.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane2.setViewportView(jTable_Clients);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,7 +165,7 @@ public class FindClientDialog extends java.awt.Dialog {
             jTextField_keyword.setText("");
             clearTableModel();
             clients.stream().forEach(c -> clientsTableModel.addRow(new Object[]{c.getDni(), c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
-            jTable1.setRowSelectionInterval(0, 0);
+            jTable_Clients.setRowSelectionInterval(0, 0);
         } catch (ElementNotFoundException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
@@ -178,7 +178,7 @@ public class FindClientDialog extends java.awt.Dialog {
     }
 
     private void jButton_okActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_okActionPerformed
-        int rowIndex = jTable1.getSelectedRow();
+        int rowIndex = jTable_Clients.getSelectedRow();
         if (rowIndex >= 0) {
             try {
                 int dni = Integer.parseInt(clientsTableModel.getValueAt(rowIndex, 0).toString());
@@ -221,7 +221,7 @@ public class FindClientDialog extends java.awt.Dialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_Clients;
     private javax.swing.JTextField jTextField_keyword;
     // End of variables declaration//GEN-END:variables
 }

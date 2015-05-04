@@ -11,6 +11,7 @@
     <class>com.nicodemo.model.SoldItem</class>
     <class>com.nicodemo.model.User</class>
     <class>com.nicodemo.persistence.DAOs.CashBoxesDAO</class>
+    <class>com.nicodemo.model.Payment</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/kioscomanager?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value="1234"/>

@@ -125,7 +125,7 @@ public class Client {
 
     public double debt() {
         return getDebts().stream()
-                .mapToDouble(d -> d.totalDebt())
+                .mapToDouble(d -> d.currentDebtAmount())
                 .sum();
     }
 
@@ -162,16 +162,22 @@ public class Client {
         this.dni = dni;
     }
 
-    public void cancelDebt(double amount) {
+    public List<Payment> cancelDebt(double amount) {
         List<Debt> unPaidDebts = debts.stream()
                 .filter(d -> d.hasDebt())
                 .sorted((Debt d1, Debt d2) -> d1.getDate().compareTo(d2.getDate()))
                 .collect(Collectors.toList());
-
+        List<Payment> generatedPayments = new ArrayList<Payment>();
+                
         for (Debt debt : unPaidDebts) {
-            double auxDebt = debt.totalDebt();
-            debt.cancel(amount);
+            double auxDebt = debt.currentDebtAmount();
+            Payment generatedPayment = debt.cancel(amount);
+            if(generatedPayment != null){
+                generatedPayments.add(generatedPayment);
+            }
             amount = amount - auxDebt;
         }
+        
+        return generatedPayments;
     }
 }

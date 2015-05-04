@@ -5,14 +5,15 @@
  */
 package com.nicodemo.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,23 +31,23 @@ public class Debt {
     @ManyToOne
     private Sale sale;
     @Column
-    private double paid;
-    @Column
-    private double debtAmount;
+    private double originalDebtAmount;
     @Column
     private Date date;
-    @Column
-    private Date paidDate;
     @ManyToOne
     private User user;
     @ManyToOne
     private Client client;
 
+    @OneToMany
+    private List<Payment> payments;
+
     public Debt(Sale sale) {
         this.sale = sale;
         this.user = User.getCurrentUser();
         this.date = new Date();
-        this.debtAmount = sale.total();
+        this.originalDebtAmount = sale.total();
+        this.payments = new ArrayList<>();
     }
 
     /**
@@ -78,20 +79,6 @@ public class Debt {
     }
 
     /**
-     * @return the paid
-     */
-    public double getPaid() {
-        return paid;
-    }
-
-    /**
-     * @param paid the paid to set
-     */
-    public void setPaid(double paid) {
-        this.paid = paid;
-    }
-
-    /**
      * @return the date
      */
     public Date getDate() {
@@ -103,20 +90,6 @@ public class Debt {
      */
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    /**
-     * @return the paidDate
-     */
-    public Date getPaidDate() {
-        return paidDate;
-    }
-
-    /**
-     * @param paidDate the paidDate to set
-     */
-    public void setPaidDate(Date paidDate) {
-        this.paidDate = paidDate;
     }
 
     /**
@@ -133,8 +106,10 @@ public class Debt {
         this.user = user;
     }
 
-    public double totalDebt() {
-        return debtAmount - paid;
+    public double totalPaid() {
+        return payments.stream()
+                .mapToDouble(p -> p.getAmount())
+                .sum();
     }
 
     /**
@@ -152,30 +127,52 @@ public class Debt {
     }
 
     public boolean hasDebt() {
-        return paid < debtAmount;
+        return totalPaid() < originalDebtAmount;
+    }
+    
+    public double currentDebtAmount(){
+        return originalDebtAmount - totalPaid();
     }
 
-    public void cancel(double amount) {
-        if (amount > 0) {
-            if (amount > debtAmount - paid) {
-                paid = debtAmount;
+    public Payment cancel(double amount) {
+        Payment payment = null;
+        if (amount > 0 && hasDebt()) {
+            if (amount > currentDebtAmount()) {
+                payment = new Payment(currentDebtAmount());
             } else {
-                paid = paid + amount;
+                payment = new Payment(amount);
             }
-        }
+            payments.add(payment);
+        }        
+        return payment;
     }
+    
 
     /**
      * @return the debtAmount
      */
-    public double getDebtAmount() {
-        return debtAmount;
+    public double getOriginalDebtAmount() {
+        return originalDebtAmount;
     }
 
     /**
      * @param debtAmount the debtAmount to set
      */
-    public void setDebtAmount(double debtAmount) {
-        this.debtAmount = debtAmount;
+    public void setOriginalDebtAmount(double debtAmount) {
+        this.originalDebtAmount = debtAmount;
+    }
+
+    /**
+     * @return the payments
+     */
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    /**
+     * @param payments the payments to set
+     */
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 }

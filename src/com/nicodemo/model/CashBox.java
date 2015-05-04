@@ -161,7 +161,7 @@ public class CashBox {
 
     public double debited() {
         return debits.stream()
-                .mapToDouble(d -> d.totalDebt())
+                .mapToDouble(d -> d.getOriginalDebtAmount())
                 .sum();
     }
 

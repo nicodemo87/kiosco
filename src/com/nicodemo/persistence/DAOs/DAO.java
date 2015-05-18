@@ -42,7 +42,7 @@ abstract public class DAO<T> {
     public T update(T model) {
         try {
             entityManager.getTransaction().begin();
-            entityManager.persist(model);
+            entityManager.merge(model);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();

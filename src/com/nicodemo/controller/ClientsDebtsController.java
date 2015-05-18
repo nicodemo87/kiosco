@@ -41,6 +41,7 @@ public class ClientsDebtsController {
 
     public void addPayments(Client client, double amount) {
         List<Payment> payments = client.cancelDebt(amount);
+        clientsDAO.save(client);
         saleController.addPayments(payments);
     }
 }

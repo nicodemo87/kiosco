@@ -42,7 +42,7 @@ public class Client {
     private String phone;
     @Column
     private String address;
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.MERGE)
     private Set<Debt> debts;
 
     public Client(int dni, String firstName, String lastName, String phone) {

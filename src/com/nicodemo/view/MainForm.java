@@ -9,6 +9,8 @@ import com.nicodemo.controller.ClientsDebtsController;
 import com.nicodemo.controller.DevEntitiesInitializer;
 import com.nicodemo.controller.ItemsController;
 import com.nicodemo.controller.SaleController;
+import com.nicodemo.controller.UsersController;
+import com.nicodemo.model.User;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import java.awt.BorderLayout;
 import org.springframework.context.ApplicationContext;
@@ -30,30 +32,43 @@ public class MainForm extends javax.swing.JFrame {
 
         initComponents();
 
+        // *** Current CashBox ***
         CashBoxPanel currentCashBoxPanel = new CashBoxPanel();
-        currentCashBoxPanel.setVisible(true);
+        currentCashBoxPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));        
         this.jPanel_tabCurrentCashBox.setLayout(new BorderLayout());
         this.jPanel_tabCurrentCashBox.add(currentCashBoxPanel, BorderLayout.CENTER);
-
+        this.jPanel_tabCurrentCashBox.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
+        
+        // *** Current Sale ***
         CurrentSalePanel currentSalePanel = new CurrentSalePanel(this, context.getBean(SaleController.class), currentCashBoxPanel, context.getBean(ClientsDebtsController.class));
-        currentSalePanel.setVisible(true);
+        currentSalePanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
         this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
         this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);
+        this.jPanel_tabCurrentSale.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
 
+        // *** Items ***
         ItemsPanel itemsPanel = new ItemsPanel(this, context.getBean(ItemsController.class));
-        itemsPanel.setVisible(true);
+        itemsPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.ItemsPanel));
         this.jPanel_tabItems.setLayout(new BorderLayout());
         this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);
 
+        // *** Clients ***       
         ClientsPanel clientsPanel = new ClientsPanel(context.getBean(ClientsDebtsController.class));
-        clientsPanel.setVisible(true);
+        clientsPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.ClientsPanel));
         this.jPanel_tabClients.setLayout(new BorderLayout());
         this.jPanel_tabClients.add(clientsPanel, BorderLayout.CENTER);
         
+        // *** Latest Sales ***
         LatestSalesPanel latestSalesPanel = context.getBean(LatestSalesPanel.class);
-        latestSalesPanel.setVisible(true);
+        latestSalesPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.LatestSalesPanel));
         this.jPanel_tabLastestSales.setLayout(new BorderLayout());
         this.jPanel_tabLastestSales.add(latestSalesPanel, BorderLayout.CENTER);
+        
+        // *** Users ***
+        UsersPanel usersPanel = new UsersPanel(context.getBean(UsersController.class));
+        usersPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UsersPanel));
+        this.jPanel_Users.setLayout(new BorderLayout());
+        this.jPanel_Users.add(usersPanel, BorderLayout.CENTER);
     }
 
     /**
@@ -71,6 +86,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabCurrentCashBox = new javax.swing.JPanel();
         jPanel_tabClients = new javax.swing.JPanel();
         jPanel_tabLastestSales = new javax.swing.JPanel();
+        jPanel_Users = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
@@ -140,6 +156,19 @@ public class MainForm extends javax.swing.JFrame {
 
         jTabbedPane_main.addTab("Últimas Ventas", jPanel_tabLastestSales);
 
+        javax.swing.GroupLayout jPanel_UsersLayout = new javax.swing.GroupLayout(jPanel_Users);
+        jPanel_Users.setLayout(jPanel_UsersLayout);
+        jPanel_UsersLayout.setHorizontalGroup(
+            jPanel_UsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 595, Short.MAX_VALUE)
+        );
+        jPanel_UsersLayout.setVerticalGroup(
+            jPanel_UsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 361, Short.MAX_VALUE)
+        );
+
+        jTabbedPane_main.addTab("Users", jPanel_Users);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,6 +226,7 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel_Users;
     private javax.swing.JPanel jPanel_tabClients;
     private javax.swing.JPanel jPanel_tabCurrentCashBox;
     private javax.swing.JPanel jPanel_tabCurrentSale;

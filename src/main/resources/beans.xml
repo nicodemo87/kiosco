@@ -12,6 +12,7 @@
     <bean class="com.nicodemo.controller.SaleController"/>
     <bean class="com.nicodemo.controller.DevEntitiesInitializer"/>
     <bean class="com.nicodemo.controller.ClientsDebtsController"/>
+    <bean class="com.nicodemo.controller.UsersController"/>
         
     <bean class="com.nicodemo.persistence.DAOs.ItemsDAO"/>
     <bean class="com.nicodemo.persistence.DAOs.SalesDAO"/>

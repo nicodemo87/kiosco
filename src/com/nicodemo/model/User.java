@@ -6,9 +6,13 @@
 package com.nicodemo.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -22,8 +26,31 @@ import javax.persistence.Table;
 @Table
 public class User {
 
+    public enum Permission {
+
+        Root("Todos los permisos"),
+        CashBoxPanel("Ver Caja"),
+        ClientsPanel("Ver Clientes"),
+        CurrentSalePanel("Operar venta actual"),
+        DebtsDetailsDialog("Cobrar deuda de Cliente"),
+        FindClientDialog("Buscar clientes"),
+        ItemsPanel("Ver Articulos"),
+        LatestSalesPanel("Ver ultimas ventas"),
+        UsersPanel("Administrar usuarios");
+
+        private String description;
+
+        private Permission(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
     private static User currentUser;
-    
+
     /**
      * @return the curretnUser
      */
@@ -45,14 +72,19 @@ public class User {
     @Column
     private String name;
     @Column
-    private String password;    
+    private String password;
     @OneToMany
     private Set<Rol> roles;
 
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    private Set<Permission> permissions;
+
     public User(String name) {
         this.name = name;
+        this.permissions = new HashSet();
     }
-    
+
     /**
      * @return the id
      */
@@ -107,5 +139,25 @@ public class User {
      */
     public void setRoles(Set<Rol> roles) {
         this.roles = roles;
+    }
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
+    }
+
+    public void addPermission(Permission permission) {
+        this.permissions.add(permission);
+    }
+
+    public boolean hasPermission(Permission permission) {
+        return this.permissions.contains(permission);
+    }
+    
+    public boolean hasPermissionOrIsRoot(Permission permission) {
+        return this.permissions.contains(permission) || this.permissions.contains(Permission.Root);
     }
 }

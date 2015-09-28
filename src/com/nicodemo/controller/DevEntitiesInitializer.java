@@ -42,6 +42,9 @@ public class DevEntitiesInitializer {
         itemsDAO.save(item3);
         
         User user = new User("nicodemo");
+        user.addPermission(User.Permission.Root);
+        user.addPermission(User.Permission.CashBoxPanel);
+        
         usersDAO.save(user);
         User.setCurrentUser(user);
         

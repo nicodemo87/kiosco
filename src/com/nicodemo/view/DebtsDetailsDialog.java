@@ -256,6 +256,7 @@ public class DebtsDetailsDialog extends javax.swing.JDialog {
         try {
             double amount = Double.parseDouble(JOptionPane
                     .showInputDialog("Ingrese el monto que el cliente desea pagar", client.debt()));
+            
             clientsDebtsController.addPayments(client, amount);
             int rowIndex = jTable_debts.getSelectedRow();
             refreshDebts();

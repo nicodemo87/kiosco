@@ -34,9 +34,12 @@ public class User {
         CurrentSalePanel("Operar venta actual"),
         DebtsDetailsDialog("Cobrar deuda de Cliente"),
         FindClientDialog("Buscar clientes"),
-        ItemsPanel("Ver Articulos"),
+        ItemsPanel("Ver Artículos"),
         LatestSalesPanel("Ver ultimas ventas"),
-        UsersPanel("Administrar usuarios");
+        UsersPanel("Administrar usuarios"), 
+        AddItem("Agregar nuevo Artículo"), 
+        UpdateItem("Modificar datos de Artículo"),
+        UpdateItemStock("Puede editar Stock");
 
         private String description;
 
@@ -51,6 +54,9 @@ public class User {
 
     private static User currentUser;
 
+    public User() {
+    }    
+    
     /**
      * @return the curretnUser
      */

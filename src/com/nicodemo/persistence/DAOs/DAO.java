@@ -20,9 +20,10 @@ abstract public class DAO<T> {
 
     protected EntityManager entityManager;
     protected JinqJPAStreamProvider streams;
+    protected EntityManagerFactory entityManagerFactory;
 
     public DAO() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("KioscoManagerPU");
+        entityManagerFactory = Persistence.createEntityManagerFactory("KioscoManagerPU");
         entityManager = entityManagerFactory.createEntityManager();
         streams = new JinqJPAStreamProvider(entityManager.getMetamodel());
     }
@@ -33,7 +34,9 @@ abstract public class DAO<T> {
             entityManager.persist(model);
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
-            entityManager.getTransaction().rollback();
+            if(entityManager.getTransaction().isActive())
+                entityManager.getTransaction().rollback();
+            entityManager = entityManagerFactory.createEntityManager();
             throw ex;
         }
         return model;
@@ -46,6 +49,7 @@ abstract public class DAO<T> {
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
+            entityManager = entityManagerFactory.createEntityManager();
             throw ex;
         }
         return model;
@@ -58,6 +62,7 @@ abstract public class DAO<T> {
             entityManager.getTransaction().commit();
         } catch (Exception ex) {
             entityManager.getTransaction().rollback();
+            entityManager = entityManagerFactory.createEntityManager();
             throw ex;
         }
     }

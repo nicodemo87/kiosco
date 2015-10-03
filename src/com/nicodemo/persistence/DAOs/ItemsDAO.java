@@ -45,5 +45,4 @@ public class ItemsDAO extends DAO<Item> {
                 .toList();
         return items;
     }
-
 }

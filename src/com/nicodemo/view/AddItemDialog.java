@@ -6,6 +6,8 @@
 package com.nicodemo.view;
 
 import com.nicodemo.controller.ItemsController;
+import com.nicodemo.model.Item;
+import com.nicodemo.model.User;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,14 +17,44 @@ import javax.swing.JOptionPane;
 public class AddItemDialog extends javax.swing.JDialog {
 
     private ItemsController itemsController;
-
+    private Item item;
+    private int prevStock;
+    private boolean update;
     /**
      * Creates new form AddItemDialog
      */
-    public AddItemDialog(java.awt.Frame parent, boolean modal, ItemsController itemsController) {
+    public AddItemDialog(java.awt.Frame parent, boolean modal, ItemsController itemsController, Item item) {
         super(parent, modal);
         this.itemsController = itemsController;
         initComponents();
+        
+        if(item == null){
+            this.item = new Item();
+            prevStock = 0;
+        }
+        else{
+            this.item = item;
+            jLabel_title.setText("Modificar Artículo");
+            jButton_save.setText("Guardar");
+            update = true;            
+            jTextField_stock.setEditable(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UpdateItemStock));
+        }
+        prevStock = this.item.getStock();
+        jTextField_code.setText(this.item.getCode()); 
+        jTextField_description.setText(this.item.getDescription());
+        jTextField_cost.setText(String.valueOf(this.item.getCost())); 
+        jTextField_price.setText(String.valueOf(this.item.getPrice())); 
+        jTextField_stock.setText(String.valueOf(this.item.getStock())); 
+    }
+    
+    private Item buildItem(){
+        item.setCode(jTextField_code.getText());
+        item.setDescription(jTextField_description.getText());
+        item.setCost(Float.parseFloat(jTextField_cost.getText()));
+        item.setPrice(Float.parseFloat(jTextField_price.getText()));
+        item.setStock(Integer.parseInt(jTextField_stock.getText()));
+        
+        return item;
     }
 
     /**
@@ -37,7 +69,7 @@ public class AddItemDialog extends javax.swing.JDialog {
         jTextField_description = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel_title = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextField_code = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -54,7 +86,7 @@ public class AddItemDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Código");
 
-        jLabel1.setText("Alta de Articulo");
+        jLabel_title.setText("Alta de Articulo");
 
         jLabel4.setText("Costo");
 
@@ -110,14 +142,14 @@ public class AddItemDialog extends javax.swing.JDialog {
                             .addComponent(jTextField_price, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                             .addComponent(jTextField_stock)
                             .addComponent(jTextField_code)))
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel_title))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLabel_title)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -150,11 +182,12 @@ public class AddItemDialog extends javax.swing.JDialog {
 
     private void jButton_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_saveActionPerformed
         try {
-            itemsController.saveItem(jTextField_code.getText(), 
-                    jTextField_description.getText(), 
-                    Float.parseFloat(jTextField_cost.getText()), 
-                    Float.parseFloat(jTextField_price.getText()),
-                    Integer.parseInt(jTextField_stock.getText()));
+            Validate();
+            itemsController.saveItem(buildItem(), prevStock);
+            if(update)
+                this.dispose();
+            else
+                item = new Item();            
             jTextField_code.setText("");
             jTextField_description.setText("");
             jTextField_cost.setText("");
@@ -175,61 +208,26 @@ public class AddItemDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton_cancelActionPerformed
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(AddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(AddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(AddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(AddItemDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the dialog */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                AddItemDialog dialog = new AddItemDialog(new javax.swing.JFrame(), true);
-//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-//                    @Override
-//                    public void windowClosing(java.awt.event.WindowEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
-//                dialog.setVisible(true);
-//            }
-//        });
-//    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_cancel;
     private javax.swing.JButton jButton_save;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel_title;
     private javax.swing.JTextField jTextField_code;
     private javax.swing.JTextField jTextField_cost;
     private javax.swing.JTextField jTextField_description;
     private javax.swing.JTextField jTextField_price;
     private javax.swing.JTextField jTextField_stock;
     // End of variables declaration//GEN-END:variables
+
+    private void Validate() throws Exception {
+     if(jTextField_code.getText().trim().isEmpty())
+        throw new Exception("Debe indicar un código valido");
+     if(jTextField_description.getText().trim().isEmpty())
+         throw new Exception("Debe indicar una Descripción");
+    }
 }

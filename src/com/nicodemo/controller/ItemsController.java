@@ -6,7 +6,10 @@
 package com.nicodemo.controller;
 
 import com.nicodemo.model.Item;
+import com.nicodemo.model.StockUpdate;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
+import com.nicodemo.persistence.DAOs.StockUpdateDAO;
+import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,18 +20,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ItemsController {
     
     private ItemsDAO itemsDAO;
+    private StockUpdateDAO stockUpdateDAO;
     
     @Autowired
-    public ItemsController(ItemsDAO itemsDAO){
+    public ItemsController(ItemsDAO itemsDAO, StockUpdateDAO stockUpdateDAO){
         this.itemsDAO = itemsDAO;
+        this.stockUpdateDAO = stockUpdateDAO;
     }
     
-    public void saveItem(String code, String descrption, float cost, float price, int stock){
-        Item item = new Item(code, descrption, cost, price, stock);
+    public void saveItem(Item item, int prevStock){
         itemsDAO.save(item); 
+        if(item.getStock() != prevStock)
+            stockUpdateDAO.save(new StockUpdate(item, prevStock));
     }
 
     public List<Item> getItems() {
         return itemsDAO.getAll();
+    }
+
+    public Item getByCode(String code) throws ElementNotFoundException {
+        return itemsDAO.getItemByCode(code);
     }
 }

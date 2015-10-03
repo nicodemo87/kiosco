@@ -31,6 +31,9 @@ public class MainForm extends javax.swing.JFrame {
         this.context = context;
 
         initComponents();
+        
+        //TODO LOGIN
+        User.setCurrentUser(context.getBean(UsersController.class).getUsers().stream().findFirst().get());
 
         // *** Current CashBox ***
         CashBoxPanel currentCashBoxPanel = new CashBoxPanel();

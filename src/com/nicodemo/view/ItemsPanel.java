@@ -6,9 +6,13 @@
 package com.nicodemo.view;
 
 import com.nicodemo.controller.ItemsController;
+import com.nicodemo.model.Client;
 import com.nicodemo.model.Item;
+import com.nicodemo.model.User;
+import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +29,8 @@ public class ItemsPanel extends javax.swing.JPanel {
      */
     public ItemsPanel(JFrame parent, ItemsController itemsController) {
         initComponents();
+        jButton_addItem.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.AddItem));
+        jButton_update.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UpdateItem));
         this.parent = parent;
         this.itemsController = itemsController;
         refreshItems();
@@ -32,7 +38,7 @@ public class ItemsPanel extends javax.swing.JPanel {
 
     private void refreshItems() {
         DefaultTableModel dtm = new DefaultTableModel(0, 0);
-        String header[] = new String[]{"Codigo", "Descripcion", "Costo",
+        String header[] = new String[]{"Código", "Descripción", "Costo",
             "Precio", "Stock"};
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);
@@ -60,6 +66,7 @@ public class ItemsPanel extends javax.swing.JPanel {
         jButton_addItem = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton_update = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(300, 300));
 
@@ -98,18 +105,28 @@ public class ItemsPanel extends javax.swing.JPanel {
         jTable1.setToolTipText("");
         jScrollPane1.setViewportView(jTable1);
 
+        jButton_update.setText("Modificar");
+        jButton_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_updateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_addItem)))
+                        .addComponent(jButton_addItem))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton_update)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -120,13 +137,28 @@ public class ItemsPanel extends javax.swing.JPanel {
                     .addComponent(jButton_addItem)
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_update)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addItemActionPerformed
-        AddItemDialog dialog = new AddItemDialog(parent, true, itemsController);
+        showAddUpdateDialog(null);
+        refreshItems();
+    }//GEN-LAST:event_jButton_addItemActionPerformed
+
+    private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
+        Item item = getSelectedItem();
+        if(item != null){
+            showAddUpdateDialog(item);
+            refreshItems();
+        }
+    }//GEN-LAST:event_jButton_updateActionPerformed
+
+    private void showAddUpdateDialog(Item item){
+        AddItemDialog dialog = new AddItemDialog(parent, true, itemsController, item);
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
@@ -136,11 +168,27 @@ public class ItemsPanel extends javax.swing.JPanel {
             }
         });
         dialog.setVisible(true);
-    }//GEN-LAST:event_jButton_addItemActionPerformed
-
+    }
+    
+    private Item getSelectedItem() {
+        Item item = null;
+        int rowIndex = jTable1.getSelectedRow();
+        if (rowIndex >= 0) {
+            try {
+                String code = jTable1.getModel().getValueAt(rowIndex, 0).toString();
+                item = itemsController.getByCode(code);
+            } catch (ElementNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe elegir un Artículo de la lista");
+        }
+        return item;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_addItem;
+    private javax.swing.JButton jButton_update;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

@@ -18,7 +18,6 @@ public class UsersDAO extends DAO<User> {
     public List<User> getAll() {        
         List<User> users = streams.streamAll(entityManager, User.class)
                 .toList();
-        //List sales = entityManager.createQuery("SELECT s Sale s").getResultList();
         return users;
     }
 

@@ -33,7 +33,7 @@ public class MainForm extends javax.swing.JFrame {
         initComponents();
         
         //TODO LOGIN
-        User.setCurrentUser(context.getBean(UsersController.class).getUsers().stream().findFirst().get());
+        //User.setCurrentUser(context.getBean(UsersController.class).getUsers().stream().findFirst().get());
 
         // *** Current CashBox ***
         CashBoxPanel currentCashBoxPanel = new CashBoxPanel();
@@ -220,12 +220,7 @@ public class MainForm extends javax.swing.JFrame {
 
         context.getBean(DevEntitiesInitializer.class).Initialize();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainForm(context).setVisible(true);
-            }
-        });
+        new LoginForm(context, context.getBean(UsersController.class)).setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,6 +6,7 @@
 package com.nicodemo.persistence.DAOs;
 
 import com.nicodemo.model.User;
+import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
 
 /**
@@ -24,5 +25,16 @@ public class UsersDAO extends DAO<User> {
     @Override
     public User getById(int id) {
         return (User) entityManager.find(User.class, id);
+    }
+
+    public User getUserByName(String name) throws ElementNotFoundException {
+        User user = streams.streamAll(entityManager, User.class)
+                .where(c -> c.getName() == name)
+                .findFirst()
+                .get();
+        if (user == null) {
+            throw new ElementNotFoundException("No se encontro el usaurio: "+ name);
+        }
+        return user;
     }
 }

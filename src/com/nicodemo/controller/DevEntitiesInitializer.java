@@ -41,12 +41,12 @@ public class DevEntitiesInitializer {
         itemsDAO.save(item2);
         itemsDAO.save(item3);
         
-        User user = new User("nicodemo");
+        User user = new User("root");
+        user.setPassword("1234");
         user.addPermission(User.Permission.Root);
-        user.addPermission(User.Permission.CashBoxPanel);
         
         usersDAO.save(user);
-        User.setCurrentUser(user);
+        //User.setCurrentUser(user);
         
         Client client1 = new Client(11222333,"Juan","Perez","11223344");
         Client client2 = new Client(22333444,"Maria","Rodriguez","223344");

@@ -7,6 +7,8 @@ package com.nicodemo.view;
 
 import com.nicodemo.controller.ItemsController;
 import com.nicodemo.model.Item;
+import com.nicodemo.model.ItemBrand;
+import com.nicodemo.model.ItemKind;
 import com.nicodemo.model.User;
 import javax.swing.JOptionPane;
 
@@ -28,6 +30,9 @@ public class AddItemDialog extends javax.swing.JDialog {
         this.itemsController = itemsController;
         initComponents();
         
+        itemsController.getAllKinds().forEach(k-> jComboBox_Kinds.addItem(k));
+        itemsController.getAllBrands().forEach(b-> jComboBox_Brands.addItem(b));
+        
         if(item == null){
             this.item = new Item();
             prevStock = 0;
@@ -44,7 +49,9 @@ public class AddItemDialog extends javax.swing.JDialog {
         jTextField_description.setText(this.item.getDescription());
         jTextField_cost.setText(String.valueOf(this.item.getCost())); 
         jTextField_price.setText(String.valueOf(this.item.getPrice())); 
-        jTextField_stock.setText(String.valueOf(this.item.getStock())); 
+        jTextField_stock.setText(String.valueOf(this.item.getStock()));
+        jComboBox_Kinds.setSelectedItem(this.item.getKind());
+        jComboBox_Brands.setSelectedItem(this.item.getBrand());
     }
     
     private Item buildItem(){
@@ -53,6 +60,8 @@ public class AddItemDialog extends javax.swing.JDialog {
         item.setCost(Float.parseFloat(jTextField_cost.getText()));
         item.setPrice(Float.parseFloat(jTextField_price.getText()));
         item.setStock(Integer.parseInt(jTextField_stock.getText()));
+        item.setKind((ItemKind)jComboBox_Kinds.getSelectedItem());
+        item.setBrand((ItemBrand)jComboBox_Brands.getSelectedItem());
         
         return item;
     }
@@ -79,6 +88,12 @@ public class AddItemDialog extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jTextField_stock = new javax.swing.JTextField();
         jButton_cancel = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox_Kinds = new javax.swing.JComboBox();
+        jComboBox_Brands = new javax.swing.JComboBox();
+        jButton_addKind = new javax.swing.JButton();
+        jButton_addBrand = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -110,12 +125,30 @@ public class AddItemDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Tipo");
+
+        jLabel7.setText("Marca");
+
+        jButton_addKind.setText("+");
+        jButton_addKind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_addKindActionPerformed(evt);
+            }
+        });
+
+        jButton_addBrand.setText("+");
+        jButton_addBrand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_addBrandActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(164, Short.MAX_VALUE)
+                .addContainerGap(162, Short.MAX_VALUE)
                 .addComponent(jButton_cancel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_save)
@@ -131,8 +164,10 @@ public class AddItemDialog extends javax.swing.JDialog {
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addGap(25, 25, 25))
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel7))
+                                .addGap(23, 23, 23))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
@@ -141,7 +176,15 @@ public class AddItemDialog extends javax.swing.JDialog {
                             .addComponent(jTextField_cost)
                             .addComponent(jTextField_price, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                             .addComponent(jTextField_stock)
-                            .addComponent(jTextField_code)))
+                            .addComponent(jTextField_code)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBox_Kinds, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox_Brands, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton_addBrand, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton_addKind, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addComponent(jLabel_title))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -170,7 +213,17 @@ public class AddItemDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jTextField_stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox_Kinds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_addKind))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jComboBox_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_addBrand))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_save)
                     .addComponent(jButton_cancel))
@@ -208,14 +261,64 @@ public class AddItemDialog extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_jButton_cancelActionPerformed
 
+    private void jButton_addKindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addKindActionPerformed
+        String name = (String)JOptionPane.showInputDialog(this, "Ingresa el nombre del nuevo tipo", "Nuevo Tipo de Artículo" );
+        if(name != null){
+            try{
+                if(name.trim().isEmpty())
+                    throw new Exception("Debe ingresar un nombre para el nuevo tipo");
+                ItemKind kind = itemsController.saveKind(new ItemKind(name));
+                jComboBox_Kinds.addItem(kind);
+                jComboBox_Kinds.setSelectedItem(kind);
+            }
+            catch(Exception ex){
+                String msg = "";
+                Throwable throwable = ex;
+                while (throwable != null) {
+                    msg = msg + throwable.getMessage() + "\n";
+                    throwable = throwable.getCause();
+                }
+                JOptionPane.showMessageDialog(null, msg);
+            }
+        }
+    }//GEN-LAST:event_jButton_addKindActionPerformed
+
+    private void jButton_addBrandActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addBrandActionPerformed
+        String name = (String)JOptionPane.showInputDialog(this, "Ingresa el nombre del nueva Marca", "Nueva Marca de Artículo" );
+        if(name != null){
+            try{
+                if(name.trim().isEmpty())
+                    throw new Exception("Debe ingresar un nombre para la nueva Marca");
+                ItemBrand brand = itemsController.saveBrand(new ItemBrand(name));
+                jComboBox_Brands.addItem(brand);
+                jComboBox_Brands.setSelectedItem(brand);
+            }
+            catch(Exception ex){
+                String msg = "";
+                Throwable throwable = ex;
+                while (throwable != null) {
+                    msg = msg + throwable.getMessage() + "\n";
+                    throwable = throwable.getCause();
+                }
+                JOptionPane.showMessageDialog(null, msg);
+            }
+        }
+    }//GEN-LAST:event_jButton_addBrandActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_addBrand;
+    private javax.swing.JButton jButton_addKind;
     private javax.swing.JButton jButton_cancel;
     private javax.swing.JButton jButton_save;
+    private javax.swing.JComboBox jComboBox_Brands;
+    private javax.swing.JComboBox jComboBox_Kinds;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel_title;
     private javax.swing.JTextField jTextField_code;
     private javax.swing.JTextField jTextField_cost;

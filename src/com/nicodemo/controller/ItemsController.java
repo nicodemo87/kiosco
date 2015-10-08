@@ -6,6 +6,8 @@
 package com.nicodemo.controller;
 
 import com.nicodemo.model.Item;
+import com.nicodemo.model.ItemBrand;
+import com.nicodemo.model.ItemKind;
 import com.nicodemo.model.StockUpdate;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import com.nicodemo.persistence.DAOs.StockUpdateDAO;
@@ -41,4 +43,28 @@ public class ItemsController {
     public Item getByCode(String code) throws ElementNotFoundException {
         return itemsDAO.getItemByCode(code);
     }
+    
+    public ItemKind getTypeById(int id){
+       return itemsDAO.getTypeById(id);
+    }
+    
+    public List<ItemKind> getAllKinds() {
+        return itemsDAO.getAllKinds();
+    }
+    
+    public ItemKind saveKind(ItemKind kind){
+        return itemsDAO.saveKind(kind);
+    }
+    
+    public ItemBrand getBrandById(int id){
+       return itemsDAO.getBrandById(id);
+    }
+    
+    public List<ItemBrand> getAllBrands() {
+        return itemsDAO.getAllBrands();
+    }
+    
+    public ItemBrand saveBrand(ItemBrand brand){
+        return itemsDAO.saveBrand(brand);
+    }  
 }

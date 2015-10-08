@@ -39,17 +39,16 @@ public class ItemsPanel extends javax.swing.JPanel {
     private void refreshItems() {
         DefaultTableModel dtm = new DefaultTableModel(0, 0);
         String header[] = new String[]{"Código", "Descripción", "Costo",
-            "Precio", "Stock"};
+            "Precio", "Stock", "Tipo", "Marca"};
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);
 
         List<Item> items = this.itemsController.getItems();
 
-        items.stream().map((i) -> {
-            dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock()});
-            return i;
-        }).forEach((i) -> {
-            System.out.println(i.getCode());
+        items.stream().forEach((i) -> {
+            dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock(),
+            i.getKind(), i.getBrand()
+            });
         });
     }
 

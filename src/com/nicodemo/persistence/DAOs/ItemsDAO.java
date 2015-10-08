@@ -6,6 +6,8 @@
 package com.nicodemo.persistence.DAOs;
 
 import com.nicodemo.model.Item;
+import com.nicodemo.model.ItemBrand;
+import com.nicodemo.model.ItemKind;
 import com.nicodemo.model.Sale;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
@@ -45,4 +47,53 @@ public class ItemsDAO extends DAO<Item> {
                 .toList();
         return items;
     }
+        
+    public ItemKind getTypeById(int id){
+       return (ItemKind) entityManager.find(ItemKind.class, id); 
+    }
+    
+    public List<ItemKind> getAllKinds() {
+        List<ItemKind> items = streams.streamAll(entityManager, ItemKind.class)
+                .toList();
+        return items;
+    }
+    
+    public ItemKind saveKind(ItemKind kind){
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(kind);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            if(entityManager.getTransaction().isActive())
+                entityManager.getTransaction().rollback();
+            entityManager = entityManagerFactory.createEntityManager();
+            throw ex;
+        }
+        return kind;
+    }
+    
+    public ItemBrand getBrandById(int id){
+       return (ItemBrand) entityManager.find(ItemBrand.class, id); 
+    }
+    
+    public List<ItemBrand> getAllBrands() {
+        List<ItemBrand> items = streams.streamAll(entityManager, ItemBrand.class)
+                .toList();
+        return items;
+    }
+    
+    public ItemBrand saveBrand(ItemBrand brand){
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.persist(brand);
+            entityManager.getTransaction().commit();
+        } catch (Exception ex) {
+            if(entityManager.getTransaction().isActive())
+                entityManager.getTransaction().rollback();
+            entityManager = entityManagerFactory.createEntityManager();
+            throw ex;
+        }
+        return brand;
+    }   
+    
 }

@@ -67,4 +67,8 @@ public class ItemsController {
     public ItemBrand saveBrand(ItemBrand brand){
         return itemsDAO.saveBrand(brand);
     }  
+
+    public List<Item> search(String text, ItemKind itemKind, ItemBrand itemBrand) {
+        return itemsDAO.search(text, itemKind, itemBrand);
+    }
 }

@@ -19,16 +19,20 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 public class ItemBrand implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(unique = true)
     private String name;
 
     public ItemBrand(String name) {
         this.name = name;
+    }
+
+    public ItemBrand() {
     }
 
     public Long getId() {
@@ -77,5 +81,5 @@ public class ItemBrand implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
 }

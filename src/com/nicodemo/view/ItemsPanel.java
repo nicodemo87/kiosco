@@ -8,6 +8,8 @@ package com.nicodemo.view;
 import com.nicodemo.controller.ItemsController;
 import com.nicodemo.model.Client;
 import com.nicodemo.model.Item;
+import com.nicodemo.model.ItemBrand;
+import com.nicodemo.model.ItemKind;
 import com.nicodemo.model.User;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
@@ -29,6 +31,10 @@ public class ItemsPanel extends javax.swing.JPanel {
      */
     public ItemsPanel(JFrame parent, ItemsController itemsController) {
         initComponents();
+        jComboBox_Kinds.addItem(new ItemKind("<TODOS>"));
+        jComboBox_Kinds.addItem(new ItemBrand("<TODOS>"));
+        itemsController.getAllKinds().forEach(k-> jComboBox_Kinds.addItem(k));
+        itemsController.getAllBrands().forEach(b-> jComboBox_Brands.addItem(b));
         jButton_addItem.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.AddItem));
         jButton_update.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UpdateItem));
         this.parent = parent;
@@ -43,13 +49,13 @@ public class ItemsPanel extends javax.swing.JPanel {
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);
 
-        List<Item> items = this.itemsController.getItems();
+        List<Item> items = itemsController.search(jTextField_seachText.getText(), (ItemKind) jComboBox_Kinds.getSelectedItem(), (ItemBrand) jComboBox_Brands.getSelectedItem());
 
         items.stream().forEach((i) -> {
             dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock(),
             i.getKind(), i.getBrand()
             });
-        });
+        });                
     }
 
     /**
@@ -66,6 +72,10 @@ public class ItemsPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton_update = new javax.swing.JButton();
+        jTextField_seachText = new javax.swing.JTextField();
+        jComboBox_Kinds = new javax.swing.JComboBox();
+        jComboBox_Brands = new javax.swing.JComboBox();
+        jButton_search = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(300, 300));
 
@@ -111,6 +121,13 @@ public class ItemsPanel extends javax.swing.JPanel {
             }
         });
 
+        jButton_search.setText("Buscar");
+        jButton_search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_searchActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,10 +135,18 @@ public class ItemsPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextField_seachText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox_Kinds, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton_search)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_addItem))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -134,9 +159,13 @@ public class ItemsPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_addItem)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField_seachText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_Kinds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton_search))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_update)
                 .addContainerGap())
@@ -155,6 +184,10 @@ public class ItemsPanel extends javax.swing.JPanel {
             refreshItems();
         }
     }//GEN-LAST:event_jButton_updateActionPerformed
+
+    private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
+        refreshItems();
+    }//GEN-LAST:event_jButton_searchActionPerformed
 
     private void showAddUpdateDialog(Item item){
         AddItemDialog dialog = new AddItemDialog(parent, true, itemsController, item);
@@ -187,9 +220,13 @@ public class ItemsPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_addItem;
+    private javax.swing.JButton jButton_search;
     private javax.swing.JButton jButton_update;
+    private javax.swing.JComboBox jComboBox_Brands;
+    private javax.swing.JComboBox jComboBox_Kinds;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField_seachText;
     // End of variables declaration//GEN-END:variables
 }

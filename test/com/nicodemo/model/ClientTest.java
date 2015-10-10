@@ -29,9 +29,9 @@ public class ClientTest extends TestCase {
     }
 
     public void testAddDebtsToClient() {
-        Item item100 = new Item("item100", "item1", 100, 100, 0);
-        Item item200 = new Item("item200", "item1", 100, 200, 0);
-        Item item300 = new Item("item300", "item1", 100, 300, 0);
+        Item item100 = new Item("item100", "item1", 100, 100, 0, null, null);
+        Item item200 = new Item("item200", "item1", 100, 200, 0, null, null);
+        Item item300 = new Item("item300", "item1", 100, 300, 0, null, null);
 
         Sale sale200 = new Sale();
         sale200.addItem(item100, 2);
@@ -50,9 +50,9 @@ public class ClientTest extends TestCase {
     }
 
     public void testCancelPartialDebtsToClient() {
-        Item item100 = new Item("item100", "item1", 100, 100, 0);
-        Item item200 = new Item("item200", "item1", 100, 200, 0);
-        Item item300 = new Item("item300", "item1", 100, 300, 0);
+        Item item100 = new Item("item100", "item1", 100, 100, 0, null, null);
+        Item item200 = new Item("item200", "item1", 100, 200, 0, null, null);
+        Item item300 = new Item("item300", "item1", 100, 300, 0, null, null);
 
         Sale sale200 = new Sale();
         sale200.addItem(item100, 2);
@@ -73,9 +73,9 @@ public class ClientTest extends TestCase {
     }
 
     public void testCancelHalfDebtsToClient() {
-        Item item100 = new Item("item100", "item1", 100, 100, 0);
-        Item item200 = new Item("item200", "item1", 100, 200, 0);
-        Item item300 = new Item("item300", "item1", 100, 300, 0);
+        Item item100 = new Item("item100", "item1", 100, 100, 0, null, null);
+        Item item200 = new Item("item200", "item1", 100, 200, 0, null, null);
+        Item item300 = new Item("item300", "item1", 100, 300, 0, null, null);
 
         Sale sale200 = new Sale();
         sale200.addItem(item100, 2);
@@ -96,9 +96,9 @@ public class ClientTest extends TestCase {
     }
 
     public void testCancelTotalDebtsToClient() {
-        Item item100 = new Item("item100", "item1", 100, 100, 0);
-        Item item200 = new Item("item200", "item1", 100, 200, 0);
-        Item item300 = new Item("item300", "item1", 100, 300, 0);
+        Item item100 = new Item("item100", "item1", 100, 100, 0, null, null);
+        Item item200 = new Item("item200", "item1", 100, 200, 0, null, null);
+        Item item300 = new Item("item300", "item1", 100, 300, 0, null, null);
 
         Sale sale200 = new Sale();
         sale200.addItem(item100, 2);
@@ -119,9 +119,9 @@ public class ClientTest extends TestCase {
     }
 
     public void testCancelTotalDebtsToClientInTwoPayments() {
-        Item item100 = new Item("item100", "item1", 100, 100, 0);
-        Item item200 = new Item("item200", "item1", 100, 200, 0);
-        Item item300 = new Item("item300", "item1", 100, 300, 0);
+        Item item100 = new Item("item100", "item1", 100, 100, 0, null, null);
+        Item item200 = new Item("item200", "item1", 100, 200, 0, null, null);
+        Item item300 = new Item("item300", "item1", 100, 300, 0, null, null);
 
         Sale sale200 = new Sale();
         sale200.addItem(item100, 2);
@@ -143,9 +143,9 @@ public class ClientTest extends TestCase {
     }
 
     public void testCancelHalfDebtsToClientInTwoPayments() {
-        Item item100 = new Item("item100", "item1", 100, 100, 0);
-        Item item200 = new Item("item200", "item1", 100, 200, 0);
-        Item item300 = new Item("item300", "item1", 100, 300, 0);
+        Item item100 = new Item("item100", "item1", 100, 100, 0, null, null);
+        Item item200 = new Item("item200", "item1", 100, 200, 0, null, null);
+        Item item300 = new Item("item300", "item1", 100, 300, 0, null, null);
 
         Sale sale200 = new Sale();
         sale200.addItem(item100, 2);
@@ -169,9 +169,9 @@ public class ClientTest extends TestCase {
     }
 
     public void testCancelHalfDebtsToClientInFourPayments() {
-        Item item100 = new Item("item100", "item1", 100, 100, 0);
-        Item item200 = new Item("item200", "item1", 100, 200, 0);
-        Item item300 = new Item("item300", "item1", 100, 300, 0);
+        Item item100 = new Item("item100", "item1", 100, 100, 0, null, null);
+        Item item200 = new Item("item200", "item1", 100, 200, 0, null, null);
+        Item item300 = new Item("item300", "item1", 100, 300, 0, null, null);
 
         Sale sale100 = new Sale();
         sale100.addItem(item100, 1);

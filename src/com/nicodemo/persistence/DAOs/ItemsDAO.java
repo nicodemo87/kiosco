@@ -106,12 +106,14 @@ public class ItemsDAO extends DAO<Item> {
         List<Item> items = new ArrayList<>();
 
         JPAJinqStream<Item> query = streams.streamAll(entityManager, Item.class);
-//        if (kind != null && kind.getId() != 0) {
-//            query = query.where(c -> Objects.equals(c.getKind().getId(), kind.getId()));
-//        }
-//        if (brand != null && brand.getId() != 0) {
-//            query = query.where(c -> Objects.equals(c.getBrand().getId(), brand.getId()));
-//        }
+        if (kind != null && kind.getId() != null && kind.getId() > 0) {
+            query = query.where(c -> c.getKind() != null)
+                    .where(c -> c.getKind() == kind);
+        }
+        if (brand != null && brand.getId() != null && brand.getId() > 0) {
+            query = query.where(c -> c.getBrand() != null)
+                    .where(c -> c.getBrand() == brand);
+        }
         if (!keyword.trim().isEmpty()) {
             items.addAll(query.where(c -> JPQL.like(c.getCode(), "%" + keyword + "%"))
                     .toList());

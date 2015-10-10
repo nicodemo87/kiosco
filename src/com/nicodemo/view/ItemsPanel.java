@@ -32,7 +32,7 @@ public class ItemsPanel extends javax.swing.JPanel {
     public ItemsPanel(JFrame parent, ItemsController itemsController) {
         initComponents();
         jComboBox_Kinds.addItem(new ItemKind("<TODOS>"));
-        jComboBox_Kinds.addItem(new ItemBrand("<TODOS>"));
+        jComboBox_Brands.addItem(new ItemBrand("<TODOS>"));
         itemsController.getAllKinds().forEach(k-> jComboBox_Kinds.addItem(k));
         itemsController.getAllBrands().forEach(b-> jComboBox_Brands.addItem(b));
         jButton_addItem.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.AddItem));

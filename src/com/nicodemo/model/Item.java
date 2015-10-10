@@ -34,21 +34,23 @@ public class Item {
     private float cost;
     @Column
     private int stock;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private ItemKind kind;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private ItemBrand brand;
             
 
     public Item() {
     }
 
-    public Item(String code, String description, float cost, float price, int stock) {
+    public Item(String code, String description, float cost, float price, int stock, ItemKind kind, ItemBrand brand) {
         this.code = code;
         this.description = description;
         this.price = price;
         this.cost = cost;
         this.stock = stock;
+        this.kind = kind;
+        this.brand = brand;
     }
 
     /**

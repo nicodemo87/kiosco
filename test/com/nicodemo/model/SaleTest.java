@@ -31,9 +31,9 @@ public class SaleTest extends TestCase {
         System.out.println("getId");
         Sale sale = new Sale();
         
-        sale.addItem(new Item("item1","",100,200,0), 1);
-        sale.addItem(new Item("item2","",200,200,0), 2);
-        sale.addItem(new Item("item3","",300,200,0), 1);
+        sale.addItem(new Item("item1","",100,200,0, null, null), 1);
+        sale.addItem(new Item("item2","",200,200,0, null, null), 2);
+        sale.addItem(new Item("item3","",300,200,0, null, null), 1);
         
         double total = sale.total();
                
@@ -41,7 +41,7 @@ public class SaleTest extends TestCase {
     }
     
     public void testAddTwoTimesTheSameItem(){
-        Item item1 = new Item("item1","item1",100,250,0);
+        Item item1 = new Item("item1","item1",100,250,0, null, null);
         
         Sale sale = new Sale();
         

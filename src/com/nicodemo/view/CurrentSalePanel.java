@@ -171,12 +171,27 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         });
 
         jButton_cancel.setText("Cancelar");
+        jButton_cancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_cancelActionPerformed(evt);
+            }
+        });
 
         jButton_multiplyItem.setText("*");
         jButton_multiplyItem.setToolTipText("Cambiar cantidad del artículo");
+        jButton_multiplyItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_multiplyItemActionPerformed(evt);
+            }
+        });
 
         jButton_removeItem.setText("Supr");
         jButton_removeItem.setToolTipText("Remueve el artículo seleccionado");
+        jButton_removeItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_removeItemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -288,6 +303,45 @@ public class CurrentSalePanel extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton_debitActionPerformed
+
+    private void jButton_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelActionPerformed
+        saleController.newSale();
+        refreshSoldItemsTable();
+    }//GEN-LAST:event_jButton_cancelActionPerformed
+
+    private void jButton_removeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_removeItemActionPerformed
+        int rowIndex = jTable1.getSelectedRow();
+        if (rowIndex >= 0) {
+            try {
+               String code = tableModel.getValueAt(rowIndex, 0).toString();
+               saleController.removeItem(code);
+               refreshSoldItemsTable();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Debe elegir un artículo para quitar");
+        }
+    }//GEN-LAST:event_jButton_removeItemActionPerformed
+
+    private void jButton_multiplyItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_multiplyItemActionPerformed
+        int rowIndex = jTable1.getSelectedRow();
+        if (rowIndex >= 0) {
+            try {
+               String code = tableModel.getValueAt(rowIndex, 0).toString();
+               SoldItem soldItem =  saleController.getSoldItemBy(code);
+               int quantity = Integer.parseInt(JOptionPane.showInputDialog("Artículo: "+soldItem.getItem().getDescription() +"\nIngrese cantidad", String.valueOf(soldItem.getQuantity())));
+               soldItem.setQuantity(quantity);
+               refreshSoldItemsTable();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Debe elegir un artículo");
+        }
+    }//GEN-LAST:event_jButton_multiplyItemActionPerformed
 
     private void addItemToSale() {
         try {

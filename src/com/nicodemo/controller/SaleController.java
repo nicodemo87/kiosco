@@ -68,6 +68,7 @@ public class SaleController {
     public void sell() {
         cashBox.addSale(sale);
         cashBoxesDAO.save(cashBox);
+        updateStock();
         sale = new Sale();
 
     }
@@ -87,7 +88,13 @@ public class SaleController {
         client.addDebt(debt);
         cashBox.addDebt(debt);
         cashBoxesDAO.save(cashBox);
+        updateStock();
         sale = new Sale();
+    }
+    
+    private void updateStock(){
+        sale.updateItemsStock();
+        sale.getSoldItems().forEach(s->itemsDAO.save(s.getItem()));
     }
 
     public void removeSale(Sale saleToRemove) throws Exception {
@@ -100,5 +107,13 @@ public class SaleController {
             cashBox.addPayments(payments);
             cashBoxesDAO.save(cashBox);
         }
+    }
+
+    public void removeItem(String code) {
+        sale.removeItemByCode(code);
+    }
+
+    public SoldItem getSoldItemBy(String code) {
+        return sale.getSoldItemBy(code);
     }
 }

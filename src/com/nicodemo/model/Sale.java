@@ -129,4 +129,18 @@ public class Sale {
                 .mapToDouble(s->s.subTotal())
                 .sum();
     }
+
+    public void updateItemsStock() {
+        soldItems.forEach(s->s.updateItemStock());
+    }
+
+    public void removeItemByCode(String code) {
+        SoldItem item =soldItems.stream().filter(s->s.getItem().getCode().equals(code)).findFirst().get();
+        soldItems.remove(item);
+    }
+
+    public SoldItem getSoldItemBy(String code) {
+         SoldItem item =soldItems.stream().filter(s->s.getItem().getCode().equals(code)).findFirst().get();
+         return item;
+    }
 }

@@ -119,4 +119,8 @@ public class SoldItem {
     void increaseQuantity(int cant) {
         quantity = quantity + cant;
     }
+
+    void updateItemStock() {
+        this.item.setStock(this.item.getStock() - this.quantity);
+    }
 }

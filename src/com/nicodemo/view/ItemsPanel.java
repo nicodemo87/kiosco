@@ -31,15 +31,43 @@ public class ItemsPanel extends javax.swing.JPanel {
      */
     public ItemsPanel(JFrame parent, ItemsController itemsController) {
         initComponents();
-        jComboBox_Kinds.addItem(new ItemKind("<TODOS>"));
-        jComboBox_Brands.addItem(new ItemBrand("<TODOS>"));
-        itemsController.getAllKinds().forEach(k-> jComboBox_Kinds.addItem(k));
-        itemsController.getAllBrands().forEach(b-> jComboBox_Brands.addItem(b));
-        jButton_addItem.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.AddItem));
-        jButton_update.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UpdateItem));
         this.parent = parent;
         this.itemsController = itemsController;
+        refreshCombos();
+
+        jComboBox_Kinds.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshItems();
+            }
+        });
+
+        jComboBox_Brands.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshItems();
+            }
+        });
+
+        jButton_addItem.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.AddItem));
+        jButton_update.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UpdateItem));
+
         refreshItems();
+    }
+
+    private void refreshCombos() {
+        ItemKind selectedKind = (ItemKind) jComboBox_Kinds.getSelectedItem();
+        ItemBrand selectedBrand = (ItemBrand) jComboBox_Brands.getSelectedItem();
+
+        jComboBox_Kinds.removeAllItems();
+        jComboBox_Brands.removeAllItems();
+
+        jComboBox_Kinds.addItem(new ItemKind("<TODOS>"));
+        jComboBox_Brands.addItem(new ItemBrand("<TODOS>"));
+
+        itemsController.getAllKinds().forEach(k -> jComboBox_Kinds.addItem(k));
+        itemsController.getAllBrands().forEach(b -> jComboBox_Brands.addItem(b));
+
+        jComboBox_Kinds.setSelectedItem(selectedKind);
+        jComboBox_Brands.setSelectedItem(selectedBrand);
     }
 
     private void refreshItems() {
@@ -53,9 +81,9 @@ public class ItemsPanel extends javax.swing.JPanel {
 
         items.stream().forEach((i) -> {
             dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock(),
-            i.getKind(), i.getBrand()
+                i.getKind(), i.getBrand()
             });
-        });                
+        });
     }
 
     /**
@@ -75,7 +103,6 @@ public class ItemsPanel extends javax.swing.JPanel {
         jTextField_seachText = new javax.swing.JTextField();
         jComboBox_Kinds = new javax.swing.JComboBox();
         jComboBox_Brands = new javax.swing.JComboBox();
-        jButton_search = new javax.swing.JButton();
 
         setMinimumSize(new java.awt.Dimension(300, 300));
 
@@ -121,10 +148,9 @@ public class ItemsPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton_search.setText("Buscar");
-        jButton_search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_searchActionPerformed(evt);
+        jTextField_seachText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_seachTextKeyReleased(evt);
             }
         });
 
@@ -139,13 +165,11 @@ public class ItemsPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField_seachText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox_Kinds, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField_seachText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBox_Kinds, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_search)
+                        .addComponent(jComboBox_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_addItem))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -162,34 +186,39 @@ public class ItemsPanel extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jTextField_seachText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox_Kinds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_search))
+                    .addComponent(jComboBox_Brands, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton_update)
                 .addContainerGap())
         );
+
+        jComboBox_Kinds.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addItemActionPerformed
         showAddUpdateDialog(null);
         refreshItems();
+        refreshCombos();
     }//GEN-LAST:event_jButton_addItemActionPerformed
 
     private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
         Item item = getSelectedItem();
-        if(item != null){
+        if (item != null) {
             showAddUpdateDialog(item);
             refreshItems();
+            refreshCombos();
         }
     }//GEN-LAST:event_jButton_updateActionPerformed
 
-    private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
-        refreshItems();
-    }//GEN-LAST:event_jButton_searchActionPerformed
+    private void jTextField_seachTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_seachTextKeyReleased
+        if (jTextField_seachText.getText().length() >= 3) {
+            refreshItems();
+        }
+    }//GEN-LAST:event_jTextField_seachTextKeyReleased
 
-    private void showAddUpdateDialog(Item item){
+    private void showAddUpdateDialog(Item item) {
         AddItemDialog dialog = new AddItemDialog(parent, true, itemsController, item);
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -201,7 +230,7 @@ public class ItemsPanel extends javax.swing.JPanel {
         });
         dialog.setVisible(true);
     }
-    
+
     private Item getSelectedItem() {
         Item item = null;
         int rowIndex = jTable1.getSelectedRow();
@@ -220,7 +249,6 @@ public class ItemsPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_addItem;
-    private javax.swing.JButton jButton_search;
     private javax.swing.JButton jButton_update;
     private javax.swing.JComboBox jComboBox_Brands;
     private javax.swing.JComboBox jComboBox_Kinds;

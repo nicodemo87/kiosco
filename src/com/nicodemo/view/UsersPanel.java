@@ -32,7 +32,7 @@ public class UsersPanel extends javax.swing.JPanel {
     }
     
     private void reloadUsers(){
-        DefaultTableModel dtm = new DefaultTableModel(0, 0);
+        DefaultTableModel dtm = new NoEditableTableModel();
         String header[] = new String[]{"ID", "Nombre", "Permisos"};
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);

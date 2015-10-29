@@ -42,7 +42,7 @@ public class LatestSalesPanel extends javax.swing.JPanel {
     }
 
     private void refreshSales() {
-        salesTableModel = new DefaultTableModel(0, 0);
+        salesTableModel = new NoEditableTableModel();
         String header[] = new String[]{
             "Id",
             "Fecha y Hora",
@@ -67,7 +67,7 @@ public class LatestSalesPanel extends javax.swing.JPanel {
     }
 
     private void refreshSalesDetails() {
-        saleDetailTableModel = new DefaultTableModel(0, 0);
+        saleDetailTableModel = new NoEditableTableModel();
         String header[] = new String[]{
             "Artículo",
             "Cantidad",

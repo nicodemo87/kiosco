@@ -39,6 +39,9 @@ public class DebtsDetailsDialog extends javax.swing.JDialog {
 
         jTable_debts.getSelectionModel()
                 .addListSelectionListener(evt -> refreshSelectedDebtDetails());
+        jTable_debtItems.setAutoCreateRowSorter(true);
+        jTable_debts.setAutoCreateRowSorter(true);
+        jTable_payments.setAutoCreateRowSorter(true);
     }
 
     private void refreshSelectedDebtDetails() {
@@ -47,7 +50,7 @@ public class DebtsDetailsDialog extends javax.swing.JDialog {
     }
 
     private void refreshDebts() {
-        debtsTableModel = new DefaultTableModel(0, 0);
+        debtsTableModel = new NoEditableTableModel();
         String header[] = new String[]{
             "Id",
             "Fecha y Hora",
@@ -77,7 +80,12 @@ public class DebtsDetailsDialog extends javax.swing.JDialog {
     }
 
     private void refreshDebtItems() {
-        debtItemsTableModel = new DefaultTableModel(0, 0);
+        debtItemsTableModel = new DefaultTableModel(0, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         String header[] = new String[]{
             "Artículo",
             "Cantidad",
@@ -100,7 +108,7 @@ public class DebtsDetailsDialog extends javax.swing.JDialog {
     }
 
     private void refreshPayments() {
-        paymentsTableModel = new DefaultTableModel(0, 0);
+        paymentsTableModel = new NoEditableTableModel();
         String header[] = new String[]{
             "Fecha de Pago",
             "Cantidad"

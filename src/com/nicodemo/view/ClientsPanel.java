@@ -28,10 +28,12 @@ public class ClientsPanel extends javax.swing.JPanel {
         this.clientsDebtsController = clientsDebtsController;
         initComponents();
         clearTableModel();
+        jTable_Clients.setAutoCreateRowSorter(true);
     }
 
     private void clearTableModel() {
-        clientsTableModel = new DefaultTableModel(0, 0);
+        clientsTableModel = new NoEditableTableModel();
+        
         String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
             "Deuda"};
         clientsTableModel.setColumnIdentifiers(header);

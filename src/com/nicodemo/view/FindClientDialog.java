@@ -35,7 +35,7 @@ public class FindClientDialog extends java.awt.Dialog {
     }
     
     private void clearTableModel(){
-        clientsTableModel = new DefaultTableModel(0, 0);
+        clientsTableModel = new NoEditableTableModel();
         String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
             "Deuda"};
         clientsTableModel.setColumnIdentifiers(header);

@@ -44,10 +44,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         initComponents();
 
         refreshSoldItemsTable();
+        jTable1.setAutoCreateRowSorter(true);
     }
 
     private void refreshSoldItemsTable() {
-        tableModel = new DefaultTableModel(0, 0);
+        tableModel = new NoEditableTableModel();
         String header[] = new String[]{"Codigo", "Descripcion", "Precio", "Cantidad"};
         tableModel.setColumnIdentifiers(header);
         jTable1.setModel(tableModel);

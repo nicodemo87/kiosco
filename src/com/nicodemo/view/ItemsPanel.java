@@ -49,7 +49,7 @@ public class ItemsPanel extends javax.swing.JPanel {
 
         jButton_addItem.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.AddItem));
         jButton_update.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UpdateItem));
-
+        jTable1.setAutoCreateRowSorter(true);
         refreshItems();
     }
 
@@ -71,7 +71,8 @@ public class ItemsPanel extends javax.swing.JPanel {
     }
 
     private void refreshItems() {
-        DefaultTableModel dtm = new DefaultTableModel(0, 0);
+        DefaultTableModel dtm = new NoEditableTableModel();
+        
         String header[] = new String[]{"Código", "Descripción", "Costo",
             "Precio", "Stock", "Tipo", "Marca"};
         dtm.setColumnIdentifiers(header);

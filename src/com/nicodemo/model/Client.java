@@ -44,6 +44,8 @@ public class Client {
     private String address;
     @OneToMany(mappedBy = "client", cascade = CascadeType.MERGE)
     private Set<Debt> debts;
+    
+    public Client(){}
 
     public Client(int dni, String firstName, String lastName, String phone) {
         this.dni = dni;

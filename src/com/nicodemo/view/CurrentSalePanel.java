@@ -6,6 +6,7 @@
 package com.nicodemo.view;
 
 import com.nicodemo.controller.ClientsDebtsController;
+import com.nicodemo.controller.ItemsController;
 import com.nicodemo.controller.SaleController;
 import com.nicodemo.model.Client;
 import com.nicodemo.model.Item;
@@ -30,17 +31,19 @@ public class CurrentSalePanel extends javax.swing.JPanel {
     private DefaultTableModel tableModel;
     private CashBoxPanel currentCashBoxPanel;
     private ClientsDebtsController clientsDebtsController;
+    private ItemsController itemsController;
     private JFrame parent;
 
     /**
      * Creates new form CurrentSalePanel
      */
-    public CurrentSalePanel(JFrame parent, SaleController saleController, CashBoxPanel currentCashBoxPanel, ClientsDebtsController clientsDebtsController) {
+    public CurrentSalePanel(JFrame parent, SaleController saleController, CashBoxPanel currentCashBoxPanel, ClientsDebtsController clientsDebtsController, ItemsController itemsController) {
         this.parent = parent;
         this.saleController = saleController;
         this.saleController.initCashBox();
         this.currentCashBoxPanel = currentCashBoxPanel;
         this.clientsDebtsController = clientsDebtsController;
+        this.itemsController = itemsController;
         initComponents();
 
         refreshSoldItemsTable();
@@ -350,7 +353,25 @@ public class CurrentSalePanel extends javax.swing.JPanel {
             jTextField_itemCode.setText("");
             refreshSoldItemsTable();
         } catch (ElementNotFoundException ex) {
-            //TODO offer to the user a list of items to select
+            
+            try {
+                SelectItemDialog dialog = new SelectItemDialog(parent, true, itemsController,jTextField_itemCode.getText());
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                    }
+                });
+                dialog.setVisible(true); 
+                Item selectedItem = dialog.getSelectedItem();
+                if(selectedItem!=null){
+                    saleController.addItem(selectedItem.getCode());
+                    jTextField_itemCode.setText("");
+                    refreshSoldItemsTable();
+                }        
+                dialog.dispose();
+            } catch (ElementNotFoundException ex1) {
+                Logger.getLogger(CurrentSalePanel.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 

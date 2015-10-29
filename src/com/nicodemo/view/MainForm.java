@@ -43,7 +43,7 @@ public class MainForm extends javax.swing.JFrame {
         this.jPanel_tabCurrentCashBox.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
         
         // *** Current Sale ***
-        CurrentSalePanel currentSalePanel = new CurrentSalePanel(this, context.getBean(SaleController.class), currentCashBoxPanel, context.getBean(ClientsDebtsController.class));
+        CurrentSalePanel currentSalePanel = new CurrentSalePanel(this, context.getBean(SaleController.class), currentCashBoxPanel, context.getBean(ClientsDebtsController.class), context.getBean(ItemsController.class));
         currentSalePanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
         this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
         this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);
@@ -218,7 +218,7 @@ public class MainForm extends javax.swing.JFrame {
 
         ApplicationContext context = new ClassPathXmlApplicationContext("main/resources/beans.xml");
 
-        context.getBean(DevEntitiesInitializer.class).Initialize();
+        //context.getBean(DevEntitiesInitializer.class).Initialize();
 
         new LoginForm(context, context.getBean(UsersController.class)).setVisible(true);
     }

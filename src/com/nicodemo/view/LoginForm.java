@@ -8,6 +8,7 @@ package com.nicodemo.view;
 import com.nicodemo.controller.UsersController;
 import com.nicodemo.model.User;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.context.ApplicationContext;
@@ -69,6 +70,12 @@ public class LoginForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(6, 30, 4, 30);
         getContentPane().add(jButton_Loggin, gridBagConstraints);
+
+        jPasswordField_Password.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPasswordField_PasswordKeyReleased(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -97,7 +104,9 @@ public class LoginForm extends javax.swing.JFrame {
                     /* Create and display the form */
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            new MainForm(context).setVisible(true);
+                            MainForm main = new MainForm(context);
+                            main.setLocationRelativeTo(null);
+                            main.setVisible(true);
                         }
                     });
                 }
@@ -106,6 +115,12 @@ public class LoginForm extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton_LogginActionPerformed
+
+    private void jPasswordField_PasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField_PasswordKeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton_LogginActionPerformed(null);
+        }
+    }//GEN-LAST:event_jPasswordField_PasswordKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Loggin;

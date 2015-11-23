@@ -229,6 +229,7 @@ public class ItemsPanel extends javax.swing.JPanel {
                 dialog.dispose();
             }
         });
+        dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
 

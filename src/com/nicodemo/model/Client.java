@@ -47,12 +47,13 @@ public class Client {
     
     public Client(){}
 
-    public Client(int dni, String firstName, String lastName, String phone) {
+    public Client(int dni, String firstName, String lastName, String phone, String address) {
         this.dni = dni;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.debts = new HashSet<>();
+        this.address = address;                 
     }
 
     /**

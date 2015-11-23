@@ -7,6 +7,7 @@ package com.nicodemo.view;
 
 import com.nicodemo.controller.ClientsDebtsController;
 import com.nicodemo.model.Client;
+import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,20 +21,23 @@ public class ClientsPanel extends javax.swing.JPanel {
 
     private ClientsDebtsController clientsDebtsController;
     private DefaultTableModel clientsTableModel;
+    private ClientsDAO clientsDAO;
 
     /**
      * Creates new form ClientsPanel
      */
-    public ClientsPanel(ClientsDebtsController clientsDebtsController) {
+    public ClientsPanel(ClientsDebtsController clientsDebtsController, ClientsDAO clientsDAO) {
+        this.clientsDAO = clientsDAO;
         this.clientsDebtsController = clientsDebtsController;
         initComponents();
         clearTableModel();
         jTable_Clients.setAutoCreateRowSorter(true);
+        jButton_findActionPerformed(null);
     }
 
     private void clearTableModel() {
         clientsTableModel = new NoEditableTableModel();
-        
+
         String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
             "Deuda"};
         clientsTableModel.setColumnIdentifiers(header);
@@ -106,6 +110,11 @@ public class ClientsPanel extends javax.swing.JPanel {
         });
 
         jButton_update.setText("Modificar Cliente");
+        jButton_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_updateActionPerformed(evt);
+            }
+        });
 
         jButton_payDebt.setText("Saldar Deuda");
         jButton_payDebt.addActionListener(new java.awt.event.ActionListener() {
@@ -169,8 +178,21 @@ public class ClientsPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton_addClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addClientActionPerformed
-
+        showAddUpdateDialog(null);
     }//GEN-LAST:event_jButton_addClientActionPerformed
+
+    private void showAddUpdateDialog(Client client) {
+        AddClientDialog dialog = new AddClientDialog(null, true, clientsDAO, client);
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {                
+                dialog.dispose();
+            }
+        });
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+        jButton_findActionPerformed(null);
+    }
 
     private void jButton_findActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_findActionPerformed
         try {
@@ -211,6 +233,10 @@ public class ClientsPanel extends javax.swing.JPanel {
         jTextField_keyword.setText(String.valueOf(client.getDni()));
         jButton_findActionPerformed(evt);
     }//GEN-LAST:event_jButton_detailsActionPerformed
+
+    private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
+        showAddUpdateDialog(getSelectedClient());
+    }//GEN-LAST:event_jButton_updateActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -11,6 +11,7 @@ import com.nicodemo.controller.ItemsController;
 import com.nicodemo.controller.SaleController;
 import com.nicodemo.controller.UsersController;
 import com.nicodemo.model.User;
+import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import java.awt.BorderLayout;
 import org.springframework.context.ApplicationContext;
@@ -31,17 +32,16 @@ public class MainForm extends javax.swing.JFrame {
         this.context = context;
 
         initComponents();
-        
+
         //TODO LOGIN
         //User.setCurrentUser(context.getBean(UsersController.class).getUsers().stream().findFirst().get());
-
         // *** Current CashBox ***
         CashBoxPanel currentCashBoxPanel = new CashBoxPanel();
-        currentCashBoxPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));        
+        currentCashBoxPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
         this.jPanel_tabCurrentCashBox.setLayout(new BorderLayout());
         this.jPanel_tabCurrentCashBox.add(currentCashBoxPanel, BorderLayout.CENTER);
         this.jPanel_tabCurrentCashBox.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
-        
+
         // *** Current Sale ***
         CurrentSalePanel currentSalePanel = new CurrentSalePanel(this, context.getBean(SaleController.class), currentCashBoxPanel, context.getBean(ClientsDebtsController.class), context.getBean(ItemsController.class));
         currentSalePanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
@@ -56,17 +56,17 @@ public class MainForm extends javax.swing.JFrame {
         this.jPanel_tabItems.add(itemsPanel, BorderLayout.CENTER);
 
         // *** Clients ***       
-        ClientsPanel clientsPanel = new ClientsPanel(context.getBean(ClientsDebtsController.class));
+        ClientsPanel clientsPanel = new ClientsPanel(context.getBean(ClientsDebtsController.class), context.getBean(ClientsDAO.class));
         clientsPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.ClientsPanel));
         this.jPanel_tabClients.setLayout(new BorderLayout());
         this.jPanel_tabClients.add(clientsPanel, BorderLayout.CENTER);
-        
+
         // *** Latest Sales ***
         LatestSalesPanel latestSalesPanel = context.getBean(LatestSalesPanel.class);
         latestSalesPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.LatestSalesPanel));
         this.jPanel_tabLastestSales.setLayout(new BorderLayout());
         this.jPanel_tabLastestSales.add(latestSalesPanel, BorderLayout.CENTER);
-        
+
         // *** Users ***
         UsersPanel usersPanel = new UsersPanel(context.getBean(UsersController.class));
         usersPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UsersPanel));
@@ -98,7 +98,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabCurrentSale.setLayout(jPanel_tabCurrentSaleLayout);
         jPanel_tabCurrentSaleLayout.setHorizontalGroup(
             jPanel_tabCurrentSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 695, Short.MAX_VALUE)
         );
         jPanel_tabCurrentSaleLayout.setVerticalGroup(
             jPanel_tabCurrentSaleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,7 +111,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabItems.setLayout(jPanel_tabItemsLayout);
         jPanel_tabItemsLayout.setHorizontalGroup(
             jPanel_tabItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 695, Short.MAX_VALUE)
         );
         jPanel_tabItemsLayout.setVerticalGroup(
             jPanel_tabItemsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,7 +124,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabCurrentCashBox.setLayout(jPanel_tabCurrentCashBoxLayout);
         jPanel_tabCurrentCashBoxLayout.setHorizontalGroup(
             jPanel_tabCurrentCashBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 695, Short.MAX_VALUE)
         );
         jPanel_tabCurrentCashBoxLayout.setVerticalGroup(
             jPanel_tabCurrentCashBoxLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,7 +137,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabClients.setLayout(jPanel_tabClientsLayout);
         jPanel_tabClientsLayout.setHorizontalGroup(
             jPanel_tabClientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 695, Short.MAX_VALUE)
         );
         jPanel_tabClientsLayout.setVerticalGroup(
             jPanel_tabClientsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,7 +150,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_tabLastestSales.setLayout(jPanel_tabLastestSalesLayout);
         jPanel_tabLastestSalesLayout.setHorizontalGroup(
             jPanel_tabLastestSalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 695, Short.MAX_VALUE)
         );
         jPanel_tabLastestSalesLayout.setVerticalGroup(
             jPanel_tabLastestSalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,7 +163,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel_Users.setLayout(jPanel_UsersLayout);
         jPanel_UsersLayout.setHorizontalGroup(
             jPanel_UsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 695, Short.MAX_VALUE)
         );
         jPanel_UsersLayout.setVerticalGroup(
             jPanel_UsersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +176,7 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane_main)
+            .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,6 +188,14 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
+    public void setVisible(boolean b) {
+        if(b){
+            
+        }
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -219,8 +227,9 @@ public class MainForm extends javax.swing.JFrame {
         ApplicationContext context = new ClassPathXmlApplicationContext("main/resources/beans.xml");
 
         //context.getBean(DevEntitiesInitializer.class).Initialize();
-
-        new LoginForm(context, context.getBean(UsersController.class)).setVisible(true);
+        LoginForm loginForm = new LoginForm(context, context.getBean(UsersController.class));
+        loginForm.setLocationRelativeTo(null);
+        loginForm.setVisible(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

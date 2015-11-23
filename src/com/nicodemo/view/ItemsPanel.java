@@ -73,18 +73,33 @@ public class ItemsPanel extends javax.swing.JPanel {
     private void refreshItems() {
         DefaultTableModel dtm = new NoEditableTableModel();
         
-        String header[] = new String[]{"Código", "Descripción", "Costo",
-            "Precio", "Stock", "Tipo", "Marca"};
+        String header[];
+        if (User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.SeeItemsCost)) {
+            header = new String[]{"Código", "Descripción", "Costo",
+                "Precio", "Stock", "Tipo", "Marca"};
+        } else {
+            header = new String[]{"Código", "Descripción",
+                "Precio", "Stock", "Tipo", "Marca"};
+        }
+        
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);
 
         List<Item> items = itemsController.search(jTextField_seachText.getText(), (ItemKind) jComboBox_Kinds.getSelectedItem(), (ItemBrand) jComboBox_Brands.getSelectedItem());
 
-        items.stream().forEach((i) -> {
-            dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock(),
-                i.getKind(), i.getBrand()
+        if (User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.SeeItemsCost)) {
+            items.stream().forEach((i) -> {
+                dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock(),
+                    i.getKind(), i.getBrand()
+                });
             });
-        });
+        } else {
+            items.stream().forEach((i) -> {
+                dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getPrice(), i.getStock(),
+                    i.getKind(), i.getBrand()
+                });
+            });
+        }
     }
 
     /**

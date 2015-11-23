@@ -39,7 +39,8 @@ public class User {
         UsersPanel("Administrar usuarios"), 
         AddItem("Agregar nuevo Artículo"), 
         UpdateItem("Modificar datos de Artículo"),
-        UpdateItemStock("Puede editar Stock");
+        UpdateItemStock("Puede editar Stock"),
+        SeeItemsCost("Puede ver el costo de los artículos");
 
         private String description;
 

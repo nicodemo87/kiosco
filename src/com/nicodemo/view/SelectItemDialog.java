@@ -9,6 +9,7 @@ import com.nicodemo.controller.ItemsController;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.ItemBrand;
 import com.nicodemo.model.ItemKind;
+import com.nicodemo.model.User;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class SelectItemDialog extends javax.swing.JDialog {
 
     private ItemsController itemsController;
-    
+
     /**
      * Creates new form SelectItemDialog
      */
@@ -32,22 +33,36 @@ public class SelectItemDialog extends javax.swing.JDialog {
         this.jTextField_seachText.setText(keyword);
         refreshItems();
     }
-    
+
     private void refreshItems() {
         DefaultTableModel dtm = new NoEditableTableModel();
-        
-        String header[] = new String[]{"Código", "Descripción", "Costo",
-            "Precio", "Stock", "Tipo", "Marca"};
+
+        String header[];
+        if (User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.SeeItemsCost)) {
+            header = new String[]{"Código", "Descripción", "Costo",
+                "Precio", "Stock", "Tipo", "Marca"};
+        } else {
+            header = new String[]{"Código", "Descripción",
+                "Precio", "Stock", "Tipo", "Marca"};
+        }
+
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);
-
         List<Item> items = itemsController.search(jTextField_seachText.getText(), null, null);
 
-        items.stream().forEach((i) -> {
-            dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock(),
-                i.getKind(), i.getBrand()
+        if (User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.SeeItemsCost)) {
+            items.stream().forEach((i) -> {
+                dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getCost(), i.getPrice(), i.getStock(),
+                    i.getKind(), i.getBrand()
+                });
             });
-        });
+        } else {
+            items.stream().forEach((i) -> {
+                dtm.addRow(new Object[]{i.getCode(), i.getDescription(), i.getPrice(), i.getStock(),
+                    i.getKind(), i.getBrand()
+                });
+            });
+        }
     }
 
     /**
@@ -138,8 +153,7 @@ public class SelectItemDialog extends javax.swing.JDialog {
         Item item = getSelectedItem();
         if (item != null) {
             this.setVisible(false);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe elegir un Artículo de la lista");
         }
     }//GEN-LAST:event_jButton_okActionPerformed
@@ -157,7 +171,7 @@ public class SelectItemDialog extends javax.swing.JDialog {
         }
         return item;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_ok;
     private javax.swing.JButton jButton_searchItem;

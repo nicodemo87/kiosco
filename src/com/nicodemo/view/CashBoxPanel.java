@@ -11,6 +11,7 @@ import com.nicodemo.model.User;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,10 +19,12 @@ import java.text.SimpleDateFormat;
  */
 public class CashBoxPanel extends javax.swing.JPanel {
 
+    private SaleController saleController;
     /**
      * Creates new form CurrentCashBoxPanel
      */
-    public CashBoxPanel() {
+    public CashBoxPanel(SaleController saleController) {
+        this.saleController = saleController;
         initComponents();
     }
 
@@ -64,6 +67,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel_payments = new javax.swing.JLabel();
+        jButton_closeCashBox = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Caja");
@@ -125,6 +129,13 @@ public class CashBoxPanel extends javax.swing.JPanel {
         jLabel_payments.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_payments.setText("0");
 
+        jButton_closeCashBox.setText("Cerrar Caja");
+        jButton_closeCashBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_closeCashBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -168,6 +179,10 @@ public class CashBoxPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel_payments)))))
                 .addContainerGap(213, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton_closeCashBox)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,22 +213,30 @@ public class CashBoxPanel extends javax.swing.JPanel {
                     .addComponent(jLabel_debited)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel_payments)
-                        .addComponent(jLabel13)))
+                        .addComponent(jLabel13))
+                    .addComponent(jLabel12))
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel_totalCash)
                     .addComponent(jLabel11))
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jButton_closeCashBox)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton_closeCashBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_closeCashBoxActionPerformed
+        saleController.closeCashBox();
+        System.exit(0);
+    }//GEN-LAST:event_jButton_closeCashBoxActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_closeCashBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

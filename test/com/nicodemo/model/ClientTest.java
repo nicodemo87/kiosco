@@ -40,7 +40,7 @@ public class ClientTest extends TestCase {
         sale500.addItem(item200, 1);
         sale500.addItem(item300, 1);
 
-        Client client = new Client(1, "", "", "");
+        Client client = new Client(1, "", "", "", "");
         client.addDebt(new Debt(sale200));
         client.addDebt(new Debt(sale500));
 
@@ -61,7 +61,7 @@ public class ClientTest extends TestCase {
         sale500.addItem(item200, 1);
         sale500.addItem(item300, 1);
 
-        Client client = new Client(1, "", "", "");
+        Client client = new Client(1, "", "", "", "");
         client.addDebt(new Debt(sale200));
         client.addDebt(new Debt(sale500));
 
@@ -84,7 +84,7 @@ public class ClientTest extends TestCase {
         sale500.addItem(item200, 1);
         sale500.addItem(item300, 1);
 
-        Client client = new Client(1, "", "", "");
+        Client client = new Client(1, "", "", "", "");
         client.addDebt(new Debt(sale200));
         client.addDebt(new Debt(sale500));
 
@@ -107,7 +107,7 @@ public class ClientTest extends TestCase {
         sale500.addItem(item200, 1);
         sale500.addItem(item300, 1);
 
-        Client client = new Client(1, "", "", "");
+        Client client = new Client(1, "", "", "", "");
         client.addDebt(new Debt(sale200));
         client.addDebt(new Debt(sale500));
 
@@ -130,7 +130,7 @@ public class ClientTest extends TestCase {
         sale500.addItem(item200, 1);
         sale500.addItem(item300, 1);
 
-        Client client = new Client(1, "", "", "");
+        Client client = new Client(1, "", "", "", "");
         client.addDebt(new Debt(sale200));
         client.addDebt(new Debt(sale500));
 
@@ -154,7 +154,7 @@ public class ClientTest extends TestCase {
         sale500.addItem(item200, 1);
         sale500.addItem(item300, 1);
 
-        Client client = new Client(1, "", "", "");
+        Client client = new Client(1, "", "", "", "");
         client.addDebt(new Debt(sale200));
         client.addDebt(new Debt(sale500));
 
@@ -183,7 +183,7 @@ public class ClientTest extends TestCase {
         Sale sale400 = new Sale();
         sale400.addItem(item100, 4);
 
-        Client client = new Client(1, "", "", "");
+        Client client = new Client(1, "", "", "", "");
         client.addDebt(new Debt(sale100));
         client.addDebt(new Debt(sale400));
         client.addDebt(new Debt(sale500));

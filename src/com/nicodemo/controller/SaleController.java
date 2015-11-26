@@ -12,10 +12,12 @@ import com.nicodemo.model.Item;
 import com.nicodemo.model.Payment;
 import com.nicodemo.model.Sale;
 import com.nicodemo.model.SoldItem;
+import com.nicodemo.model.User;
 import com.nicodemo.persistence.DAOs.CashBoxesDAO;
 import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +80,9 @@ public class SaleController {
     }
 
     public final void initCashBox() {
-        cashBox = new CashBox();
+        cashBox = cashBoxesDAO.getOpenCashBox();
+        if(cashBox == null)
+            cashBox = new CashBox();
         sale = new Sale();
     }
 
@@ -115,5 +119,20 @@ public class SaleController {
 
     public SoldItem getSoldItemBy(String code) {
         return sale.getSoldItemBy(code);
+    }
+    
+    public void closeCashBox(){
+        cashBox.setEndDateTime(new Date());        
+        cashBoxesDAO.save(cashBox);
+        cashBox = new CashBox();
+    }
+
+    public boolean existAlreadyOpenCashBox() {
+        return cashBox.getId() != 0;
+    }
+
+    public void setStartAmount(Float startAmount) {
+        cashBox.setStartAmount(startAmount);
+        cashBoxesDAO.save(cashBox);
     }
 }

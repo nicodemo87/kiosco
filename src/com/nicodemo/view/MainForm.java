@@ -10,10 +10,12 @@ import com.nicodemo.controller.DevEntitiesInitializer;
 import com.nicodemo.controller.ItemsController;
 import com.nicodemo.controller.SaleController;
 import com.nicodemo.controller.UsersController;
+import com.nicodemo.model.CashBox;
 import com.nicodemo.model.User;
 import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -36,18 +38,41 @@ public class MainForm extends javax.swing.JFrame {
         //TODO LOGIN
         //User.setCurrentUser(context.getBean(UsersController.class).getUsers().stream().findFirst().get());
         // *** Current CashBox ***
-        CashBoxPanel currentCashBoxPanel = new CashBoxPanel();
+        SaleController saleController = context.getBean(SaleController.class);
+        CashBoxPanel currentCashBoxPanel = new CashBoxPanel(saleController);
         currentCashBoxPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
         this.jPanel_tabCurrentCashBox.setLayout(new BorderLayout());
         this.jPanel_tabCurrentCashBox.add(currentCashBoxPanel, BorderLayout.CENTER);
         this.jPanel_tabCurrentCashBox.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
 
         // *** Current Sale ***
-        CurrentSalePanel currentSalePanel = new CurrentSalePanel(this, context.getBean(SaleController.class), currentCashBoxPanel, context.getBean(ClientsDebtsController.class), context.getBean(ItemsController.class));
-        currentSalePanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
-        this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
-        this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);
-        this.jPanel_tabCurrentSale.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
+        if (User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel)) {            
+            CurrentSalePanel currentSalePanel = new CurrentSalePanel(this, saleController, currentCashBoxPanel, context.getBean(ClientsDebtsController.class), context.getBean(ItemsController.class));
+            currentSalePanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
+            this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
+            this.jPanel_tabCurrentSale.add(currentSalePanel, BorderLayout.CENTER);
+            this.jPanel_tabCurrentSale.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
+
+            CashBox cashBox = saleController.getCurrentCashBox();
+            if (saleController.existAlreadyOpenCashBox()) {
+
+                JOptionPane.showMessageDialog(null, "Recuperando caja abierta. \n"
+                        + "Fecha apertura: " + cashBox.getStartDateTime() + "\n"
+                        + "Usuario: " + cashBox.getUser().getName() + "\n"
+                        + "Monto inicial: " + cashBox.getStartAmount() + "\n"
+                        + "Total en caja:" + cashBox.totalCash());
+            } else {
+                Float initialAmount = null;
+                while (initialAmount == null) {
+                    try {
+                        initialAmount = Float.valueOf(JOptionPane.showInputDialog(null, "Ingrese monto $ inicial de la caja:", "0"));
+                    } catch (Exception ex) {
+                    }
+                }
+                saleController.setStartAmount(initialAmount);
+            }
+
+        }
 
         // *** Items ***
         ItemsPanel itemsPanel = new ItemsPanel(this, context.getBean(ItemsController.class));
@@ -190,12 +215,12 @@ public class MainForm extends javax.swing.JFrame {
 
     @Override
     public void setVisible(boolean b) {
-        if(b){
-            
+        if (b) {
+
         }
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     /**
      * @param args the command line arguments
      */

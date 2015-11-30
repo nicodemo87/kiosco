@@ -167,4 +167,9 @@ public class User {
     public boolean hasPermissionOrIsRoot(Permission permission) {
         return this.permissions.contains(permission) || this.permissions.contains(Permission.Root);
     }
+    
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

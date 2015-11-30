@@ -6,7 +6,12 @@
 package com.nicodemo.persistence.DAOs;
 
 import com.nicodemo.model.CashBox;
+import com.nicodemo.model.User;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import org.jinq.jpa.JPAJinqStream;
+import org.jinq.jpa.JPQL;
 
 /**
  *
@@ -33,5 +38,20 @@ public class CashBoxesDAO extends DAO<CashBox> {
                 .toList();
         
         return openCashBoxes.isEmpty()? null : openCashBoxes.stream().findFirst().get();
+    }
+
+    public List<CashBox> getAllByDateAndUser(Date since, Date to, User user) {
+        List<CashBox> cashBoxes = new ArrayList<>();
+
+        JPAJinqStream<CashBox> query = streams.streamAll(entityManager, CashBox.class);
+        query = query.where(c -> c.getStartDateTime().after(since))
+                    .where(c -> c.getEndDateTime().before(to));        
+        if (user != null && user.getId() > 0) {
+            query = query.where(c -> c.getUser().getId() == user.getId());                    
+        }
+        else{
+            cashBoxes = query.toList();
+        }
+        return cashBoxes;
     }
 }

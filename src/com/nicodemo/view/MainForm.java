@@ -12,8 +12,10 @@ import com.nicodemo.controller.SaleController;
 import com.nicodemo.controller.UsersController;
 import com.nicodemo.model.CashBox;
 import com.nicodemo.model.User;
+import com.nicodemo.persistence.DAOs.CashBoxesDAO;
 import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
+import com.nicodemo.persistence.DAOs.UsersDAO;
 import java.awt.BorderLayout;
 import javax.swing.JOptionPane;
 import org.springframework.context.ApplicationContext;
@@ -39,7 +41,7 @@ public class MainForm extends javax.swing.JFrame {
         //User.setCurrentUser(context.getBean(UsersController.class).getUsers().stream().findFirst().get());
         // *** Current CashBox ***
         SaleController saleController = context.getBean(SaleController.class);
-        CashBoxPanel currentCashBoxPanel = new CashBoxPanel(saleController);
+        CashBoxPanel currentCashBoxPanel = new CashBoxPanel(saleController, context.getBean(UsersDAO.class), context.getBean(CashBoxesDAO.class));
         currentCashBoxPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
         this.jPanel_tabCurrentCashBox.setLayout(new BorderLayout());
         this.jPanel_tabCurrentCashBox.add(currentCashBoxPanel, BorderLayout.CENTER);
@@ -66,6 +68,7 @@ public class MainForm extends javax.swing.JFrame {
                 while (initialAmount == null) {
                     try {
                         initialAmount = Float.valueOf(JOptionPane.showInputDialog(null, "Ingrese monto $ inicial de la caja:", "0"));
+                        currentCashBoxPanel.refresh(cashBox);
                     } catch (Exception ex) {
                     }
                 }

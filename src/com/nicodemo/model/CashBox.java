@@ -32,9 +32,7 @@ public class CashBox {
     @Column
     private int id;
     @Column
-    private float startAmount;
-    @Column
-    private float endAmount;
+    private double startAmount;    
     @Column
     private Date startDateTime;
     @Column
@@ -47,6 +45,20 @@ public class CashBox {
     private Set<Debt> debits;
     @OneToMany
     private List<Payment> payments;
+    
+    @Column
+    private double endSold;
+    @Column
+    private double endDebited;
+    @Column
+    private double endPayments;
+    @Column
+    private double endAmount;
+    @Column
+    private double endCost;
+    @Column
+    private double endProfit;
+    
 
     public CashBox() {
         startDateTime = new Date();
@@ -73,28 +85,28 @@ public class CashBox {
     /**
      * @return the startAmount
      */
-    public float getStartAmount() {
+    public double getStartAmount() {
         return startAmount;
     }
 
     /**
      * @param startAmount the startAmount to set
      */
-    public void setStartAmount(float startAmount) {
+    public void setStartAmount(double startAmount) {
         this.startAmount = startAmount;
     }
 
     /**
      * @return the endAmount
      */
-    public float getEndAmount() {
+    public double getEndAmount() {
         return endAmount;
     }
 
     /**
      * @param endAmount the endAmount to set
      */
-    public void setEndAmount(float endAmount) {
+    public void setEndAmount(double endAmount) {
         this.endAmount = endAmount;
     }
 
@@ -159,19 +171,25 @@ public class CashBox {
     }
 
     public double sold() {
-        return sales.stream()
+        if(isClosed())
+            return endSold;
+        else
+            return sales.stream()
                 .mapToDouble(s -> s.total())
                 .sum();
     }
 
     public double debited() {
-        return debits.stream()
+        if(isClosed())
+            return endDebited;
+        else
+            return debits.stream()
                 .mapToDouble(d -> d.getOriginalDebtAmount())
                 .sum();
     }
 
     public double totalCash() {
-        return sold() + payments() - debited();
+        return startAmount + sold() + payments() - debited();
     }
 
     public void addDebt(Debt debt) {
@@ -205,8 +223,96 @@ public class CashBox {
     }
 
     public double payments() {
+        if(isClosed())
+            return endPayments;
         return payments.stream()
                 .mapToDouble(p->p.getAmount())
                 .sum();
+    }
+
+    public void close() {
+        endSold = sold();
+        endDebited = debited();
+        endPayments = payments();
+        endAmount = totalCash();
+        endCost = costs();
+        endProfit = profit();
+        setEndDateTime(new Date());
+    }
+
+    /**
+     * @return the endSold
+     */
+    public double getEndSold() {
+        return endSold;
+    }
+
+    /**
+     * @param endSold the endSold to set
+     */
+    public void setEndSold(double endSold) {
+        this.endSold = endSold;
+    }
+
+    /**
+     * @return the endDebited
+     */
+    public double getEndDebited() {
+        return endDebited;
+    }
+
+    /**
+     * @param endDebited the endDebited to set
+     */
+    public void setEndDebited(double endDebited) {
+        this.endDebited = endDebited;
+    }
+    
+    public boolean isClosed(){
+        return endDateTime != null;
+    }
+
+    /**
+     * @return the endCost
+     */
+    public double getEndCost() {
+        return endCost;
+    }
+
+    /**
+     * @param endCost the endCost to set
+     */
+    public void setEndCost(double endCost) {
+        this.endCost = endCost;
+    }
+
+    /**
+     * @return the endProfit
+     */
+    public double getEndProfit() {
+        return endProfit;
+    }
+
+    /**
+     * @param endProfit the endProfit to set
+     */
+    public void setEndProfit(double endProfit) {
+        this.endProfit = endProfit;
+    }
+    
+    public double costs(){
+        if(isClosed())
+            return endCost;
+        else
+            return sales.stream()
+                .mapToDouble(s -> s.costs())
+                .sum();            
+    }
+    
+    public double profit(){
+        if(isClosed())
+            return endProfit;
+        else
+            return sold() - costs() - debited();          
     }
 }

@@ -47,11 +47,11 @@ public class CashBoxesDAO extends DAO<CashBox> {
         query = query.where(c -> c.getStartDateTime().after(since))
                     .where(c -> c.getEndDateTime().before(to));        
         if (user != null && user.getId() > 0) {
-            query = query.where(c -> c.getUser().getId() == user.getId());                    
+            int userId = user.getId();
+            query = query.where(c -> c.getUser().getId() == userId);                    
         }
-        else{
-            cashBoxes = query.toList();
-        }
+        cashBoxes = query.toList();
+        
         return cashBoxes;
     }
 }

@@ -155,7 +155,8 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
 
         String header[];
         header = new String[]{"Apertura", "Cierre", "Usuario",
-            "Inicial", "Vendido", "Fiado", "Final"};
+            "Inicial", "Vendido", "Fiado", "D. Pagadas", "Final",
+            "Costos", "Ganancias" };
 
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);
@@ -168,7 +169,10 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
                 c.getStartAmount(),
                 c.sold(),
                 c.debited(),
-                c.getEndAmount()
+                c.payments(),
+                c.getEndAmount(),
+                c.costs(),
+                c.profit()
             });
         });
     }//GEN-LAST:event_jbutton_SearchActionPerformed

@@ -122,7 +122,7 @@ public class SaleController {
     }
     
     public void closeCashBox(){
-        cashBox.setEndDateTime(new Date());        
+        cashBox.close();
         cashBoxesDAO.save(cashBox);
         cashBox = new CashBox();
     }
@@ -131,7 +131,7 @@ public class SaleController {
         return cashBox.getId() != 0;
     }
 
-    public void setStartAmount(Float startAmount) {
+    public void setStartAmount(Double startAmount) {
         cashBox.setStartAmount(startAmount);
         cashBoxesDAO.save(cashBox);
     }

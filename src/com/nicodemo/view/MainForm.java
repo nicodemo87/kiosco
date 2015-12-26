@@ -64,10 +64,10 @@ public class MainForm extends javax.swing.JFrame {
                         + "Monto inicial: " + cashBox.getStartAmount() + "\n"
                         + "Total en caja:" + cashBox.totalCash());
             } else {
-                Float initialAmount = null;
+                Double initialAmount = null;
                 while (initialAmount == null) {
                     try {
-                        initialAmount = Float.valueOf(JOptionPane.showInputDialog(null, "Ingrese monto $ inicial de la caja:", "0"));
+                        initialAmount = Double.valueOf(JOptionPane.showInputDialog(null, "Ingrese monto $ inicial de la caja:", "0"));
                         currentCashBoxPanel.refresh(cashBox);
                     } catch (Exception ex) {
                     }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.DoubleStream;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -142,5 +143,11 @@ public class Sale {
     public SoldItem getSoldItemBy(String code) {
          SoldItem item =soldItems.stream().filter(s->s.getItem().getCode().equals(code)).findFirst().get();
          return item;
+    }
+
+    public double costs() {
+        return soldItems.stream()
+                .mapToDouble(s->s.getCost())
+                .sum();
     }
 }

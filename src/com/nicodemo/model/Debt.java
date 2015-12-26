@@ -49,6 +49,9 @@ public class Debt {
         this.originalDebtAmount = sale.total();
         this.payments = new ArrayList<>();
     }
+    
+    public Debt(){        
+    }
 
     /**
      * @return the id

@@ -33,6 +33,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
         this.usersDAO = usersDAO;
         this.cashBoxesDAO = cashBoxesDAO;
         initComponents();
+        jButton_history.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxesHistory));
     }
 
     public void refresh(CashBox cashBox) {
@@ -75,7 +76,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
         jLabel13 = new javax.swing.JLabel();
         jLabel_payments = new javax.swing.JLabel();
         jButton_closeCashBox = new javax.swing.JButton();
-        jButton_last = new javax.swing.JButton();
+        jButton_history = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Caja");
@@ -144,10 +145,11 @@ public class CashBoxPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton_last.setText("Últimas Cajas");
-        jButton_last.addActionListener(new java.awt.event.ActionListener() {
+        jButton_history.setText("Historial de Cajas");
+        jButton_history.setActionCommand("Historial de Cajas");
+        jButton_history.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_lastActionPerformed(evt);
+                jButton_historyActionPerformed(evt);
             }
         });
 
@@ -161,7 +163,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_last))
+                        .addComponent(jButton_history))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +210,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton_last))
+                    .addComponent(jButton_history))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -254,7 +256,7 @@ public class CashBoxPanel extends javax.swing.JPanel {
         System.exit(0);
     }//GEN-LAST:event_jButton_closeCashBoxActionPerformed
 
-    private void jButton_lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_lastActionPerformed
+    private void jButton_historyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_historyActionPerformed
         LastCashBoxesDialog dialog = new LastCashBoxesDialog(null, true, usersDAO , cashBoxesDAO);
         dialog.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -264,12 +266,12 @@ public class CashBoxPanel extends javax.swing.JPanel {
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);       
-    }//GEN-LAST:event_jButton_lastActionPerformed
+    }//GEN-LAST:event_jButton_historyActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_closeCashBox;
-    private javax.swing.JButton jButton_last;
+    private javax.swing.JButton jButton_history;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

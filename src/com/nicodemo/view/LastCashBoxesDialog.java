@@ -68,6 +68,7 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
         dateChooserCombo_to = new datechooser.beans.DateChooserCombo();
         jComboBox_users = new javax.swing.JComboBox();
         jbutton_Search = new javax.swing.JButton();
+        jButton_ShowDetails = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -100,6 +101,13 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
             }
         });
 
+        jButton_ShowDetails.setText("Ver Detalles");
+        jButton_ShowDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ShowDetailsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,8 +130,11 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jComboBox_users, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
-                        .addComponent(jbutton_Search)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 300, Short.MAX_VALUE)
+                        .addComponent(jbutton_Search))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton_ShowDetails)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -140,7 +151,9 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
                     .addComponent(jbutton_Search, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
                     .addComponent(jComboBox_users))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_ShowDetails)
                 .addContainerGap())
         );
 
@@ -154,15 +167,16 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
         DefaultTableModel dtm = new NoEditableTableModel();
 
         String header[];
-        header = new String[]{"Apertura", "Cierre", "Usuario",
+        header = new String[]{"Id", "Apertura", "Cierre", "Usuario",
             "Inicial", "Vendido", "Fiado", "D. Pagadas", "Final",
-            "Costos", "Ganancias" };
+            "Costos", "Ganancias"};
 
         dtm.setColumnIdentifiers(header);
         jTable1.setModel(dtm);
 
         chasBoxes.stream().forEach((c) -> {
             dtm.addRow(new Object[]{
+                c.getId(),
                 c.getStartDateTime().toString(),
                 c.getEndDateTime().toString(),
                 c.getUser().getName(),
@@ -177,9 +191,21 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
         });
     }//GEN-LAST:event_jbutton_SearchActionPerformed
 
+    private void jButton_ShowDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ShowDetailsActionPerformed
+        int rowIndex = jTable1.getSelectedRow();
+        if (rowIndex >= 0) {            
+            int id = Integer.parseInt(jTable1.getModel().getValueAt(rowIndex, 0).toString());
+            CashBox selectedCashBox = cashBoxesDAO.getById(id);
+            CashBoxDetailsDialog dialog = new CashBoxDetailsDialog(null, true, selectedCashBox);
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton_ShowDetailsActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private datechooser.beans.DateChooserCombo dateChooserCombo_since;
     private datechooser.beans.DateChooserCombo dateChooserCombo_to;
+    private javax.swing.JButton jButton_ShowDetails;
     private javax.swing.JComboBox jComboBox_users;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

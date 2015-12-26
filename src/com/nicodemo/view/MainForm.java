@@ -27,7 +27,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class MainForm extends javax.swing.JFrame {
 
-    private ApplicationContext context;
+    private static ApplicationContext context;
 
     /**
      * Creates new form Main
@@ -90,7 +90,7 @@ public class MainForm extends javax.swing.JFrame {
         this.jPanel_tabClients.add(clientsPanel, BorderLayout.CENTER);
 
         // *** Latest Sales ***
-        LatestSalesPanel latestSalesPanel = context.getBean(LatestSalesPanel.class);
+        LatestSalesPanel latestSalesPanel = new LatestSalesPanel(saleController, null);
         latestSalesPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.LatestSalesPanel));
         this.jPanel_tabLastestSales.setLayout(new BorderLayout());
         this.jPanel_tabLastestSales.add(latestSalesPanel, BorderLayout.CENTER);
@@ -252,12 +252,16 @@ public class MainForm extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("main/resources/beans.xml");
+        context = new ClassPathXmlApplicationContext("main/resources/beans.xml");
 
         //context.getBean(DevEntitiesInitializer.class).Initialize();
         LoginForm loginForm = new LoginForm(context, context.getBean(UsersController.class));
         loginForm.setLocationRelativeTo(null);
         loginForm.setVisible(true);
+    }
+        
+    public static ApplicationContext getContext(){
+        return context;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,6 +6,7 @@
 package com.nicodemo.view;
 
 import com.nicodemo.controller.SaleController;
+import com.nicodemo.model.CashBox;
 import com.nicodemo.model.Sale;
 import java.util.List;
 import java.util.Set;
@@ -26,17 +27,23 @@ public class LatestSalesPanel extends javax.swing.JPanel {
     private SaleController saleController;
     private DefaultTableModel salesTableModel;
     private DefaultTableModel saleDetailTableModel;
+    private CashBox cashbox;
 
     /**
      * Creates new form LatestSalesPanel
      */
-    @Autowired
-    public LatestSalesPanel(SaleController saleController) {
+    public LatestSalesPanel(SaleController saleController, CashBox cashBox) {
         this.saleController = saleController;
+        this.cashbox = cashBox;
         initComponents();
         refreshSales();
         refreshSalesDetails();
 
+        if(cashbox != null){
+            jButton_refresh.setVisible(false);
+            jButton_removeSale.setVisible(false);
+        }
+        
         jTable_lastSales.getSelectionModel()
                 .addListSelectionListener(evt -> refreshSalesDetails());
     }
@@ -51,7 +58,12 @@ public class LatestSalesPanel extends javax.swing.JPanel {
         salesTableModel.setColumnIdentifiers(header);
         jTable_lastSales.setModel(salesTableModel);
 
-        Set<Sale> sales = this.saleController.getCurrentCashBox().getSales();
+        Set<Sale> sales;
+        if (cashbox != null) {
+            sales = cashbox.getSales();
+        } else {
+            sales = this.saleController.getCurrentCashBox().getSales();
+        }
 
         sales.stream().forEach(sale
                 -> salesTableModel.addRow(new Object[]{
@@ -79,8 +91,13 @@ public class LatestSalesPanel extends javax.swing.JPanel {
         int rowIndex = jTable_lastSales.getSelectedRow();
         if (rowIndex >= 0) {
             int id = Integer.parseInt(salesTableModel.getValueAt(rowIndex, 0).toString());
-            Sale selectedSale = saleController.getCurrentCashBox()
-                    .getSales().stream()
+            Set<Sale> sales;
+            if (cashbox != null) {
+                sales = cashbox.getSales();
+            } else {
+                sales = this.saleController.getCurrentCashBox().getSales();
+            }
+            Sale selectedSale = sales.stream()
                     .filter(sale -> sale.getId() == id)
                     .findFirst().get();
 

@@ -21,5 +21,4 @@
     <bean class="com.nicodemo.persistence.DAOs.ClientsDAO"/>
     <bean class="com.nicodemo.persistence.DAOs.StockUpdateDAO"/>
     
-    <bean class="com.nicodemo.view.LatestSalesPanel"/>
 </beans>

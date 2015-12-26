@@ -40,8 +40,9 @@ public class User {
         AddItem("Agregar nuevo Artículo"), 
         UpdateItem("Modificar datos de Artículo"),
         UpdateItemStock("Puede editar Stock"),
-        SeeItemsCost("Puede ver el costo de los artículos");
-
+        SeeItemsCost("Puede ver el costo de los artículos"),
+        CashBoxesHistory("Puede consultar historial de cajas");
+        
         private String description;
 
         private Permission(String description) {

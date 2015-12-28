@@ -206,7 +206,7 @@ public class ClientsPanel extends javax.swing.JPanel {
             clearTableModel();
             clients.stream().forEach(c -> clientsTableModel.addRow(new Object[]{c.getDni(), c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
             jTable_Clients.setRowSelectionInterval(0, 0);
-        } catch (ElementNotFoundException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_jButton_findActionPerformed

@@ -152,6 +152,11 @@ public class CurrentSalePanel extends javax.swing.JPanel {
 
         jTextField_payWith.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField_payWith.setText("0.00");
+        jTextField_payWith.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_payWithKeyReleased(evt);
+            }
+        });
 
         jButton_addItem.setText("Agregar");
         jButton_addItem.addActionListener(new java.awt.event.ActionListener() {
@@ -346,6 +351,15 @@ public class CurrentSalePanel extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Debe elegir un artículo");
         }
     }//GEN-LAST:event_jButton_multiplyItemActionPerformed
+
+    private void jTextField_payWithKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_payWithKeyReleased
+        try{
+            Double paywith = Double.valueOf(jTextField_payWith.getText());
+            Double total =  saleController.getTotal();
+            Double moneyback = paywith - total;
+            jLabel_moneyBack.setText(moneyback.toString());
+        }catch(Exception e){}
+    }//GEN-LAST:event_jTextField_payWithKeyReleased
 
     private void addItemToSale() {
         try {

@@ -17,6 +17,7 @@ import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import com.nicodemo.persistence.DAOs.UsersDAO;
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -48,7 +49,7 @@ public class MainForm extends javax.swing.JFrame {
         this.jPanel_tabCurrentCashBox.setEnabled(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CashBoxPanel));
 
         // *** Current Sale ***
-        if (User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel)) {            
+        if (User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel)) {
             CurrentSalePanel currentSalePanel = new CurrentSalePanel(this, saleController, currentCashBoxPanel, context.getBean(ClientsDebtsController.class), context.getBean(ItemsController.class));
             currentSalePanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.CurrentSalePanel));
             this.jPanel_tabCurrentSale.setLayout(new BorderLayout());
@@ -100,6 +101,7 @@ public class MainForm extends javax.swing.JFrame {
         usersPanel.setVisible(User.getCurrentUser().hasPermissionOrIsRoot(User.Permission.UsersPanel));
         this.jPanel_Users.setLayout(new BorderLayout());
         this.jPanel_Users.add(usersPanel, BorderLayout.CENTER);
+
     }
 
     /**
@@ -121,6 +123,12 @@ public class MainForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
+
+        jTabbedPane_main.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTabbedPane_mainKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel_tabCurrentSaleLayout = new javax.swing.GroupLayout(jPanel_tabCurrentSale);
         jPanel_tabCurrentSale.setLayout(jPanel_tabCurrentSaleLayout);
@@ -204,7 +212,7 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane_main, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jTabbedPane_main)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,6 +223,30 @@ public class MainForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTabbedPane_mainKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTabbedPane_mainKeyReleased
+        int keyCode = evt.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.VK_F1:
+                jTabbedPane_main.setSelectedIndex(0);
+                break;
+            case KeyEvent.VK_F2:
+                jTabbedPane_main.setSelectedIndex(1);
+                break;
+            case KeyEvent.VK_F3:
+                jTabbedPane_main.setSelectedIndex(2);
+                break;
+            case KeyEvent.VK_F4:
+                jTabbedPane_main.setSelectedIndex(3);
+                break;
+            case KeyEvent.VK_F5:
+                jTabbedPane_main.setSelectedIndex(4);
+                break;
+            case KeyEvent.VK_F6:
+                jTabbedPane_main.setSelectedIndex(5);
+                break;
+        }
+    }//GEN-LAST:event_jTabbedPane_mainKeyReleased
 
     @Override
     public void setVisible(boolean b) {
@@ -259,8 +291,8 @@ public class MainForm extends javax.swing.JFrame {
         loginForm.setLocationRelativeTo(null);
         loginForm.setVisible(true);
     }
-        
-    public static ApplicationContext getContext(){
+
+    public static ApplicationContext getContext() {
         return context;
     }
 

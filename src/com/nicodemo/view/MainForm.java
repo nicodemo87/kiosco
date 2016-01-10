@@ -17,8 +17,12 @@ import com.nicodemo.persistence.DAOs.ClientsDAO;
 import com.nicodemo.persistence.DAOs.ItemsDAO;
 import com.nicodemo.persistence.DAOs.UsersDAO;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -102,6 +106,7 @@ public class MainForm extends javax.swing.JFrame {
         this.jPanel_Users.setLayout(new BorderLayout());
         this.jPanel_Users.add(usersPanel, BorderLayout.CENTER);
 
+        addFnKeyBindings(jTabbedPane_main);
     }
 
     /**
@@ -124,9 +129,9 @@ public class MainForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
 
-        jTabbedPane_main.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTabbedPane_mainKeyReleased(evt);
+        jPanel_tabCurrentSale.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPanel_tabCurrentSaleFocusGained(evt);
             }
         });
 
@@ -224,29 +229,55 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTabbedPane_mainKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTabbedPane_mainKeyReleased
-        int keyCode = evt.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_F1:
+    private void jPanel_tabCurrentSaleFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel_tabCurrentSaleFocusGained
+        //jPanel_tabCurrentSale.getComponent(0).requestFocus();
+    }//GEN-LAST:event_jPanel_tabCurrentSaleFocusGained
+
+    public void addFnKeyBindings(JComponent jc) {
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true), "F1 released");
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0, true), "F2 released");
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0, true), "F3 released");
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0, true), "F4 released");
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0, true), "F5 released");
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0, true), "F6 released");
+
+        jc.getActionMap().put("F1 released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
                 jTabbedPane_main.setSelectedIndex(0);
-                break;
-            case KeyEvent.VK_F2:
+            }
+        });
+        jc.getActionMap().put("F2 released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
                 jTabbedPane_main.setSelectedIndex(1);
-                break;
-            case KeyEvent.VK_F3:
+            }
+        });
+        jc.getActionMap().put("F3 released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
                 jTabbedPane_main.setSelectedIndex(2);
-                break;
-            case KeyEvent.VK_F4:
+            }
+        });
+        jc.getActionMap().put("F4 released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
                 jTabbedPane_main.setSelectedIndex(3);
-                break;
-            case KeyEvent.VK_F5:
+            }
+        });
+        jc.getActionMap().put("F5 released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
                 jTabbedPane_main.setSelectedIndex(4);
-                break;
-            case KeyEvent.VK_F6:
+            }
+        });
+        jc.getActionMap().put("F6 released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
                 jTabbedPane_main.setSelectedIndex(5);
-                break;
-        }
-    }//GEN-LAST:event_jTabbedPane_mainKeyReleased
+            }
+        });
+    }
 
     @Override
     public void setVisible(boolean b) {

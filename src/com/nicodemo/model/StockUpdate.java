@@ -43,6 +43,8 @@ public class StockUpdate {
         this.newStock = item.getStock();
     }
     
+    public StockUpdate(){}
+    
     /**
      * @return the id
      */

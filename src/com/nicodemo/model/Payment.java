@@ -32,6 +32,8 @@ public class Payment implements Serializable {
         this.amount = amount;
         this.dateTime = new Date();
     }
+    
+    public Payment(){}
 
     public Long getId() {
         return id;

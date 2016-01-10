@@ -12,13 +12,18 @@ import com.nicodemo.model.Client;
 import com.nicodemo.model.Item;
 import com.nicodemo.model.SoldItem;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.input.KeyCode;
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -46,11 +51,12 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         this.itemsController = itemsController;
         initComponents();
 
-        refreshSoldItemsTable();
+        refreshSoldItemsTable(null);
         jTable1.setAutoCreateRowSorter(true);
+        addFnKeyBindings(this);
     }
 
-    private void refreshSoldItemsTable() {
+    private void refreshSoldItemsTable(Item selectedItem) {
         tableModel = new NoEditableTableModel();
         String header[] = new String[]{"Codigo", "Descripcion", "Precio", "Cantidad"};
         tableModel.setColumnIdentifiers(header);
@@ -72,7 +78,21 @@ public class CurrentSalePanel extends javax.swing.JPanel {
 
         refreshTotal();
 
+        int selectedItemIndex = saleController.getSoldItems().size() - 1;
+        if (selectedItem != null) {
+            for (int i = 0; i < saleController.getSoldItems().size(); i++) {
+                if (((SoldItem) saleController.getSoldItems().toArray()[i]).getItem().getCode().equals(selectedItem.getCode())) {
+                    selectedItemIndex = i;
+                    break;
+                }
+            }
+        }
+        if (selectedItemIndex >= 0) {
+            jTable1.setRowSelectionInterval(selectedItemIndex, selectedItemIndex);
+        }
+
         currentCashBoxPanel.refresh(saleController.getCurrentCashBox());
+        jTextField_itemCode.requestFocus();
     }
 
     private void refreshTotal() {
@@ -109,6 +129,22 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jButton_multiplyItem = new javax.swing.JButton();
         jButton_removeItem = new javax.swing.JButton();
 
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                formMouseReleased(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
+
         jLabel1.setText("Artículo:");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -136,9 +172,16 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Paga con:");
 
+        jTextField_itemCode.setNextFocusableComponent(jTextField_payWith);
         jTextField_itemCode.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField_itemCodeKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_itemCodeKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_itemCodeKeyTyped(evt);
             }
         });
 
@@ -152,9 +195,25 @@ public class CurrentSalePanel extends javax.swing.JPanel {
 
         jTextField_payWith.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jTextField_payWith.setText("0.00");
+        jTextField_payWith.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField_payWithFocusGained(evt);
+            }
+        });
+        jTextField_payWith.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_payWithActionPerformed(evt);
+            }
+        });
         jTextField_payWith.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_payWithKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField_payWithKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField_payWithKeyTyped(evt);
             }
         });
 
@@ -169,6 +228,14 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         jButton_Sell.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_SellActionPerformed(evt);
+            }
+        });
+        jButton_Sell.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton_SellKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jButton_SellKeyTyped(evt);
             }
         });
 
@@ -285,21 +352,15 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField_itemCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_itemCodeKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            addItemToSale();
-        }
-    }//GEN-LAST:event_jTextField_itemCodeKeyPressed
-
     private void jButton_addItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_addItemActionPerformed
         addItemToSale();
     }//GEN-LAST:event_jButton_addItemActionPerformed
 
     private void jButton_SellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SellActionPerformed
-        if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere confirmar la venta? \n una vez confirmado no se puede deshacer", "Confirmar venta", JOptionPane.YES_NO_OPTION)) {
-            saleController.sell();
-            refreshSoldItemsTable();
-        }
+        //if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere confirmar la venta? \n una vez confirmado no se puede deshacer", "Confirmar venta", JOptionPane.YES_NO_OPTION)) {
+        saleController.sell();
+        refreshSoldItemsTable(null);
+        //}
     }//GEN-LAST:event_jButton_SellActionPerformed
 
     private void jButton_debitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_debitActionPerformed
@@ -308,28 +369,27 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         if (client != null) {
             if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta? \n una vez confirmado no se puede deshacer", "Confirmar Debito", JOptionPane.YES_NO_OPTION)) {
                 saleController.debit(client);
-                refreshSoldItemsTable();
+                refreshSoldItemsTable(null);
             }
         }
     }//GEN-LAST:event_jButton_debitActionPerformed
 
     private void jButton_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelActionPerformed
         saleController.newSale();
-        refreshSoldItemsTable();
+        refreshSoldItemsTable(null);
     }//GEN-LAST:event_jButton_cancelActionPerformed
 
     private void jButton_removeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_removeItemActionPerformed
         int rowIndex = jTable1.getSelectedRow();
         if (rowIndex >= 0) {
             try {
-               String code = tableModel.getValueAt(rowIndex, 0).toString();
-               saleController.removeItem(code);
-               refreshSoldItemsTable();
+                String code = tableModel.getValueAt(rowIndex, 0).toString();
+                saleController.removeItem(code);
+                refreshSoldItemsTable(null);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe elegir un artículo para quitar");
         }
     }//GEN-LAST:event_jButton_removeItemActionPerformed
@@ -338,50 +398,153 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         int rowIndex = jTable1.getSelectedRow();
         if (rowIndex >= 0) {
             try {
-               String code = tableModel.getValueAt(rowIndex, 0).toString();
-               SoldItem soldItem =  saleController.getSoldItemBy(code);
-               int quantity = Integer.parseInt(JOptionPane.showInputDialog("Artículo: "+soldItem.getItem().getDescription() +"\nIngrese cantidad", String.valueOf(soldItem.getQuantity())));
-               soldItem.setQuantity(quantity);
-               refreshSoldItemsTable();
+                String code = tableModel.getValueAt(rowIndex, 0).toString();
+                SoldItem soldItem = saleController.getSoldItemBy(code);
+                int quantity = Integer.parseInt(JOptionPane.showInputDialog("Artículo: " + soldItem.getItem().getDescription() + "\nIngrese cantidad", String.valueOf(soldItem.getQuantity())));
+                soldItem.setQuantity(quantity);
+                refreshSoldItemsTable(soldItem.getItem());
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe elegir un artículo");
         }
     }//GEN-LAST:event_jButton_multiplyItemActionPerformed
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        //jTextField_itemCode.requestFocus();
+    }//GEN-LAST:event_formFocusGained
+
+    private void formMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseReleased
+
+    }//GEN-LAST:event_formMouseReleased
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+
+    }//GEN-LAST:event_formKeyReleased
+
+    private void jTextField_payWithFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_payWithFocusGained
+        jTextField_payWith.selectAll();
+    }//GEN-LAST:event_jTextField_payWithFocusGained
+
+    private void jTextField_payWithKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_payWithKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            jButton_Sell.requestFocus();
+        }
+    }//GEN-LAST:event_jTextField_payWithKeyPressed
+
+    private void jTextField_itemCodeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_itemCodeKeyPressed
+
+    }//GEN-LAST:event_jTextField_itemCodeKeyPressed
+
     private void jTextField_payWithKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_payWithKeyReleased
-        try{
-            Double paywith = Double.valueOf(jTextField_payWith.getText());
-            Double total =  saleController.getTotal();
-            Double moneyback = paywith - total;
-            jLabel_moneyBack.setText(moneyback.toString());
-        }catch(Exception e){}
+        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            jButton_Sell.requestFocus();
+        } else {
+            try {
+                Double paywith = Double.valueOf(jTextField_payWith.getText());
+                Double total = saleController.getTotal();
+                Double moneyback = paywith - total;
+                jLabel_moneyBack.setText(moneyback.toString());
+            } catch (Exception e) {
+            }
+        }
     }//GEN-LAST:event_jTextField_payWithKeyReleased
+
+    private void jTextField_itemCodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_itemCodeKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && !jTextField_itemCode.getText().isEmpty()) {
+            addItemToSale();
+        } else if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            jTextField_payWith.requestFocus();
+        }
+    }//GEN-LAST:event_jTextField_itemCodeKeyReleased
+
+    private void jTextField_itemCodeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_itemCodeKeyTyped
+        if (evt.getKeyChar() == ' ' && jTextField_itemCode.getText().isEmpty()) {
+            evt.consume();
+            jTextField_payWith.requestFocus();            
+        } else if (evt.getKeyChar() == '*') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_itemCodeKeyTyped
+
+    private void jTextField_payWithKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_payWithKeyTyped
+        if (evt.getKeyChar() == ' ') {
+            evt.consume();
+            jButton_Sell.requestFocus();            
+        } else if (evt.getKeyChar() == '*') {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jTextField_payWithKeyTyped
+
+    private void jTextField_payWithActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_payWithActionPerformed
+
+    }//GEN-LAST:event_jTextField_payWithActionPerformed
+
+    private void jButton_SellKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton_SellKeyTyped
+
+    }//GEN-LAST:event_jButton_SellKeyTyped
+
+    private void jButton_SellKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton_SellKeyPressed
+                
+        if(evt.getKeyCode() == KeyEvent.VK_LEFT){
+            jButton_debit.requestFocus();
+            evt.consume();
+        }
+    }//GEN-LAST:event_jButton_SellKeyPressed
+
+    public void addFnKeyBindings(JComponent jc) {
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0, true), "F1 released");
+        jc.getActionMap().put("F1 released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                jTextField_payWith.requestFocus();
+            }
+        });
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0, true), "Delete released");
+        jc.getActionMap().put("Delete released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                jButton_removeItemActionPerformed(ae);
+            }
+        });
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_MULTIPLY, 0, true), "Multiply released");
+        jc.getActionMap().put("Multiply released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                jButton_multiplyItemActionPerformed(ae);
+            }
+        });
+        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true), "Escape released");
+        jc.getActionMap().put("Escape released", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                jButton_cancelActionPerformed(ae);
+            }
+        });
+    }
 
     private void addItemToSale() {
         try {
-            saleController.addItem(jTextField_itemCode.getText());
+            Item addedItem = saleController.addItem(jTextField_itemCode.getText());
             jTextField_itemCode.setText("");
-            refreshSoldItemsTable();
+            refreshSoldItemsTable(addedItem);
         } catch (ElementNotFoundException ex) {
-            
+
             try {
-                SelectItemDialog dialog = new SelectItemDialog(parent, true, itemsController,jTextField_itemCode.getText());
+                SelectItemDialog dialog = new SelectItemDialog(parent, true, itemsController, jTextField_itemCode.getText());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
                     }
                 });
-                dialog.setVisible(true); 
+                dialog.setVisible(true);
                 Item selectedItem = dialog.getSelectedItem();
-                if(selectedItem!=null){
+                if (selectedItem != null) {
                     saleController.addItem(selectedItem.getCode());
                     jTextField_itemCode.setText("");
-                    refreshSoldItemsTable();
-                }        
+                    refreshSoldItemsTable(selectedItem);
+                }
                 dialog.dispose();
             } catch (ElementNotFoundException ex1) {
                 Logger.getLogger(CurrentSalePanel.class.getName()).log(Level.SEVERE, null, ex1);

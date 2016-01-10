@@ -55,8 +55,10 @@ public class SaleController {
         return itemsDAO.getAll();
     }
 
-    public void addItem(String keyword) throws ElementNotFoundException {
-        sale.addItem(itemsDAO.getItemByCode(keyword), 1);
+    public Item addItem(String keyword) throws ElementNotFoundException {
+        Item item = itemsDAO.getItemByCode(keyword);
+        sale.addItem(item, 1);
+        return item;
     }
 
     public Set<SoldItem> getSoldItems() {
@@ -68,11 +70,13 @@ public class SaleController {
     }
 
     public void sell() {
-        cashBox.addSale(sale);
-        cashBoxesDAO.save(cashBox);
-        updateStock();
-        sale = new Sale();
-
+        if(!sale.getSoldItems().isEmpty())
+        {
+            cashBox.addSale(sale);
+            cashBoxesDAO.save(cashBox);
+            updateStock();
+            sale = new Sale();
+        }
     }
 
     public CashBox getCurrentCashBox() {

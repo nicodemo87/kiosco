@@ -8,10 +8,17 @@ package com.nicodemo.view;
 import com.nicodemo.controller.UsersController;
 import com.nicodemo.model.User;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -188,4 +195,21 @@ public class AddUserDialog extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField_name;
     private javax.swing.JTextField jTextField_password;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected JRootPane createRootPane() { 
+        JRootPane rootPane = new JRootPane();
+        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+        Action actionListener = new AbstractAction() { 
+          public void actionPerformed(ActionEvent actionEvent) { 
+            setVisible(false);
+            dispose();
+          } 
+        } ;
+        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(stroke, "ESCAPE");
+        rootPane.getActionMap().put("ESCAPE", actionListener);
+
+        return rootPane;
+    } 
 }

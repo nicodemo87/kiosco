@@ -32,7 +32,7 @@ public class ClientsPanel extends javax.swing.JPanel {
         initComponents();
         clearTableModel();
         jTable_Clients.setAutoCreateRowSorter(true);
-        jButton_findActionPerformed(null);
+        jButton_findActionPerformed(null);      
     }
 
     private void clearTableModel() {

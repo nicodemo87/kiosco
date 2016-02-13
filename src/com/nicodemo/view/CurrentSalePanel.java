@@ -515,13 +515,6 @@ public class CurrentSalePanel extends javax.swing.JPanel {
                 jButton_multiplyItemActionPerformed(ae);
             }
         });
-        jc.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true), "Escape released");
-        jc.getActionMap().put("Escape released", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                jButton_cancelActionPerformed(ae);
-            }
-        });
     }
 
     private void addItemToSale() {

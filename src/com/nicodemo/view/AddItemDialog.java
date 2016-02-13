@@ -10,7 +10,14 @@ import com.nicodemo.model.Item;
 import com.nicodemo.model.ItemBrand;
 import com.nicodemo.model.ItemKind;
 import com.nicodemo.model.User;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -333,4 +340,21 @@ public class AddItemDialog extends javax.swing.JDialog {
      if(jTextField_description.getText().trim().isEmpty())
          throw new Exception("Debe indicar una Descripción");
     }
+    
+        @Override
+    protected JRootPane createRootPane() { 
+        JRootPane rootPane = new JRootPane();
+        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+        Action actionListener = new AbstractAction() { 
+          public void actionPerformed(ActionEvent actionEvent) { 
+            setVisible(false);
+            dispose();
+          } 
+        } ;
+        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(stroke, "ESCAPE");
+        rootPane.getActionMap().put("ESCAPE", actionListener);
+
+        return rootPane;
+    } 
 }

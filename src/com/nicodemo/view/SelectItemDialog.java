@@ -11,8 +11,16 @@ import com.nicodemo.model.ItemBrand;
 import com.nicodemo.model.ItemKind;
 import com.nicodemo.model.User;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -100,9 +108,19 @@ public class SelectItemDialog extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTable1KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jTextField_seachText.setText("jTextField1");
+        jTextField_seachText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField_seachTextKeyReleased(evt);
+            }
+        });
 
         jButton_searchItem.setText("Buscar");
         jButton_searchItem.addActionListener(new java.awt.event.ActionListener() {
@@ -158,6 +176,21 @@ public class SelectItemDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton_okActionPerformed
 
+    private void jTextField_seachTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_seachTextKeyReleased
+       if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            refreshItems();
+        }
+       if(evt.getKeyCode() == KeyEvent.VK_DOWN){
+           jTable1.requestFocus();
+       }
+    }//GEN-LAST:event_jTextField_seachTextKeyReleased
+
+    private void jTable1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyReleased
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            jButton_okActionPerformed(null);
+        }
+    }//GEN-LAST:event_jTable1KeyReleased
+
     public Item getSelectedItem() {
         Item item = null;
         int rowIndex = jTable1.getSelectedRow();
@@ -171,6 +204,24 @@ public class SelectItemDialog extends javax.swing.JDialog {
         }
         return item;
     }
+    
+    @Override
+    protected JRootPane createRootPane() { 
+        JRootPane rootPane = new JRootPane();
+        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+        Action actionListener = new AbstractAction() { 
+          public void actionPerformed(ActionEvent actionEvent) { 
+            jTable1.clearSelection();
+            setVisible(false);
+            dispose();
+          } 
+        } ;
+        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(stroke, "ESCAPE");
+        rootPane.getActionMap().put("ESCAPE", actionListener);
+
+        return rootPane;
+    } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_ok;

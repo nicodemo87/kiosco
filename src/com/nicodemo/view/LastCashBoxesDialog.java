@@ -9,9 +9,16 @@ import com.nicodemo.model.CashBox;
 import com.nicodemo.model.User;
 import com.nicodemo.persistence.DAOs.CashBoxesDAO;
 import com.nicodemo.persistence.DAOs.UsersDAO;
+import java.awt.event.ActionEvent;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import org.jdatepicker.JDatePicker;
 
@@ -214,4 +221,21 @@ public class LastCashBoxesDialog extends javax.swing.JDialog {
     private javax.swing.JTable jTable1;
     private javax.swing.JButton jbutton_Search;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected JRootPane createRootPane() { 
+        JRootPane rootPane = new JRootPane();
+        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+        Action actionListener = new AbstractAction() { 
+          public void actionPerformed(ActionEvent actionEvent) { 
+            setVisible(false);
+            dispose();
+          } 
+        } ;
+        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(stroke, "ESCAPE");
+        rootPane.getActionMap().put("ESCAPE", actionListener);
+
+        return rootPane;
+    } 
 }

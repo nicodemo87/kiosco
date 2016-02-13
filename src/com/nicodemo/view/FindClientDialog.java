@@ -8,17 +8,27 @@ package com.nicodemo.view;
 import com.nicodemo.controller.ClientsDebtsController;
 import com.nicodemo.model.Client;
 import com.nicodemo.persistence.exceptions.ElementNotFoundException;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Nico
  */
-public class FindClientDialog extends java.awt.Dialog {
+public class FindClientDialog extends JDialog {
 
     private ClientsDebtsController clientsDebtsController;
     private DefaultTableModel clientsTableModel;
@@ -31,10 +41,10 @@ public class FindClientDialog extends java.awt.Dialog {
         super(parent, modal);
         this.clientsDebtsController = clientsDebtsController;
         initComponents();
-        clearTableModel();       
+        clearTableModel();
     }
-    
-    private void clearTableModel(){
+
+    private void clearTableModel() {
         clientsTableModel = new NoEditableTableModel();
         String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
             "Deuda"};
@@ -67,6 +77,17 @@ public class FindClientDialog extends java.awt.Dialog {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Buscar Cliente");
+
+        jTextField_keyword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_keywordActionPerformed(evt);
+            }
+        });
+        jTextField_keyword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField_keywordKeyPressed(evt);
+            }
+        });
 
         jButton_find.setText("Buscar");
         jButton_find.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +135,7 @@ public class FindClientDialog extends java.awt.Dialog {
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 213, Short.MAX_VALUE)
+                        .addGap(0, 510, Short.MAX_VALUE)
                         .addComponent(jButton_cancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton_ok))
@@ -138,7 +159,7 @@ public class FindClientDialog extends java.awt.Dialog {
                     .addComponent(jTextField_keyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton_find))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_ok)
@@ -187,8 +208,7 @@ public class FindClientDialog extends java.awt.Dialog {
             } catch (ElementNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Debe elegir un cliente de la lista");
         }
     }//GEN-LAST:event_jButton_okActionPerformed
@@ -196,6 +216,15 @@ public class FindClientDialog extends java.awt.Dialog {
     private void jButton_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cancelActionPerformed
         this.closeDialog(null);
     }//GEN-LAST:event_jButton_cancelActionPerformed
+
+    private void jTextField_keywordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_keywordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_keywordActionPerformed
+
+    private void jTextField_keywordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_keywordKeyPressed
+       if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+           jButton_okActionPerformed(null);
+    }//GEN-LAST:event_jTextField_keywordKeyPressed
 
 //    /**
 //     * @param args the command line arguments
@@ -224,4 +253,21 @@ public class FindClientDialog extends java.awt.Dialog {
     private javax.swing.JTable jTable_Clients;
     private javax.swing.JTextField jTextField_keyword;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    protected JRootPane createRootPane() { 
+        JRootPane rootPane = new JRootPane();
+        KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
+        Action actionListener = new AbstractAction() { 
+          public void actionPerformed(ActionEvent actionEvent) { 
+            setVisible(false);
+            dispose();
+          } 
+        } ;
+        InputMap inputMap = rootPane.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        inputMap.put(stroke, "ESCAPE");
+        rootPane.getActionMap().put("ESCAPE", actionListener);
+
+        return rootPane;
+    } 
 }

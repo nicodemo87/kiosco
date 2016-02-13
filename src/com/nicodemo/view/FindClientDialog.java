@@ -41,7 +41,7 @@ public class FindClientDialog extends JDialog {
         super(parent, modal);
         this.clientsDebtsController = clientsDebtsController;
         initComponents();
-        clearTableModel();
+        jButton_findActionPerformed(null);
     }
 
     private void clearTableModel() {

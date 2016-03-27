@@ -367,7 +367,7 @@ public class CurrentSalePanel extends javax.swing.JPanel {
         FindClientDialog findClientDialog = new FindClientDialog(parent, true, clientsDebtsController);
         Client client = findClientDialog.showDialog();
         if (client != null) {
-            if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta? \n una vez confirmado no se puede deshacer", "Confirmar Debito", JOptionPane.YES_NO_OPTION)) {
+            if (JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "¿Esta seguro que quiere debitar la venta a "+client.getLastName()+" "+client.getFirstName()+"? \n una vez confirmado no se puede deshacer", "Confirmar Debito", JOptionPane.YES_NO_OPTION)) {
                 saleController.debit(client);
                 refreshSoldItemsTable(null);
             }

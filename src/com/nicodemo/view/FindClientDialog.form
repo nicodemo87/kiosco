@@ -49,12 +49,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane2" alignment="1" pref="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jTextField_keyword" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jButton_find" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="jScrollPane2" pref="0" max="32767" attributes="0"/>
+                              <Component id="jTextField_keyword" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -68,12 +64,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextField_keyword" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton_find" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="jTextField_keyword" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="333" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="336" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButton_ok" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -97,14 +90,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField_keywordActionPerformed"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField_keywordKeyPressed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton_find">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Buscar"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_findActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton_ok">
@@ -144,6 +129,9 @@
                   <JTableSelectionModel selectionMode="0"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTable_ClientsKeyPressed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

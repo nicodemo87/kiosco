@@ -41,9 +41,9 @@ public class FindClientDialog extends JDialog {
         super(parent, modal);
         this.clientsDebtsController = clientsDebtsController;
         initComponents();
-        jButton_findActionPerformed(null);
+        clearTableModel();
     }
-
+ 
     private void clearTableModel() {
         clientsTableModel = new NoEditableTableModel();
         String header[] = new String[]{"Dni", "Nombre", "Apellido", "Telefono",
@@ -63,7 +63,6 @@ public class FindClientDialog extends JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField_keyword = new javax.swing.JTextField();
-        jButton_find = new javax.swing.JButton();
         jButton_ok = new javax.swing.JButton();
         jButton_cancel = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -86,13 +85,6 @@ public class FindClientDialog extends JDialog {
         jTextField_keyword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField_keywordKeyPressed(evt);
-            }
-        });
-
-        jButton_find.setText("Buscar");
-        jButton_find.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_findActionPerformed(evt);
             }
         });
 
@@ -122,6 +114,11 @@ public class FindClientDialog extends JDialog {
             }
         ));
         jTable_Clients.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTable_Clients.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable_ClientsKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable_Clients);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -142,11 +139,8 @@ public class FindClientDialog extends JDialog {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField_keyword)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_find)))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jTextField_keyword))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -155,11 +149,9 @@ public class FindClientDialog extends JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField_keyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_find))
+                .addComponent(jTextField_keyword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_ok)
@@ -167,7 +159,7 @@ public class FindClientDialog extends JDialog {
                 .addContainerGap())
         );
 
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -179,18 +171,6 @@ public class FindClientDialog extends JDialog {
         setVisible(false);
         dispose();
     }//GEN-LAST:event_closeDialog
-
-    private void jButton_findActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_findActionPerformed
-        try {
-            List<Client> clients = clientsDebtsController.findClients(jTextField_keyword.getText());
-            jTextField_keyword.setText("");
-            clearTableModel();
-            clients.stream().forEach(c -> clientsTableModel.addRow(new Object[]{c.getDni(), c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
-            jTable_Clients.setRowSelectionInterval(0, 0);
-        } catch (ElementNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-    }//GEN-LAST:event_jButton_findActionPerformed
 
     public Client showDialog() {
         setVisible(true);
@@ -222,9 +202,26 @@ public class FindClientDialog extends JDialog {
     }//GEN-LAST:event_jTextField_keywordActionPerformed
 
     private void jTextField_keywordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_keywordKeyPressed
-       if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-           jButton_okActionPerformed(null);
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER && jTextField_keyword.getText().length() >= 3)
+            try {
+                List<Client> clients = clientsDebtsController.findClients(jTextField_keyword.getText());
+                jTextField_keyword.setText("");
+                clearTableModel();
+                clients.stream().forEach(c -> clientsTableModel.addRow(new Object[]{c.getDni(), c.getFirstName(), c.getLastName(), c.getPhone(), String.valueOf(c.debt())}));
+                jTable_Clients.setRowSelectionInterval(0, 0);
+            } catch (ElementNotFoundException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
+        else if(evt.getKeyCode() == KeyEvent.VK_DOWN)
+            jTable_Clients.requestFocus();
     }//GEN-LAST:event_jTextField_keywordKeyPressed
+
+    private void jTable_ClientsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable_ClientsKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_SPACE)
+            jButton_okActionPerformed(null);
+        else if(evt.getKeyCode() == KeyEvent.VK_TAB)
+            jTextField_keyword.requestFocus();
+    }//GEN-LAST:event_jTable_ClientsKeyPressed
 
 //    /**
 //     * @param args the command line arguments
@@ -245,7 +242,6 @@ public class FindClientDialog extends JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_cancel;
-    private javax.swing.JButton jButton_find;
     private javax.swing.JButton jButton_ok;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
